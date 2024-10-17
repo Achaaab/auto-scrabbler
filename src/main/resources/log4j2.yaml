@@ -1,0 +1,29 @@
+configuration:
+  status: warn
+  name: "dev"
+
+  appenders:
+
+    console:
+      name: "console"
+      target: SYSTEM_OUT
+      patternLayout:
+        pattern: "%date %-5level [%thread] %logger - %message%n"
+
+    rollingRandomAccessFile:
+      name: "file"
+      fileName: "target/logs/auto-scrabbler.log"
+      filePattern: "target/logs/tetroshow-%d{yyyyMMdd}-%i.log"
+      patternLayout:
+        pattern: "%date %-5level [%thread] %logger - %message%n"
+      policies:
+        sizeBasedTriggeringPolicy:
+          size: "10 MB"
+
+  loggers:
+
+    root:
+      level: info
+      appenderRef:
+        - ref: "console"
+        - ref: "file"
