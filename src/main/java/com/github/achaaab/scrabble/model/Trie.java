@@ -1,11 +1,18 @@
 package com.github.achaaab.scrabble.model;
 
+import java.util.List;
+
+import static java.lang.Character.toUpperCase;
+
 /**
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class Trie {
 
+	public static final int LETTER_COUNT = 26;
+
+	private final Trie parent;
 	private final Trie[] children;
 	private boolean exists;
 
@@ -13,9 +20,27 @@ public class Trie {
 	 * @since 0.0.0
 	 */
 	public Trie() {
+		this(null);
+	}
 
-		children = new Trie[26];
+	/**
+	 * @param parent
+	 * @since 0.0.0
+	 */
+	public Trie(Trie parent) {
+
+		this.parent = parent;
+
+		children = new Trie[LETTER_COUNT];
 		exists = false;
+	}
+
+	/**
+	 * @return
+	 * @since 0.0.0
+	 */
+	public Trie parent() {
+		return parent;
 	}
 
 	/**
@@ -30,18 +55,38 @@ public class Trie {
 
 		} else {
 
-			var firstLetter = word.charAt(0);
+			var firstLetter = toUpperCase(word.charAt(0));
 
 			var child = children[firstLetter - 'A'];
 
 			if (child == null) {
 
-				child = new Trie();
+				child = new Trie(this);
 				children[firstLetter - 'A'] = child;
 			}
 
 			child.add(word.substring(1));
 		}
+	}
+
+	/**
+	 * @param tiles
+	 * @return
+	 * @since 0.0.0
+	 */
+	public Trie getChild(List<Tile> tiles) {
+
+		return tiles.isEmpty() ? this :
+				getChild(tiles.getFirst()).getChild(tiles.subList(1, tiles.size()));
+	}
+
+	/**
+	 * @param tile
+	 * @return
+	 * @since 0.0.0
+	 */
+	public Trie getChild(Tile tile) {
+		return getChild(tile.letter());
 	}
 
 	/**
@@ -65,7 +110,15 @@ public class Trie {
 	 * @since 0.0.0
 	 */
 	public Trie getChild(char letter) {
-		return children[letter - 'A'];
+		return children[toUpperCase(letter) - 'A'];
+	}
+
+	/**
+	 * @return
+	 * @since 0.0.0
+	 */
+	public Trie[] getChildren() {
+		return children;
 	}
 
 	/**

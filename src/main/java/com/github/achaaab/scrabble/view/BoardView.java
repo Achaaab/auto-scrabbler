@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 
 import static com.github.achaaab.scrabble.model.Board.SIZE;
+import static java.lang.Math.round;
 import static javax.swing.SwingConstants.BOTTOM;
 import static javax.swing.SwingConstants.CENTER;
 import static javax.swing.SwingConstants.LEFT;
@@ -16,7 +17,7 @@ import static javax.swing.SwingConstants.TOP;
 public class BoardView extends JComponent {
 
 	private static final Color BACKGROUND = new Color(197, 189, 172);
-	private static final int GAP = 6;
+	private static final int GAP = round(TileView.SIZE * 0.10f);
 
 	private final Board model;
 

@@ -5,14 +5,18 @@ import com.github.achaaab.scrabble.model.Board;
 import com.github.achaaab.scrabble.model.Duplicate;
 import com.github.achaaab.scrabble.model.Rack;
 import com.github.achaaab.scrabble.rules.Evaluator;
+import com.github.achaaab.scrabble.rules.Move;
 import com.github.achaaab.scrabble.view.DuplicateView;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import java.awt.FlowLayout;
+import java.util.stream.Collectors;
 
 import static com.github.achaaab.scrabble.model.Dictionary.FRENCH_ODS9;
 import static com.github.achaaab.scrabble.model.Tile.getFrenchTiles;
-import static javax.swing.SwingUtilities.invokeLater;
+import static java.util.Comparator.reverseOrder;
+import static java.util.stream.Collectors.joining;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class Demo0 {
@@ -38,30 +42,25 @@ public class Demo0 {
 
 		bag.addAll(getFrenchTiles());
 
-		var total = 0;
+		duplicate.draw("DSOGITB");
+		duplicate.play("BIGOTS", "H4", "PSTOUT");
+		duplicate.play("MKA", "7G");
+		duplicate.play("PUTTOS", "K2", "EAALE ");
+		duplicate.play("EIER", "2J");
 
-		while (!rack.isEmpty() || !bag.isEmpty()) {
+		var bestMoves = evaluator.getMoves(rack).stream().
+				sorted(reverseOrder()).
+				limit(30).
+				toList();
 
-			while (!rack.isFull() && !bag.isEmpty()) {
-				rack.add(bag.pickRandom());
-			}
+		var bestMove = bestMoves.getFirst();
+		var tiles = bestMove.tiles();
+		var reference = bestMove.reference();
+		rack.removeAll(tiles);
+		board.play(tiles, reference);
 
-			var moves = evaluator.getMoves(rack);
+		System.out.println(bestMoves.stream().map(Move::toString).collect(joining("\n")));
 
-			if (moves.isEmpty()) {
-
-				break;
-
-			} else {
-
-				var move = moves.getFirst();
-				board.play(move.tiles(), move.reference());
-				total += move.score();
-				rack.removeAll(move.rackTiles());
-				invokeLater(view::repaint);
-			}
-		}
-
-		System.out.println("total score: " + total);
+		SwingUtilities.invokeLater(view::repaint);
 	}
 }

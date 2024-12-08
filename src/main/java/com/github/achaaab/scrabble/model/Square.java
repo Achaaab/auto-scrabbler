@@ -214,6 +214,14 @@ public class Square {
 		return column == HALF_SIZE && row == HALF_SIZE;
 	}
 
+	/**
+	 * @return whether this square is an anchor
+	 * @since 0.0.0
+	 */
+	public boolean isAnchor() {
+		return isEmpty() && (isCentral() || hasAdjacentTile());
+	}
+
 	@Override
 	public String toString() {
 		return getName(column, row);

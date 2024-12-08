@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static com.github.achaaab.scrabble.model.Award.LETTER_DOUBLE;
 import static com.github.achaaab.scrabble.model.Award.LETTER_TRIPLE;
@@ -16,6 +18,7 @@ import static com.github.achaaab.scrabble.model.Award.WORD_DOUBLE;
 import static com.github.achaaab.scrabble.model.Award.WORD_TRIPLE;
 import static com.github.achaaab.scrabble.model.Direction.HORIZONTAL;
 import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
+import static java.util.stream.StreamSupport.stream;
 
 /**
  * @author Jonathan Guéhenneux
@@ -108,6 +111,16 @@ public class Board implements Iterable<Square> {
 	 */
 	public Reference getReference(String name) {
 		return references.get(name);
+	}
+
+	/**
+	 * @param square
+	 * @param direction
+	 * @return
+	 * @since 0.0.0
+	 */
+	public Reference getReference(Square square, Direction direction) {
+		return getReference(square.getName(direction));
 	}
 
 	/**
@@ -235,6 +248,14 @@ public class Board implements Iterable<Square> {
 	 * @return
 	 * @since 0.0.0
 	 */
+	public Stream<Square> anchors() {
+		return stream(spliterator(), false).filter(Square::isAnchor);
+	}
+
+	/**
+	 * @return
+	 * @since 0.0.0
+	 */
 	public Collection<Reference> references() {
 		return references.values();
 	}
@@ -255,5 +276,12 @@ public class Board implements Iterable<Square> {
 		}
 
 		return tileCount;
+	}
+
+	/**
+	 * @since 0.0.0
+	 */
+	public void clear() {
+		forEach(Square::clear);
 	}
 }

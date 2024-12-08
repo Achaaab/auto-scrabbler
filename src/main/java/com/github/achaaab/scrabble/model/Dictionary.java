@@ -19,7 +19,7 @@ public class Dictionary {
 	public static final Dictionary ENGLISH_CSW21 = new Dictionary("csw21.txt");
 
 	private final Set<String> words;
-	private final Trie tree;
+	private final Trie trie;
 
 	/**
 	 * @param resource
@@ -28,7 +28,7 @@ public class Dictionary {
 	public Dictionary(String resource) {
 
 		words = new HashSet<>();
-		tree = new Trie();
+		trie = new Trie();
 
 		var classLoader = getClass().getClassLoader();
 
@@ -54,7 +54,7 @@ public class Dictionary {
 	private void add(String word) {
 
 		words.add(word);
-		tree.add(word);
+		trie.add(word);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class Dictionary {
 	 * @return word tree
 	 * @since 0.0.0
 	 */
-	public Trie getTree() {
-		return tree;
+	public Trie getTrie() {
+		return trie;
 	}
 }

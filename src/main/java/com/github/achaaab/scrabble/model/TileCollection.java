@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import static java.lang.Character.isLowerCase;
+import static java.lang.Character.toUpperCase;
+
 /**
  * @author Jonathan Guéhenneux
  * @since 0.0.0
@@ -20,6 +23,13 @@ public abstract class TileCollection {
 	 */
 	public TileCollection() {
 		tiles = new LinkedList<>();
+	}
+
+	/**
+	 * @since 0.0.0
+	 */
+	public void clear() {
+		tiles.clear();
 	}
 
 	/**
@@ -59,7 +69,10 @@ public abstract class TileCollection {
 	 * @since 0.0.0
 	 */
 	public void remove(Tile tile) {
-		tiles.remove(tile);
+
+		tiles.remove(tile.value() == 0 ?
+				getFirstBlank() :
+				tile);
 	}
 
 	/**
@@ -101,12 +114,20 @@ public abstract class TileCollection {
 	 */
 	public Tile pick(char letter) {
 
-		var foundTile = tiles.stream().
-				filter(tile -> tile.letter() == letter).
-				findFirst().orElseThrow();
+		Tile tile;
 
-		tiles.remove(foundTile);
-		return foundTile;
+		if (isLowerCase(letter)) {
+
+			tiles.remove(getFirstBlank());
+			tile = new Tile(toUpperCase(letter), 0);
+
+		} else {
+
+			tile = getFirst(letter);
+		}
+
+		tiles.remove(tile);
+		return tile;
 	}
 
 	/**
@@ -132,5 +153,44 @@ public abstract class TileCollection {
 	 */
 	public List<Tile> pickAll(String letters) {
 		return pickAll(letters.toCharArray());
+	}
+
+	/**
+	 * @return
+	 * @since 0.0.0
+	 */
+	public Tile getFirstBlank() {
+
+		return tiles.stream().
+				filter(tile -> tile.value() == 0).
+				findFirst().orElseThrow();
+	}
+
+	/**
+	 * @param letter
+	 * @return
+	 * @since 0.0.0
+	 */
+	public Tile getFirst(char letter) {
+
+		return tiles.stream().
+				filter(tile -> tile.letter() == letter).
+				findFirst().orElseThrow();
+	}
+
+	/**
+	 * @return
+	 * @since 0.0.0
+	 */
+	public long getVowelCount() {
+		return tiles.stream().filter(Tile::isVowel).count();
+	}
+
+	/**
+	 * @return
+	 * @since 0.0.0
+	 */
+	public long getConsonnantCount() {
+		return tiles.stream().filter(Tile::isConconnant).count();
 	}
 }

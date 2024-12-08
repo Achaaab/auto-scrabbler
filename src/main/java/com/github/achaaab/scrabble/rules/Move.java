@@ -5,19 +5,29 @@ import com.github.achaaab.scrabble.model.Tile;
 
 import java.util.List;
 
+import static com.github.achaaab.scrabble.model.Board.SIZE;
+import static com.github.achaaab.scrabble.tools.StringUtilities.pad;
+import static com.github.achaaab.scrabble.tools.TextHorizontalAlignment.LEFT;
+import static java.lang.Integer.compare;
+
 /**
- * @author Jonathan Guéhenneux
  * @param reference
- * @param rackTiles
+ * @param word
  * @param tiles
  * @param score
+ * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public record Move(Reference reference, List<Tile> rackTiles, List<Tile> tiles, int score)
+public record Move(Reference reference, String word, List<Tile> tiles, int score)
 		implements Comparable<Move> {
 
 	@Override
 	public int compareTo(Move move) {
-		return Integer.compare(score, move.score);
+		return compare(score, move.score);
+	}
+
+	@Override
+	public String toString() {
+		return pad(reference.toString(), 5, ' ', LEFT) + pad(word, SIZE, ' ', LEFT) + " → " + score;
 	}
 }

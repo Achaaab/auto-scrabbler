@@ -2,7 +2,10 @@ package com.github.achaaab.scrabble.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import static com.github.achaaab.scrabble.model.Trie.LETTER_COUNT;
+import static java.lang.Character.compare;
 import static java.util.stream.IntStream.range;
 
 /**
@@ -12,7 +15,12 @@ import static java.util.stream.IntStream.range;
  */
 public record Tile(char letter, int value) implements Comparable<Tile> {
 
-	public static final Tile BLANK = new Tile(' ', 0);
+	public static final Set<Character> VOWELS = Set.of(' ', 'A', 'E', 'I', 'O', 'U');
+
+	public static final Set<Character> CONSONNANTS = Set.of(
+			' ', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z');
+
+	public static final char BLANK = ' ';
 
 	/**
 	 * @return
@@ -22,7 +30,7 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 
 		var frenchTiles = new ArrayList<Tile>();
 
-		addTiles(frenchTiles, BLANK, 2);
+		addTiles(frenchTiles, BLANK, 0, 2);
 		addTiles(frenchTiles, 'E', 1, 15);
 		addTiles(frenchTiles, 'A', 1, 9);
 		addTiles(frenchTiles, 'I', 1, 8);
@@ -53,7 +61,6 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 		return frenchTiles;
 	}
 
-
 	/**
 	 * @return
 	 * @since 0.0.0
@@ -62,7 +69,7 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 
 		var englishTiles = new ArrayList<Tile>();
 
-		addTiles(englishTiles, BLANK, 2);
+		addTiles(englishTiles, BLANK, 0, 2);
 		addTiles(englishTiles, 'E', 1, 12);
 		addTiles(englishTiles, 'A', 1, 9);
 		addTiles(englishTiles, 'I', 1, 9);
@@ -116,6 +123,30 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 
 	@Override
 	public int compareTo(Tile tile) {
-		return Character.compare(letter, tile.letter);
+		return compare(letter, tile.letter);
+	}
+
+	/**
+	 * @return
+	 * @since 0.0.0
+	 */
+	public int letterIndex() {
+		return letter == BLANK ? LETTER_COUNT : letter - 'A';
+	}
+
+	/**
+	 * @return
+	 * @since 0.0.0
+	 */
+	public boolean isVowel() {
+		return VOWELS.contains(letter);
+	}
+
+	/**
+	 * @return
+	 * @since 0.0.0
+	 */
+	public boolean isConconnant() {
+		return CONSONNANTS.contains(letter);
 	}
 }

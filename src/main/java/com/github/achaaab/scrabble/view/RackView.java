@@ -57,6 +57,8 @@ public class RackView extends JComponent {
 
 		tiles = range(0, 7).mapToObj(_ -> new TileView()).toList();
 		tiles.forEach(tilePanel::add);
+
+		setIgnoreRepaint(true);
 	}
 
 	@Override
