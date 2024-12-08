@@ -11,9 +11,10 @@ import com.github.achaaab.scrabble.model.Trie;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.achaaab.scrabble.model.Dictionary.LETTER_COUNT;
 import static com.github.achaaab.scrabble.model.Direction.HORIZONTAL;
 import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
-import static com.github.achaaab.scrabble.model.Trie.LETTER_COUNT;
+import static com.github.achaaab.scrabble.model.Tile.blank;
 import static java.lang.Character.toLowerCase;
 
 /**
@@ -28,8 +29,8 @@ public class Evaluator {
 	private final Board board;
 	private final Dictionary dictionary;
 
-	private Rack rack;
 	private int[] letterCounts;
+	private Tile[] tileSamples;
 	private List<Tile> tiles;
 	private StringBuilder word;
 	private List<Move> moves;
@@ -142,10 +143,9 @@ public class Evaluator {
 	 */
 	public List<Move> getMoves(Rack rack) {
 
-		this.rack = rack;
-
 		var trie = dictionary.getTrie();
 		letterCounts = rack.getLetterCounts();
+		tileSamples = rack.getTileSamples();
 		tiles = new ArrayList<>();
 		word = new StringBuilder();
 		moves = new ArrayList<>();
@@ -234,11 +234,11 @@ public class Evaluator {
 						var letter = (char) ('A' + index);
 
 						if (letterCounts[index] > 0) {
-							prefixFromRack(child, square, rack.getFirst(letter));
+							prefixFromRack(child, square, tileSamples[index]);
 						}
 
 						if (letterCounts[LETTER_COUNT] > 0) {
-							prefixFromRack(child, square, new Tile(letter, 0));
+							prefixFromRack(child, square, blank(letter));
 						}
 					}
 				}
@@ -336,11 +336,11 @@ public class Evaluator {
 				var letter = (char) ('A' + index);
 
 				if (letterCounts[index] > 0) {
-					suffixFromRack(child, square, rack.getFirst(letter));
+					suffixFromRack(child, square, tileSamples[index]);
 				}
 
 				if (letterCounts[LETTER_COUNT] > 0) {
-					suffixFromRack(child, square, new Tile(letter, 0));
+					suffixFromRack(child, square, blank(letter));
 				}
 			}
 		}

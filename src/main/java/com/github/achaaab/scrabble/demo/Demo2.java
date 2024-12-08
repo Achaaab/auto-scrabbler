@@ -2,10 +2,9 @@ package com.github.achaaab.scrabble.demo;
 
 import com.github.achaaab.scrabble.model.Bag;
 import com.github.achaaab.scrabble.model.Board;
-import com.github.achaaab.scrabble.model.Duplicate;
 import com.github.achaaab.scrabble.model.Rack;
 import com.github.achaaab.scrabble.rules.Evaluator;
-import com.github.achaaab.scrabble.view.DuplicateView;
+import com.github.achaaab.scrabble.view.BoardView;
 
 import javax.swing.JFrame;
 import java.awt.FlowLayout;
@@ -17,7 +16,7 @@ import static java.util.Comparator.reverseOrder;
 import static javax.swing.SwingUtilities.invokeAndWait;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
-public class Demo1 {
+public class Demo2 {
 
 	public static void main(String[] args) throws InterruptedException, InvocationTargetException {
 
@@ -25,21 +24,9 @@ public class Demo1 {
 		var rack = new Rack();
 		var bag = new Bag();
 
-		var duplicate = new Duplicate(board, rack, bag);
 		var evaluator = new Evaluator(board, FRENCH_ODS9);
 
-		var window = new JFrame("Test Scrabble");
-		window.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		var view = new DuplicateView(duplicate);
-		var contentPane = window.getContentPane();
-		contentPane.setLayout(new FlowLayout());
-		contentPane.add(view);
-		window.pack();
-		window.setLocation(0, 0);
-
-		invokeAndWait(() -> window.setVisible(true));
-
-		var bestScore = 1331;
+		var bestScore = 1401;
 
 		while (true) {
 
@@ -85,7 +72,6 @@ public class Demo1 {
 			}
 
 			System.out.println("=".repeat(32));
-			invokeAndWait(() -> view.paintImmediately(view.getBounds()));
 
 			if (score > bestScore) {
 
@@ -96,5 +82,16 @@ public class Demo1 {
 			board.clear();
 			rack.clear();
 		}
+
+		var window = new JFrame("Test Scrabble");
+		window.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		var view = new BoardView(board);
+		var contentPane = window.getContentPane();
+		contentPane.setLayout(new FlowLayout());
+		contentPane.add(view);
+		window.pack();
+		window.setLocation(0, 0);
+
+		invokeAndWait(() -> window.setVisible(true));
 	}
 }

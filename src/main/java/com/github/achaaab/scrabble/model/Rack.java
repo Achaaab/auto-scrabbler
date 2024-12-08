@@ -3,6 +3,8 @@ package com.github.achaaab.scrabble.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.achaaab.scrabble.model.Dictionary.LETTER_COUNT;
+
 /**
  * @author Jonathan Guéhenneux
  * @since 0.0.0
@@ -25,13 +27,28 @@ public class Rack extends TileCollection {
 	 */
 	public int[] getLetterCounts() {
 
-		var letterCounts = new int[27];
+		var letterCounts = new int[LETTER_COUNT + 1];
 
 		tiles.stream().
 				map(Tile::letterIndex).
 				forEach(letterIndex -> letterCounts[letterIndex]++);
 
 		return letterCounts;
+	}
+
+	/**
+	 * @return
+	 * @since 0.0.0
+	 */
+	public Tile[] getTileSamples() {
+
+		var tileSamples = new Tile[LETTER_COUNT + 1];
+
+		for (var tile : tiles) {
+			tileSamples[tile.letterIndex()] = tile;
+		}
+
+		return tileSamples;
 	}
 
 	@Override

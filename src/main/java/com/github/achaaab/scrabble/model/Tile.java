@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.github.achaaab.scrabble.model.Trie.LETTER_COUNT;
+import static com.github.achaaab.scrabble.model.Dictionary.LETTER_COUNT;
 import static java.lang.Character.compare;
 import static java.util.stream.IntStream.range;
 
 /**
  * @param letter letter on the tile or {@code ' '} for blank tile
  * @param value raw value of the tile
+ * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public record Tile(char letter, int value) implements Comparable<Tile> {
@@ -101,6 +102,15 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 	}
 
 	/**
+	 * @param letter
+	 * @return
+	 * @since 0.0.0
+	 */
+	public static Tile blank(char letter) {
+		return new Tile(letter, 0);
+	}
+
+	/**
 	 * @param tiles
 	 * @param letter
 	 * @param value
@@ -117,7 +127,7 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 	 * @param count
 	 * @since 0.0.0
 	 */
-	private static void addTiles(List<Tile> tiles, Tile tile, int count){
+	private static void addTiles(List<Tile> tiles, Tile tile, int count) {
 		range(0, count).forEach(_ -> tiles.add(tile));
 	}
 

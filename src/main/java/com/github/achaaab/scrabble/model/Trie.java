@@ -2,6 +2,7 @@ package com.github.achaaab.scrabble.model;
 
 import java.util.List;
 
+import static com.github.achaaab.scrabble.model.Dictionary.LETTER_COUNT;
 import static java.lang.Character.toUpperCase;
 
 /**
@@ -10,9 +11,6 @@ import static java.lang.Character.toUpperCase;
  */
 public class Trie {
 
-	public static final int LETTER_COUNT = 26;
-
-	private final Trie parent;
 	private final Trie[] children;
 	private boolean exists;
 
@@ -20,27 +18,9 @@ public class Trie {
 	 * @since 0.0.0
 	 */
 	public Trie() {
-		this(null);
-	}
-
-	/**
-	 * @param parent
-	 * @since 0.0.0
-	 */
-	public Trie(Trie parent) {
-
-		this.parent = parent;
 
 		children = new Trie[LETTER_COUNT];
 		exists = false;
-	}
-
-	/**
-	 * @return
-	 * @since 0.0.0
-	 */
-	public Trie parent() {
-		return parent;
 	}
 
 	/**
@@ -61,7 +41,7 @@ public class Trie {
 
 			if (child == null) {
 
-				child = new Trie(this);
+				child = new Trie();
 				children[firstLetter - 'A'] = child;
 			}
 
