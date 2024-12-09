@@ -61,15 +61,12 @@ public class Evaluator {
 		var wordScore = 0;
 		var wordMultiplier = 1;
 
-		var tree = dictionary.getTrie();
-
 		for (var tile : tiles) {
 
 			while (square.hasTile()) {
 
 				var squareTile = square.getTile();
 
-				tree = tree.getChild(squareTile);
 				square = square.getNext(direction);
 				wordScore += squareTile.value();
 			}
@@ -89,7 +86,6 @@ public class Evaluator {
 				case WORD_TRIPLE -> wordMultiplier *= 3;
 			}
 
-			tree = tree.getChild(tile.letter());
 			wordScore += letterMultiplier * tile.value();
 
 			var prefixTiles = board.getPreviousTiles(square, direction.across());
@@ -112,18 +108,13 @@ public class Evaluator {
 				score += crossWordScore;
 			}
 
-			if (square.hasNext(direction)) {
-				square = square.getNext(direction);
-			}
+			square = square.getNext(direction);
 		}
 
-		while (square.hasTile() && square.hasNextTile(direction)) {
+		while (square != null && square.hasTile()) {
 
-			var squareTile = square.getTile();
-
-			tree = tree.getChild(squareTile);
+			wordScore += square.getTile().value();
 			square = square.getNext(direction);
-			wordScore += squareTile.value();
 		}
 
 		wordScore *= wordMultiplier;

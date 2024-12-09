@@ -145,14 +145,21 @@ public class Square {
 
 	/**
 	 * @param direction
-	 * @return square next to this in the given direction
+	 * @return square next to this in the given direction, or {@code null} if there is no next square
 	 * @since 0.0.0
 	 */
 	public Square getNext(Direction direction) {
 
-		return direction == HORIZONTAL ?
-				board.getSquare(column + 1, row) :
-				board.getSquare(column, row + 1);
+		Square next = null;
+
+		if (hasNext(direction)) {
+
+			next = direction == HORIZONTAL ?
+					board.getSquare(column + 1, row) :
+					board.getSquare(column, row + 1);
+		}
+
+		return next;
 	}
 
 	/**
@@ -166,14 +173,21 @@ public class Square {
 
 	/**
 	 * @param direction
-	 * @return square previous to this in the given direction
+	 * @return square previous to this in the given direction, or {@code null} if there is no previous square
 	 * @since 0.0.0
 	 */
 	public Square getPrevious(Direction direction) {
 
-		return direction == HORIZONTAL ?
-				board.getSquare(column - 1, row) :
-				board.getSquare(column, row - 1);
+		Square previous = null;
+
+		if (hasPrevious(direction)) {
+
+			previous = direction == HORIZONTAL ?
+					board.getSquare(column - 1, row) :
+					board.getSquare(column, row - 1);
+		}
+
+		return previous;
 	}
 
 	/**
@@ -182,7 +196,9 @@ public class Square {
 	 * @since 0.0.0
 	 */
 	public boolean hasPreviousTile(Direction direction) {
-		return hasPrevious(direction) && getPrevious(direction).hasTile();
+
+		var previousSquare = getPrevious(direction);
+		return previousSquare != null && previousSquare.hasTile();
 	}
 
 	/**
@@ -191,7 +207,9 @@ public class Square {
 	 * @since 0.0.0
 	 */
 	public boolean hasNextTile(Direction direction) {
-		return hasNext(direction) && getNext(direction).hasTile();
+
+		var nextSquare = getNext(direction);
+		return nextSquare != null && nextSquare.hasTile();
 	}
 
 	/**
