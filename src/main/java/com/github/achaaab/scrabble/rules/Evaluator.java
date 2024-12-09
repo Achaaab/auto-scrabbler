@@ -208,29 +208,26 @@ public class Evaluator {
 		startSquare = square;
 		suffixFromRack(trie, anchorSquare);
 
-		if (square.hasPrevious(direction)) {
+		square = square.getPrevious(direction);
 
-			square = square.getPrevious(direction);
+		if (square != null && square.isEmpty() && !square.isAnchor()) {
 
-			if (square.isEmpty() && !square.isAnchor()) {
+			var children = trie.getChildren();
 
-				var children = trie.getChildren();
+			for (var index = 0; index < LETTER_COUNT; index++) {
 
-				for (var index = 0; index < LETTER_COUNT; index++) {
+				var child = children[index];
 
-					var child = children[index];
+				if (child != null) {
 
-					if (child != null) {
+					var letter = (char) ('A' + index);
 
-						var letter = (char) ('A' + index);
+					if (letterCounts[index] > 0) {
+						prefixFromRack(child, square, tileSamples[index]);
+					}
 
-						if (letterCounts[index] > 0) {
-							prefixFromRack(child, square, tileSamples[index]);
-						}
-
-						if (letterCounts[LETTER_COUNT] > 0) {
-							prefixFromRack(child, square, blank(letter));
-						}
+					if (letterCounts[LETTER_COUNT] > 0) {
+						prefixFromRack(child, square, blank(letter));
 					}
 				}
 			}
@@ -405,7 +402,6 @@ public class Evaluator {
 				square.hasNextTile(acrossDirection)) {
 
 			var previousTiles = board.getPreviousTiles(square, acrossDirection);
-			var nextTiles = board.getNextTiles(square, acrossDirection);
 
 			var acrossTrie = dictionary.getTrie();
 
@@ -418,6 +414,7 @@ public class Evaluator {
 
 			} else {
 
+				var nextTiles = board.getNextTiles(square, acrossDirection);
 				var nextTileIterator = nextTiles.iterator();
 
 				while (valid && nextTileIterator.hasNext()) {

@@ -2,17 +2,25 @@ package com.github.achaaab.scrabble.demo;
 
 import com.github.achaaab.scrabble.model.Bag;
 import com.github.achaaab.scrabble.model.Board;
+import com.github.achaaab.scrabble.model.DuplicateSheet;
+import com.github.achaaab.scrabble.model.DuplicateSheetEntry;
 import com.github.achaaab.scrabble.model.Rack;
+import com.github.achaaab.scrabble.model.Tile;
 import com.github.achaaab.scrabble.rules.Evaluator;
 import com.github.achaaab.scrabble.view.BoardView;
 
 import javax.swing.JFrame;
 import java.awt.FlowLayout;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.github.achaaab.scrabble.model.Dictionary.FRENCH_ODS9;
 import static com.github.achaaab.scrabble.model.Tile.getFrenchTiles;
-import static java.util.Comparator.reverseOrder;
+import static com.github.achaaab.scrabble.tools.Toolbox.toSeconds;
+import static java.time.Duration.between;
+import static java.time.LocalDateTime.now;
+import static java.util.Comparator.naturalOrder;
 import static javax.swing.SwingUtilities.invokeAndWait;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -25,22 +33,36 @@ public class Demo2 {
 		var bag = new Bag();
 
 		var evaluator = new Evaluator(board, FRENCH_ODS9);
+		var sheet = new DuplicateSheet();
 
-		var bestScore = 1401;
+		List<Tile> residual;
+		List<Tile> draw;
 
-		while (true) {
+		var scoreToBeat = 1421;
+		var tries = 0;
+
+		var start = now();
+
+		while (sheet.total() <= scoreToBeat) {
+
+			tries++;
 
 			bag.clear();
-			bag.addAll(getFrenchTiles());
+			sheet.clear();
+			board.clear();
+			rack.clear();
 
-			var score = 0;
-			var moveIndex = 0;
+			bag.addAll(getFrenchTiles());
 
 			while (!rack.isEmpty() || !bag.isEmpty()) {
 
-				rack.fill(bag);
+				residual = new ArrayList<>(rack.getTiles());
+				draw = bag.pickRandom(Rack.CAPACITY - rack.size());
+				rack.addAll(draw);
 
-				if (moveIndex < 15) {
+				var reject = false;
+
+				if (sheet.entryCount() < 15 && bag.size() >= 7) {
 
 					while (rack.getVowelCount() < 2 && bag.getVowelCount() >= 2 ||
 							rack.getConsonnantCount() < 2 && bag.getConsonnantCount() >= 2) {
@@ -48,40 +70,45 @@ public class Demo2 {
 						var tiles = rack.pickAll();
 						rack.fill(bag);
 						bag.addAll(tiles);
+
+						reject = true;
+						draw = new ArrayList<>(rack.getTiles());
 					}
 				}
 
-				var bestMoves = evaluator.getMoves(rack).stream().
-						sorted(reverseOrder()).
-						limit(1).
-						toList();
+				var optionalBestMove = evaluator.getMoves(rack).stream().
+						max(naturalOrder());
 
-				if (bestMoves.isEmpty()) {
+				if (optionalBestMove.isEmpty()) {
 					break;
 				}
 
-				var bestMove = bestMoves.getFirst();
+				var bestMove = optionalBestMove.get();
 				var tiles = bestMove.tiles();
 				var reference = bestMove.reference();
 				rack.removeAll(tiles);
 				board.play(tiles, reference);
-				score += bestMove.score();
-				moveIndex++;
 
-				System.out.println(bestMove);
+				sheet.add(new DuplicateSheetEntry(
+						sheet.entryCount() + 1,
+						residual,
+						reject,
+						draw,
+						bestMove.word(),
+						reference,
+						bestMove.score()));
 			}
-
-			System.out.println("=".repeat(32));
-
-			if (score > bestScore) {
-
-				System.out.println(score);
-				break;
-			}
-
-			board.clear();
-			rack.clear();
 		}
+
+		var end = now();
+
+		var duration = toSeconds(between(start, end));
+		var speed = tries / duration;
+
+		System.out.println(tries + (tries > 1 ? " tries" : "try"));
+		System.out.printf("duration: %.2f s%n", duration);
+		System.out.printf("speed: %.2f games/s%n", speed);
+		System.out.println(sheet);
 
 		var window = new JFrame("Test Scrabble");
 		window.setDefaultCloseOperation(EXIT_ON_CLOSE);

@@ -70,7 +70,7 @@ public abstract class TileCollection {
 	 */
 	public void remove(Tile tile) {
 
-		tiles.remove(tile.value() == 0 ?
+		tiles.remove(tile.isBlank() ?
 				getFirstBlank() :
 				tile);
 	}
@@ -162,7 +162,7 @@ public abstract class TileCollection {
 	public Tile getFirstBlank() {
 
 		return tiles.stream().
-				filter(tile -> tile.value() == 0).
+				filter(Tile::isBlank).
 				findFirst().orElseThrow();
 	}
 
@@ -191,6 +191,6 @@ public abstract class TileCollection {
 	 * @since 0.0.0
 	 */
 	public long getConsonnantCount() {
-		return tiles.stream().filter(Tile::isConconnant).count();
+		return tiles.stream().filter(Tile::isConsonnant).count();
 	}
 }

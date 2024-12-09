@@ -1,5 +1,7 @@
 package com.github.achaaab.scrabble.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -23,5 +25,23 @@ public class Bag extends TileCollection {
 		var tileCount = tiles.size();
 		var tileIndex = RANDOM.nextInt(tileCount);
 		return tiles.remove(tileIndex);
+	}
+
+	/**
+	 * Picks random tile from this bag until the specified count is reached or this bag is empty.
+	 *
+	 * @param count
+	 * @return picked tiles
+	 * @since 0.0.0
+	 */
+	public List<Tile> pickRandom(int count) {
+
+		var pickedTiles = new ArrayList<Tile>();
+
+		while (pickedTiles.size() < count && !isEmpty()) {
+			pickedTiles.add(pickRandom());
+		}
+
+		return pickedTiles;
 	}
 }

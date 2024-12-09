@@ -14,6 +14,7 @@ import java.awt.Paint;
 import java.awt.Stroke;
 
 import static com.github.achaaab.scrabble.tools.FontUtilities.align;
+import static com.github.achaaab.scrabble.tools.SwingUtility.scale;
 import static com.github.achaaab.scrabble.tools.TextAlignment.BOTTOM_RIGHT;
 import static com.github.achaaab.scrabble.tools.TextAlignment.CENTER_CENTER;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
@@ -26,7 +27,7 @@ import static java.lang.Math.round;
  */
 public class TileView extends JComponent {
 
-	public static final int SIZE = 90;
+	public static final int SIZE = scale(50);
 
 	private static final Font BASE_FONT = FontUtilities.load("lt_superior/LTSuperior-SemiBold.otf");
 	private static final Font LETTER_FONT = BASE_FONT.deriveFont(SIZE * 0.60f);
@@ -41,7 +42,7 @@ public class TileView extends JComponent {
 
 	private static final Paint BACKGROUND = new Color(254, 236, 207);
 	private static final Paint FOREGROUND = new Color(38, 15, 1);
-	private static final Paint JOKER_FOREGROUND = new Color(10, 150, 10);
+	private static final Paint BLANK_FOREGROUND = new Color(10, 150, 10);
 
 	private static final int CORNER_RADIUS = round(SIZE * 0.15f);
 	private static final int LETTER_X = round(SIZE * 0.47f);
@@ -79,14 +80,14 @@ public class TileView extends JComponent {
 			graphics2d.setPaint(BACKGROUND);
 			graphics2d.fillRoundRect(0, 0, SIZE - 1, SIZE - 1, CORNER_RADIUS, CORNER_RADIUS);
 
-			graphics2d.setPaint(model.value() == 0 ?
-					JOKER_FOREGROUND :
+			graphics2d.setPaint(model.isBlank() ?
+					BLANK_FOREGROUND :
 					FOREGROUND);
 
 			graphics2d.setFont(LETTER_FONT);
 			align(graphics2d, Character.toString(model.letter()), CENTER_CENTER, LETTER_X, LETTER_Y);
 
-			if (model.value() > 0) {
+			if (!model.isBlank()) {
 
 				graphics2d.setFont(VALUE_FONT);
 				align(graphics2d, Integer.toString(model.value()), BOTTOM_RIGHT, VALUE_X, VALUE_Y);

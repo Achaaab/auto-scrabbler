@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import static com.github.achaaab.scrabble.model.Award.LETTER_DOUBLE;
 import static com.github.achaaab.scrabble.model.Award.LETTER_TRIPLE;
@@ -171,10 +170,12 @@ public class Board implements Iterable<Square> {
 
 		var tiles = new LinkedList<Tile>();
 
-		while (square.hasPreviousTile(direction)) {
+		square = square.getPrevious(direction);
 
-			square = square.getPrevious(direction);
+		while (square != null && square.hasTile()) {
+
 			tiles.addFirst(square.getTile());
+			square = square.getPrevious(direction);
 		}
 
 		return tiles;
@@ -200,10 +201,12 @@ public class Board implements Iterable<Square> {
 
 		var tiles = new ArrayList<Tile>();
 
-		while (square.hasNextTile(direction)) {
+		square = square.getNext(direction);
 
-			square = square.getNext(direction);
+		while (square != null && square.hasTile()) {
+
 			tiles.add(square.getTile());
+			square = square.getNext(direction);
 		}
 
 		return tiles;

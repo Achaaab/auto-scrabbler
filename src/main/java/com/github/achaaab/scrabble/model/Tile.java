@@ -156,7 +156,15 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 	 * @return
 	 * @since 0.0.0
 	 */
-	public boolean isConconnant() {
+	public boolean isConsonnant() {
 		return CONSONNANTS.contains(letter);
+	}
+
+	/**
+	 * @return whether this tile is blank
+	 * @since 0.0.0
+	 */
+	public boolean isBlank() {
+		return value == 0;
 	}
 }

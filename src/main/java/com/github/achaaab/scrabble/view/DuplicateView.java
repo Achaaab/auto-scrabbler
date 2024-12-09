@@ -2,17 +2,13 @@ package com.github.achaaab.scrabble.view;
 
 import com.github.achaaab.scrabble.model.Duplicate;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.Color;
 
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.SOUTH;
 import static javax.swing.Box.createVerticalGlue;
-import static javax.swing.BoxLayout.PAGE_AXIS;
 import static javax.swing.BoxLayout.Y_AXIS;
 
 public class DuplicateView extends JPanel {
