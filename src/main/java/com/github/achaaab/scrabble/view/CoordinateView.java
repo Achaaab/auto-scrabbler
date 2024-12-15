@@ -1,6 +1,7 @@
 package com.github.achaaab.scrabble.view;
 
 import com.github.achaaab.scrabble.tools.FontUtilities;
+import com.github.achaaab.scrabble.tools.SwingUtility;
 
 import javax.swing.JLabel;
 import java.awt.Dimension;
@@ -28,6 +29,9 @@ public class CoordinateView extends JLabel {
 		setPreferredSize(new Dimension(SIZE, SIZE));
 
 		setFont(FONT);
-		setForeground(BLACK);
+
+		setForeground(SwingUtility.isDark(getBackground()) ?
+				TileView.BACKGROUND :
+				TileView.FOREGROUND);
 	}
 }

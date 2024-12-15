@@ -2,8 +2,8 @@ package com.github.achaaab.scrabble.demo;
 
 import com.github.achaaab.scrabble.model.Bag;
 import com.github.achaaab.scrabble.model.Board;
-import com.github.achaaab.scrabble.model.DuplicateSheet;
-import com.github.achaaab.scrabble.model.DuplicateSheetEntry;
+import com.github.achaaab.scrabble.sheet.DuplicateSheet;
+import com.github.achaaab.scrabble.sheet.DuplicateSheetEntry;
 import com.github.achaaab.scrabble.model.Rack;
 import com.github.achaaab.scrabble.model.Tile;
 import com.github.achaaab.scrabble.rules.Evaluator;

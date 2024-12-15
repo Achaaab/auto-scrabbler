@@ -1,4 +1,7 @@
-package com.github.achaaab.scrabble.model;
+package com.github.achaaab.scrabble.sheet;
+
+import com.github.achaaab.scrabble.model.Reference;
+import com.github.achaaab.scrabble.model.Tile;
 
 import java.util.List;
 

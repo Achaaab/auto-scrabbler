@@ -1,4 +1,4 @@
-package com.github.achaaab.scrabble.model;
+package com.github.achaaab.scrabble.sheet;
 
 import java.util.ArrayList;
 import java.util.List;

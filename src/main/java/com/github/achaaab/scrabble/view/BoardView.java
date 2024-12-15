@@ -17,7 +17,7 @@ import static javax.swing.SwingConstants.TOP;
 public class BoardView extends JComponent {
 
 	private static final Color BACKGROUND = new Color(197, 189, 172);
-	private static final int GAP = round(TileView.SIZE * 0.10f);
+	private static final int GAP = round(TileView.SIZE * 0.05f);
 
 	private final Board model;
 

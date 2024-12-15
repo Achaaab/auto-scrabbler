@@ -123,6 +123,46 @@ public class Board implements Iterable<Square> {
 	}
 
 	/**
+	 * @param word
+	 * @param key
+	 * @param tileCollection
+	 * @throws IllegalArgumentException if the word cannot be played at the specified reference
+	 * @since 0.0.0
+	 */
+	public void play(String word, String key, TileCollection tileCollection) {
+
+		var reference = references.get(key);
+		var square = reference.square();
+		var direction = reference.direction();
+
+		var letters = word.toCharArray();
+
+		for (var letter : letters) {
+
+			if (square == null) {
+				throw new IllegalArgumentException("The word " + word + " does not fit in " + key + ".");
+			}
+
+			if (square.hasTile()) {
+
+				var tile = square.getTile();
+				var squareLetter = tile.letter();
+
+				if (squareLetter != letter) {
+					throw new IllegalArgumentException("The word " + word + " does not fit in " + key + ".");
+				}
+
+			} else {
+
+				var tile = tileCollection.pick(letter);
+				square.setTile(tile);
+			}
+
+			square = square.getNext(direction);
+		}
+	}
+
+	/**
 	 * @param tiles
 	 * @param reference
 	 * @since 0.0.0

@@ -8,7 +8,6 @@ import java.awt.BorderLayout;
 
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.SOUTH;
-import static javax.swing.Box.createVerticalGlue;
 import static javax.swing.BoxLayout.Y_AXIS;
 
 public class DuplicateView extends JPanel {
@@ -27,15 +26,11 @@ public class DuplicateView extends JPanel {
 
 		setLayout(new BorderLayout());
 
-		var southPanel = new Box(Y_AXIS);
-		southPanel.setAlignmentX(CENTER_ALIGNMENT);
-		southPanel.add(createVerticalGlue());
-		southPanel.add(rack);
-		southPanel.add(createVerticalGlue());
-		southPanel.setMaximumSize(RackView.SIZE);
-		southPanel.setMinimumSize(RackView.SIZE);
+		var rackPanel = new Box(Y_AXIS);
+		rackPanel.setAlignmentX(CENTER_ALIGNMENT);
+		rackPanel.add(rack);
 
 		add(board, CENTER);
-		add(southPanel, SOUTH);
+		add(rackPanel, SOUTH);
 	}
 }
