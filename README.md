@@ -5,7 +5,7 @@
 * Java 21+
 
 ### Running
-* Get the [latest release](https://github.com/Achaaab/auto-scrabbler/releases).
+* Get the [latest release](https://github.com/Achaaab/auto-scrabbler/releases/latest).
 
 ## Authors
 * **Jonathan Guéhenneux** - *Programmer* - [Achaaab](https://github.com/Achaaab)
