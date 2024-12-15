@@ -59,6 +59,7 @@ public class Solver {
 
 		board.clear();
 		rack.clear();
+		bag.clear();
 		bag.addAll(tiles);
 
 		sheet.entries().forEach(this::play);

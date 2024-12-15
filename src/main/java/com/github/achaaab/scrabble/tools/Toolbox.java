@@ -54,4 +54,17 @@ public class Toolbox {
 		new Thread(runnable).start();
 	}
 
+	/**
+	 * @param exception
+	 * @return
+	 * @since 0.0.0
+	 */
+	public static Throwable getRootCause(Throwable exception) {
+
+		while (exception.getCause() != null) {
+			exception = exception.getCause();
+		}
+
+		return exception;
+	}
 }

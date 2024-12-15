@@ -10,6 +10,8 @@ import java.util.Set;
 import static java.util.Objects.requireNonNull;
 
 /**
+ * Scrabble dictionary.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

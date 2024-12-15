@@ -1,6 +1,8 @@
 package com.github.achaaab.scrabble.model;
 
 /**
+ * Words layout direction.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

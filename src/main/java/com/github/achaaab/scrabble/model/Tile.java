@@ -128,7 +128,7 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 	 * @since 0.0.0
 	 */
 	private static void addTiles(List<Tile> tiles, Tile tile, int count) {
-		range(0, count).forEach(_ -> tiles.add(tile));
+		range(0, count).forEach(index -> tiles.add(tile));
 	}
 
 	@Override

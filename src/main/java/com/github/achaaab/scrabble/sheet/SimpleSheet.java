@@ -16,6 +16,7 @@ public class SimpleSheet extends AbstractTableModel {
 	private final boolean editable;
 	private final List<SimpleSheetEntry> entries;
 	private int total;
+	private final List<ExceptionListener> exceptionListeners;
 
 	/**
 	 * @param solver
@@ -29,6 +30,23 @@ public class SimpleSheet extends AbstractTableModel {
 
 		entries = new ArrayList<>();
 		total = 0;
+		exceptionListeners = new ArrayList<>();
+	}
+
+	/**
+	 * @param exceptionListener
+	 * @since 0.0.0
+	 */
+	public void addExceptionListener(ExceptionListener exceptionListener) {
+		exceptionListeners.add(exceptionListener);
+	}
+
+	/**
+	 * @param exception
+	 * @since 0.0.0
+	 */
+	private void fireExceptionOccurred(Exception exception) {
+		exceptionListeners.forEach(exceptionListener -> exceptionListener.exceptionOccurred(exception));
 	}
 
 	/**
@@ -105,13 +123,22 @@ public class SimpleSheet extends AbstractTableModel {
 			default -> throw new IllegalArgumentException("unmodifiable column: " + columnIndex);
 		};
 
-		solver.replay();
+		try {
 
-		if (entries.stream().allMatch(SimpleSheetEntry::isComplete)) {
-			entries.add(new SimpleSheetEntry());
+			solver.replay();
+
+			if (entries.stream().allMatch(SimpleSheetEntry::isComplete)) {
+				entries.add(new SimpleSheetEntry());
+			}
+
+		} catch (Exception exception) {
+
+			fireExceptionOccurred(exception);
+
+		} finally {
+
+			fireTableDataChanged();
 		}
-
-		fireTableDataChanged();
 	}
 
 	@Override

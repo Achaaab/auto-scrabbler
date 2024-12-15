@@ -20,6 +20,8 @@ import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
 import static java.util.stream.StreamSupport.stream;
 
 /**
+ * Scrabble 15x15 board.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

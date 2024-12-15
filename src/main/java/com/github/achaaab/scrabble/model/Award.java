@@ -1,6 +1,8 @@
 package com.github.achaaab.scrabble.model;
 
 /**
+ * Square award.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
+import static com.github.achaaab.scrabble.model.Tile.BLANK;
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.toUpperCase;
 
@@ -121,29 +123,43 @@ public abstract class TileCollection {
 			tiles.remove(getFirstBlank());
 			tile = new Tile(toUpperCase(letter), 0);
 
+		} else if (letter == BLANK){
+
+			tile = getFirstBlank();
+			tiles.remove(tile);
+
 		} else {
 
 			tile = getFirst(letter);
+			tiles.remove(tile);
 		}
 
-		tiles.remove(tile);
 		return tile;
 	}
 
 	/**
 	 * @param letters
 	 * @return
+	 * @throws NoSuchElementException
 	 * @since 0.0.0
 	 */
 	public List<Tile> pickAll(char... letters) {
 
 		var tiles = new ArrayList<Tile>();
 
-		for (var letter : letters) {
-			tiles.add(pick(letter));
-		}
+		try {
 
-		return tiles;
+			for (var letter : letters) {
+				tiles.add(pick(letter));
+			}
+
+			return tiles;
+
+		} catch (NoSuchElementException noSuchElementException) {
+
+			addAll(tiles);
+			throw noSuchElementException;
+		}
 	}
 
 	/**
@@ -163,19 +179,22 @@ public abstract class TileCollection {
 
 		return tiles.stream().
 				filter(Tile::isBlank).
-				findFirst().orElseThrow();
+				findFirst().
+				orElseThrow(() -> new NoSuchElementException("There is no more blank tile in the bag."));
 	}
 
 	/**
 	 * @param letter
 	 * @return
+	 * @throws NoSuchElementException if there is no more tile with the specified letter in this collection
 	 * @since 0.0.0
 	 */
 	public Tile getFirst(char letter) {
 
 		return tiles.stream().
 				filter(tile -> tile.letter() == letter).
-				findFirst().orElseThrow();
+				findFirst().
+				orElseThrow(() -> new NoSuchElementException("There is no more " + letter + " tile in the bag."));
 	}
 
 	/**

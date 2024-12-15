@@ -11,7 +11,6 @@ import com.github.achaaab.scrabble.view.DuplicateView;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.awt.FlowLayout;
-import java.util.stream.Collectors;
 
 import static com.github.achaaab.scrabble.model.Dictionary.FRENCH_ODS9;
 import static com.github.achaaab.scrabble.model.Tile.getFrenchTiles;
@@ -19,9 +18,17 @@ import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.joining;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
+/**
+ * @author Jonathan Guéhenneux
+ * @since 0.0.0
+ */
 public class Demo0 {
 
-	public static void main(String[] args) {
+	/**
+	 * @param arguments
+	 * @since 0.0.0
+	 */
+	public static void main(String... arguments) {
 
 		var board = new Board();
 		var rack = new Rack();

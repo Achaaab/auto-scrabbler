@@ -1,6 +1,8 @@
 package com.github.achaaab.scrabble.view;
 
 import com.github.achaaab.scrabble.model.Solver;
+import com.github.achaaab.scrabble.tools.SwingUtility;
+import com.github.achaaab.scrabble.tools.Toolbox;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -8,8 +10,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 import java.awt.BorderLayout;
 
+import static com.github.achaaab.scrabble.tools.SwingUtility.showException;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.EAST;
 import static java.awt.BorderLayout.SOUTH;
@@ -73,35 +80,50 @@ public class SolverView extends Box {
 		add(leftPanel);
 		add(rightPanel);
 
-		sheet.model().addTableModelListener(_ -> {
+		sheet.model().addTableModelListener(event -> {
 
 			leftPanel.repaint();
 			letters.setText("");
 		});
 
+		sheet.model().addExceptionListener(SwingUtility::showException);
+
+		var lettersDocument = letters.getDocument();
+
+		if (lettersDocument instanceof AbstractDocument abstractDocument) {
+			abstractDocument.setDocumentFilter(new DocumentFilter() {
+
+				@Override
+				public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+					super.insertString(fb, offset, string.toUpperCase().replaceAll("[^A-Z ]+", ""), attr);
+				}
+
+				@Override
+				public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+					super.replace(fb, offset, length, text.toUpperCase().replaceAll("[^A-Z ]+", ""), attrs);
+				}
+			});
+		}
+
 		letters.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
-			public void insertUpdate(DocumentEvent e) {
-
-				model.change(letters.getText());
-				rack.repaint();
+			public void insertUpdate(DocumentEvent event) {
+				updateLetters();
 			}
 
 			@Override
-			public void removeUpdate(DocumentEvent e) {
-
-				model.change(letters.getText());
-				rack.repaint();
+			public void removeUpdate(DocumentEvent event) {
+				updateLetters();
 			}
 
 			@Override
-			public void changedUpdate(DocumentEvent e) {
+			public void changedUpdate(DocumentEvent event) {
 
 			}
 		});
 
-		solve.addActionListener(_ -> {
+		solve.addActionListener(event -> {
 
 			var bestMovesSheet = model.solve();
 			var options = new String[] { "OK" };
@@ -109,5 +131,19 @@ public class SolverView extends Box {
 			showOptionDialog(this, new SimpleSheetView(bestMovesSheet), "Meilleurs coups",
 					DEFAULT_OPTION, PLAIN_MESSAGE, null, options, options[0]);
 		});
+	}
+
+	/**
+	 * @since 0.0.0
+	 */
+	private void updateLetters() {
+
+		try {
+			model.change(letters.getText());
+		} catch (Exception exception) {
+			showException(exception);
+		} finally {
+			rack.repaint();
+		}
 	}
 }
