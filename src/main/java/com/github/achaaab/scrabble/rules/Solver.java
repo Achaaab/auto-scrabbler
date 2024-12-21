@@ -1,7 +1,10 @@
-package com.github.achaaab.scrabble.model;
+package com.github.achaaab.scrabble.rules;
 
-import com.github.achaaab.scrabble.rules.Evaluator;
-import com.github.achaaab.scrabble.rules.Move;
+import com.github.achaaab.scrabble.model.Bag;
+import com.github.achaaab.scrabble.model.Board;
+import com.github.achaaab.scrabble.model.Dictionary;
+import com.github.achaaab.scrabble.model.Rack;
+import com.github.achaaab.scrabble.model.Tile;
 import com.github.achaaab.scrabble.sheet.SimpleSheet;
 import com.github.achaaab.scrabble.sheet.SimpleSheetEntry;
 
@@ -10,6 +13,8 @@ import java.util.List;
 import static java.util.Comparator.reverseOrder;
 
 /**
+ * Simple scrabble solver, brute forcing without more insight.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -25,7 +30,6 @@ public class Solver {
 	}
 
 	private final List<Tile> tiles;
-	private final Dictionary dictionary;
 
 	private final Board board;
 	private final Bag bag;
@@ -41,12 +45,11 @@ public class Solver {
 	public Solver(List<Tile> tiles, Dictionary dictionary) {
 
 		this.tiles = tiles;
-		this.dictionary = dictionary;
 
 		board = new Board();
 		bag = new Bag();
 		rack = new Rack();
-		sheet = new SimpleSheet(this, true);
+		sheet = new SimpleSheet(this, true, true);
 		evaluator = new Evaluator(board, dictionary);
 
 		bag.addAll(tiles);
@@ -74,8 +77,18 @@ public class Solver {
 		if (entry.isComplete()) {
 
 			var word = entry.getWord();
+
 			var key = entry.getKey();
-			board.play(word, key, bag);
+
+			var reference = board.getReference(key);
+			var square = reference.square();
+			var direction = reference.direction();
+
+			var move = evaluator.getMove(square, direction, word, bag);
+			var score = move.score();
+			var tiles = move.tiles();
+			board.play(tiles, reference);
+			entry.setScore(score);
 		}
 	}
 
@@ -95,7 +108,7 @@ public class Solver {
 	 */
 	public SimpleSheet solve() {
 
-		var bestMoveSheet = new SimpleSheet(this, false);
+		var bestMoveSheet = new SimpleSheet(this, false, false);
 
 		evaluator.getMoves(rack).stream().
 				sorted(reverseOrder()).

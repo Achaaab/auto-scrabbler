@@ -30,27 +30,47 @@ public class TileView extends JComponent {
 	private static final Color BLANK_FOREGROUND = new Color(10, 150, 10);
 
 	private static final Font BASE_FONT = FontUtilities.load("lt_superior/LTSuperior-SemiBold.otf");
-	private static final Font LETTER_FONT = BASE_FONT.deriveFont(SIZE * 0.70f);
-	private static final Font VALUE_FONT = BASE_FONT.deriveFont(SIZE * 0.26f);
-
-	private static final int BORDER = round(SIZE * 0.03f);
-
-	private static final int OUTER_RADIUS = round(SIZE * 0.15f);
-	private static final int INNER_RADIUS = round(SIZE * 0.08f);
-
-	private static final int LETTER_X = round(SIZE * 0.45f);
-	private static final int LETTER_Y = round(SIZE * 0.45f);
-	private static final int VALUE_X = round(SIZE * 0.90f);
-	private static final int VALUE_Y = round(SIZE * 0.90f);
 
 	private Tile model;
+
+	private final int size;
+
+	private final Font letterFont;
+	private final Font valueFont;
+	private final int border;
+	private final int outerRadius;
+	private final int innerRadius;
+	private final int letterX;
+	private final int letterY;
+	private final int valueX;
+	private final int valueY;
 
 	/**
 	 * @since 0.0.0
 	 */
 	public TileView() {
+		this(SIZE);
+	}
 
-		setPreferredSize(new Dimension(SIZE, SIZE));
+	/**
+	 * @param size tile width and height in pixels
+	 * @since 0.0.2
+	 */
+	public TileView(int size) {
+
+		this.size = size;
+
+		letterFont = BASE_FONT.deriveFont(size * 0.70f);
+		valueFont = BASE_FONT.deriveFont(size * 0.26f);
+		border = round(size * 0.03f);
+		outerRadius = round(size * 0.15f);
+		innerRadius = round(size * 0.08f);
+		letterX = round(size * 0.45f);
+		letterY = round(size * 0.45f);
+		valueX = round(size * 0.90f);
+		valueY = round(size * 0.90f);
+
+		setPreferredSize(new Dimension(size, size));
 		setOpaque(true);
 	}
 
@@ -71,21 +91,21 @@ public class TileView extends JComponent {
 			graphics2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
 
 			graphics2d.setPaint(FOREGROUND);
-			graphics2d.fillRoundRect(0, 0, SIZE, SIZE, OUTER_RADIUS, OUTER_RADIUS);
+			graphics2d.fillRoundRect(0, 0, size, size, outerRadius, outerRadius);
 			graphics2d.setPaint(BACKGROUND);
-			graphics2d.fillRoundRect(BORDER, BORDER, SIZE - 2 * BORDER, SIZE - 2 * BORDER, INNER_RADIUS, INNER_RADIUS);
+			graphics2d.fillRoundRect(border, border, size - 2 * border, size - 2 * border, innerRadius, innerRadius);
 
 			graphics2d.setPaint(model.isBlank() ?
 					BLANK_FOREGROUND :
 					FOREGROUND);
 
-			graphics2d.setFont(LETTER_FONT);
-			align(graphics2d, Character.toString(model.letter()), CENTER_CENTER, LETTER_X, LETTER_Y);
+			graphics2d.setFont(letterFont);
+			align(graphics2d, Character.toString(model.letter()), CENTER_CENTER, letterX, letterY);
 
 			if (!model.isBlank()) {
 
-				graphics2d.setFont(VALUE_FONT);
-				align(graphics2d, Integer.toString(model.value()), BOTTOM_RIGHT, VALUE_X, VALUE_Y);
+				graphics2d.setFont(valueFont);
+				align(graphics2d, Integer.toString(model.value()), BOTTOM_RIGHT, valueX, valueY);
 			}
 		}
 	}

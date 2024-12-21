@@ -1,13 +1,15 @@
 package com.github.achaaab.scrabble;
 
-import com.github.achaaab.scrabble.model.Solver;
+import com.github.achaaab.scrabble.rules.Solver;
 import com.github.achaaab.scrabble.sheet.SimpleSheetEntry;
 import com.github.achaaab.scrabble.view.SolverView;
 
 import javax.swing.JFrame;
 import java.awt.FlowLayout;
 
+import static com.github.achaaab.scrabble.model.Dictionary.ENGLISH_CSW21;
 import static com.github.achaaab.scrabble.model.Dictionary.FRENCH_ODS9;
+import static com.github.achaaab.scrabble.model.Tile.getEnglishTiles;
 import static com.github.achaaab.scrabble.model.Tile.getFrenchTiles;
 import static com.github.achaaab.scrabble.tools.SwingUtility.showException;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;

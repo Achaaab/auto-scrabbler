@@ -1,16 +1,11 @@
 package com.github.achaaab.scrabble.tools;
 
-import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 
 import static com.github.achaaab.scrabble.tools.Toolbox.getRootCause;
 import static java.awt.Toolkit.getDefaultToolkit;
-import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
@@ -124,7 +119,9 @@ public class SwingUtility {
 	}
 
 	/**
-	 * @param exception
+	 * Displays an exception.
+	 *
+	 * @param exception exception to display
 	 * @since 0.0.0
 	 */
 	public static void showException(Exception exception) {

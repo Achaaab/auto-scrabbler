@@ -1,8 +1,7 @@
 package com.github.achaaab.scrabble.view;
 
-import com.github.achaaab.scrabble.model.Solver;
+import com.github.achaaab.scrabble.rules.Solver;
 import com.github.achaaab.scrabble.tools.SwingUtility;
-import com.github.achaaab.scrabble.tools.Toolbox;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -91,16 +90,39 @@ public class SolverView extends Box {
 		var lettersDocument = letters.getDocument();
 
 		if (lettersDocument instanceof AbstractDocument abstractDocument) {
+
 			abstractDocument.setDocumentFilter(new DocumentFilter() {
 
 				@Override
-				public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
-					super.insertString(fb, offset, string.toUpperCase().replaceAll("[^A-Z ]+", ""), attr);
+				public void insertString(
+						FilterBypass filterBypass,
+						int offset,
+						String string,
+						AttributeSet attributeSet)
+						throws BadLocationException {
+
+					super.insertString(
+							filterBypass,
+							offset,
+							string.toUpperCase().replaceAll("[^A-Z ]+", ""),
+							attributeSet);
 				}
 
 				@Override
-				public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
-					super.replace(fb, offset, length, text.toUpperCase().replaceAll("[^A-Z ]+", ""), attrs);
+				public void replace(
+						FilterBypass filterBypass,
+						int offset,
+						int length,
+						String string,
+						AttributeSet attributeSet)
+						throws BadLocationException {
+
+					super.replace(
+							filterBypass,
+							offset,
+							length,
+							string.toUpperCase().replaceAll("[^A-Z ]+", ""),
+							attributeSet);
 				}
 			});
 		}

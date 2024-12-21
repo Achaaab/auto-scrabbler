@@ -4,7 +4,9 @@ import com.github.achaaab.scrabble.sheet.SimpleSheet;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.TableColumn;
 import java.awt.Dimension;
+import java.util.Collections;
 
 import static java.lang.Math.round;
 
@@ -14,26 +16,47 @@ import static java.lang.Math.round;
  */
 public class SimpleSheetView extends JScrollPane {
 
-	private final SimpleSheet model;
-	private final JTable table;
+	private static final float INDEX_COLUMN_WIDTH = 1.50f;
+	private static final float WORD_COLUMN_WIDTH = 4.00f;
+	private static final float REFERENCE_COLUMN_WIDTH = 2.50f;
+	private static final float SCORE_COLUMN_WIDTH = 2.00f;
+	private static final float TOTAL_COLUMN_WIDTH = 2.00f;
 
+	private static final float HEIGHT = 15.00f;
+
+	private final SimpleSheet model;
+
+	/**
+	 * @param model
+	 * @since 0.0.2
+	 */
 	public SimpleSheetView(SimpleSheet model) {
 
 		this.model = model;
 
-		table = new JTable(model);
+		var table = new JTable(model);
 		table.setRowHeight(round(TileView.SIZE * 0.50f));
 
 		setViewportView(table);
 
 		var columnModel = table.getColumnModel();
 
-		columnModel.getColumn(0).setPreferredWidth(round(TileView.SIZE * 1.50f));
-		columnModel.getColumn(1).setPreferredWidth(round(TileView.SIZE * 4.00f));
-		columnModel.getColumn(2).setPreferredWidth(round(TileView.SIZE * 2.50f));
-		columnModel.getColumn(3).setPreferredWidth(round(TileView.SIZE * 2.00f));
+		columnModel.getColumn(0).setPreferredWidth(round(TileView.SIZE * INDEX_COLUMN_WIDTH));
+		columnModel.getColumn(1).setPreferredWidth(round(TileView.SIZE * WORD_COLUMN_WIDTH));
+		columnModel.getColumn(2).setPreferredWidth(round(TileView.SIZE * REFERENCE_COLUMN_WIDTH));
+		columnModel.getColumn(3).setPreferredWidth(round(TileView.SIZE * SCORE_COLUMN_WIDTH));
 
-		setPreferredSize(new Dimension(round(TileView.SIZE * 10.00f), round(TileView.SIZE * 15.00f)));
+		if (model.isAccumulative()) {
+			columnModel.getColumn(4).setPreferredWidth(round(TileView.SIZE * TOTAL_COLUMN_WIDTH));
+		}
+
+		var preferredWidth = Collections.
+				list(columnModel.getColumns()).
+				stream().
+				mapToInt(TableColumn::getPreferredWidth).
+				sum();
+
+		setPreferredSize(new Dimension(preferredWidth, round(TileView.SIZE * HEIGHT)));
 	}
 
 	/**

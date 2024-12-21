@@ -24,8 +24,8 @@ import static java.util.stream.IntStream.range;
  */
 public class RackView extends JComponent {
 
-	private static final int TILE_SIZE = TileView.SIZE;
-	public static final Dimension SIZE = new Dimension(TILE_SIZE * 10, TILE_SIZE * 2);
+	private static final int RACK_TILE_SIZE = round(TileView.SIZE * 1.50f);
+	public static final Dimension SIZE = new Dimension(RACK_TILE_SIZE * 10, RACK_TILE_SIZE * 2);
 
 	private static final Color BOTTOM_COLOR = new Color(202, 162, 123);
 	private static final Color BACK_COLOR = new Color(167, 127, 86);
@@ -50,12 +50,12 @@ public class RackView extends JComponent {
 
 		var tilePanel = new JPanel();
 		tilePanel.setOpaque(false);
-		tilePanel.setLayout(new FlowLayout(CENTER, round(TILE_SIZE * 0.10f), 0));
-		tilePanel.setSize(new Dimension(round(TILE_SIZE * 8.80f), TILE_SIZE));
-		tilePanel.setLocation(round(TILE_SIZE * 0.60f), round(TILE_SIZE * 0.44f));
+		tilePanel.setLayout(new FlowLayout(CENTER, round(RACK_TILE_SIZE * 0.10f), 0));
+		tilePanel.setSize(new Dimension(round(RACK_TILE_SIZE * 8.80f), RACK_TILE_SIZE));
+		tilePanel.setLocation(round(RACK_TILE_SIZE * 0.60f), round(RACK_TILE_SIZE * 0.44f));
 		add(tilePanel);
 
-		tiles = range(0, 7).mapToObj(index -> new TileView()).toList();
+		tiles = range(0, 7).mapToObj(index -> new TileView(RACK_TILE_SIZE)).toList();
 		tiles.forEach(tilePanel::add);
 
 		setIgnoreRepaint(true);
@@ -68,24 +68,24 @@ public class RackView extends JComponent {
 		graphics2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
 
 		var bottom  = new Path2D.Float();
-		bottom.moveTo(TILE_SIZE * 0.20, TILE_SIZE * 2.00);
-		bottom.lineTo(TILE_SIZE * 0.10, TILE_SIZE * 1.90);
-		bottom.lineTo(TILE_SIZE * 0.14, TILE_SIZE * 1.50);
-		bottom.lineTo(TILE_SIZE * 0.20, TILE_SIZE * 1.44);
-		bottom.lineTo(TILE_SIZE * 9.80, TILE_SIZE * 1.44);
-		bottom.lineTo(TILE_SIZE * 9.86, TILE_SIZE * 1.50);
-		bottom.lineTo(TILE_SIZE * 9.90, TILE_SIZE * 1.90);
-		bottom.lineTo(TILE_SIZE * 9.80, TILE_SIZE * 2.00);
-		bottom.lineTo(TILE_SIZE * 0.20, TILE_SIZE * 2.00);
+		bottom.moveTo(RACK_TILE_SIZE * 0.20, RACK_TILE_SIZE * 2.00);
+		bottom.lineTo(RACK_TILE_SIZE * 0.10, RACK_TILE_SIZE * 1.90);
+		bottom.lineTo(RACK_TILE_SIZE * 0.14, RACK_TILE_SIZE * 1.50);
+		bottom.lineTo(RACK_TILE_SIZE * 0.20, RACK_TILE_SIZE * 1.44);
+		bottom.lineTo(RACK_TILE_SIZE * 9.80, RACK_TILE_SIZE * 1.44);
+		bottom.lineTo(RACK_TILE_SIZE * 9.86, RACK_TILE_SIZE * 1.50);
+		bottom.lineTo(RACK_TILE_SIZE * 9.90, RACK_TILE_SIZE * 1.90);
+		bottom.lineTo(RACK_TILE_SIZE * 9.80, RACK_TILE_SIZE * 2.00);
+		bottom.lineTo(RACK_TILE_SIZE * 0.20, RACK_TILE_SIZE * 2.00);
 
 		var back = new Path2D.Float();
-		back.moveTo(TILE_SIZE * 0.30, TILE_SIZE * 1.44);
-		back.lineTo(TILE_SIZE * 0.38, TILE_SIZE * 0.64);
-		back.lineTo(TILE_SIZE * 0.48, TILE_SIZE * 0.54);
-		back.lineTo(TILE_SIZE * 9.52, TILE_SIZE * 0.54);
-		back.lineTo(TILE_SIZE * 9.62, TILE_SIZE * 0.64);
-		back.lineTo(TILE_SIZE * 9.70, TILE_SIZE * 1.44);
-		back.lineTo(TILE_SIZE * 0.30, TILE_SIZE * 1.44);
+		back.moveTo(RACK_TILE_SIZE * 0.30, RACK_TILE_SIZE * 1.44);
+		back.lineTo(RACK_TILE_SIZE * 0.38, RACK_TILE_SIZE * 0.64);
+		back.lineTo(RACK_TILE_SIZE * 0.48, RACK_TILE_SIZE * 0.54);
+		back.lineTo(RACK_TILE_SIZE * 9.52, RACK_TILE_SIZE * 0.54);
+		back.lineTo(RACK_TILE_SIZE * 9.62, RACK_TILE_SIZE * 0.64);
+		back.lineTo(RACK_TILE_SIZE * 9.70, RACK_TILE_SIZE * 1.44);
+		back.lineTo(RACK_TILE_SIZE * 0.30, RACK_TILE_SIZE * 1.44);
 
 		graphics.setColor(BOTTOM_COLOR);
 		graphics2d.fill(bottom);

@@ -6,6 +6,7 @@ import com.github.achaaab.scrabble.model.Direction;
 import com.github.achaaab.scrabble.model.Rack;
 import com.github.achaaab.scrabble.model.Square;
 import com.github.achaaab.scrabble.model.Tile;
+import com.github.achaaab.scrabble.model.TileCollection;
 import com.github.achaaab.scrabble.model.Trie;
 
 import java.util.ArrayList;
@@ -40,14 +41,51 @@ public class Evaluator {
 	private Tile currentTile;
 
 	/**
-	 * @param board
-	 * @param dictionary
+	 * Creates an evaluator.
+	 *
+	 * @param board board on which to evaluate moves
+	 * @param dictionary dictionary to use
 	 * @since 0.0.0
 	 */
 	public Evaluator(Board board, Dictionary dictionary) {
 
 		this.board = board;
 		this.dictionary = dictionary;
+	}
+
+	/**
+	 * Creates a move from specified parameters.
+	 *
+	 * @param square starting square
+	 * @param direction layout direction
+	 * @param word word to play
+	 * @param tileCollection tile collection from which to pick tiles to complete the word on the board
+	 * @return created move
+	 * @since 0.0.2
+	 */
+	public Move getMove(Square square, Direction direction, String word, TileCollection tileCollection) {
+
+		this.direction = direction;
+
+		startSquare = square;
+		tiles = new ArrayList<>();
+
+		var letters = word.toCharArray();
+
+		for (var letter : letters) {
+
+			if (square.isEmpty()) {
+				tiles.add(tileCollection.pick(letter));
+			}
+
+			square = square.getNext(direction);
+		}
+
+		return new Move(
+				board.getReference(startSquare, direction),
+				word,
+				new ArrayList<>(tiles),
+				getScore());
 	}
 
 	/**

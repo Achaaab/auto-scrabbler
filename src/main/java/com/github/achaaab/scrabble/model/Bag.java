@@ -30,7 +30,7 @@ public class Bag extends TileCollection {
 	/**
 	 * Picks random tile from this bag until the specified count is reached or this bag is empty.
 	 *
-	 * @param count
+	 * @param count number of tiles to pick
 	 * @return picked tiles
 	 * @since 0.0.0
 	 */

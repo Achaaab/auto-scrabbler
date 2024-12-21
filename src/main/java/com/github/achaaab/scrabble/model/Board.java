@@ -45,8 +45,10 @@ public class Board implements Iterable<Square> {
 			"B6", "B10", "F2", "F6", "F10", "F14", "J2", "J6", "J10", "J14", "N6", "N10");
 
 	/**
-	 * @param square
-	 * @return
+	 * Determines the award given by a square.
+	 *
+	 * @param square name of a square
+	 * @return award given by the specified square
 	 * @since 0.0.0
 	 */
 	private static Award getAward(String square) {
@@ -96,9 +98,11 @@ public class Board implements Iterable<Square> {
 	}
 
 	/**
-	 * @param column
-	 * @param row
-	 * @return
+	 * Gets the square at the specified column and row.
+	 *
+	 * @param column column, between 0 and {@link #SIZE} excluded
+	 * @param row row, between 0 and {@link #SIZE} excluded
+	 * @return square at the specified column and row
 	 * @since 0.0.0
 	 */
 	public Square getSquare(int column, int row) {
@@ -122,46 +126,6 @@ public class Board implements Iterable<Square> {
 	 */
 	public Reference getReference(Square square, Direction direction) {
 		return getReference(square.getName(direction));
-	}
-
-	/**
-	 * @param word
-	 * @param key
-	 * @param tileCollection
-	 * @throws IllegalArgumentException if the word cannot be played at the specified reference
-	 * @since 0.0.0
-	 */
-	public void play(String word, String key, TileCollection tileCollection) {
-
-		var reference = references.get(key);
-		var square = reference.square();
-		var direction = reference.direction();
-
-		var letters = word.toCharArray();
-
-		for (var letter : letters) {
-
-			if (square == null) {
-				throw new IllegalArgumentException("The word " + word + " does not fit in " + key + ".");
-			}
-
-			if (square.hasTile()) {
-
-				var tile = square.getTile();
-				var squareLetter = tile.letter();
-
-				if (squareLetter != letter) {
-					throw new IllegalArgumentException("The word " + word + " does not fit in " + key + ".");
-				}
-
-			} else {
-
-				var tile = tileCollection.pick(letter);
-				square.setTile(tile);
-			}
-
-			square = square.getNext(direction);
-		}
 	}
 
 	/**

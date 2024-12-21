@@ -7,6 +7,10 @@
 ### Running
 * Get the [latest release](https://github.com/Achaaab/auto-scrabbler/releases/latest).
 
+## Screenshots
+<img src="data/screenshots/french_duplicate.png" width="1024" alt="gameplay screenshot"/>
+<img src="data/screenshots/french_duplicate_solve.png" width="320" alt="about screenshot"/>
+
 ## Authors
 * **Jonathan Guéhenneux** - *Programmer* - [Achaaab](https://github.com/Achaaab)
 

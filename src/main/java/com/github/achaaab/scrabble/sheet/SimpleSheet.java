@@ -1,6 +1,6 @@
 package com.github.achaaab.scrabble.sheet;
 
-import com.github.achaaab.scrabble.model.Solver;
+import com.github.achaaab.scrabble.rules.Solver;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
@@ -14,23 +14,32 @@ public class SimpleSheet extends AbstractTableModel {
 
 	private final Solver solver;
 	private final boolean editable;
+	private final boolean accumulative;
 	private final List<SimpleSheetEntry> entries;
-	private int total;
 	private final List<ExceptionListener> exceptionListeners;
 
 	/**
 	 * @param solver
 	 * @param editable
-	 * @since 0.0.0
+	 * @param accumulative
+	 * @since 0.0.2
 	 */
-	public SimpleSheet(Solver solver, boolean editable) {
+	public SimpleSheet(Solver solver, boolean editable, boolean accumulative) {
 
 		this.solver = solver;
 		this.editable = editable;
+		this.accumulative = accumulative;
 
 		entries = new ArrayList<>();
-		total = 0;
 		exceptionListeners = new ArrayList<>();
+	}
+
+	/**
+	 * @return
+	 * @since 0.0.2
+	 */
+	public boolean isAccumulative() {
+		return accumulative;
 	}
 
 	/**
@@ -54,9 +63,7 @@ public class SimpleSheet extends AbstractTableModel {
 	 * @since 0.0.0
 	 */
 	public void add(SimpleSheetEntry entry) {
-
 		entries.add(entry);
-		total += entry.getScore();
 	}
 
 	/**
@@ -65,9 +72,7 @@ public class SimpleSheet extends AbstractTableModel {
 	 * @since 0.0.0
 	 */
 	public void clear() {
-
 		entries.clear();
-		total = 0;
 	}
 
 	@Override
@@ -77,7 +82,7 @@ public class SimpleSheet extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 4;
+		return accumulative ? 5 : 4;
 	}
 
 	@Override
@@ -89,9 +94,24 @@ public class SimpleSheet extends AbstractTableModel {
 			case 1 -> "Mot";
 			case 2 -> "Référence";
 			case 3 -> "Score";
+			case 4 -> "Total";
 
 			default -> throw new IllegalArgumentException("unknown column: " + column);
 		};
+	}
+
+	/**
+	 * @param rowIndex
+	 * @return
+	 * @since 0.0.2
+	 */
+	private int getTotal(int rowIndex) {
+
+		return entries.
+				subList(0, rowIndex + 1).
+				stream().
+				mapToInt(SimpleSheetEntry::getScore).
+				sum();
 	}
 
 	@Override
@@ -105,6 +125,7 @@ public class SimpleSheet extends AbstractTableModel {
 			case 1 -> entry.getWord();
 			case 2 -> entry.getKey();
 			case 3 -> entry.getScore();
+			case 4 -> getTotal(rowIndex);
 
 			default -> throw new IllegalArgumentException("unknown column: " + columnIndex);
 		};
@@ -154,7 +175,7 @@ public class SimpleSheet extends AbstractTableModel {
 	}
 
 	/**
-	 * @return
+	 * @return entries in this sheet
 	 * @since 0.0.0
 	 */
 	public List<SimpleSheetEntry> entries() {
