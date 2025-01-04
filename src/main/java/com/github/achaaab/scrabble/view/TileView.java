@@ -11,7 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import static com.github.achaaab.scrabble.tools.FontUtilities.align;
-import static com.github.achaaab.scrabble.tools.SwingUtility.scale;
+import static com.github.achaaab.scrabble.tools.SwingUtility.getScreenHeight;
 import static com.github.achaaab.scrabble.tools.TextAlignment.BOTTOM_RIGHT;
 import static com.github.achaaab.scrabble.tools.TextAlignment.CENTER_CENTER;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
@@ -19,12 +19,15 @@ import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 import static java.lang.Math.round;
 
 /**
+ * View of a scrabble tile.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class TileView extends JComponent {
 
-	public static final int SIZE = scale(35);
+	public static final int SIZE = getScreenHeight() / 25;
+
 	public static final Color FOREGROUND = new Color(38, 15, 1);
 	public static final Color BACKGROUND = new Color(254, 236, 207);
 	private static final Color BLANK_FOREGROUND = new Color(10, 150, 10);
@@ -34,7 +37,6 @@ public class TileView extends JComponent {
 	private Tile model;
 
 	private final int size;
-
 	private final Font letterFont;
 	private final Font valueFont;
 	private final int border;
@@ -46,6 +48,9 @@ public class TileView extends JComponent {
 	private final int valueY;
 
 	/**
+	 * Creates the view for a tile, with default size.
+	 * The default size is a fraction off the screen height such as a typical game window can fit on the screen.
+	 *
 	 * @since 0.0.0
 	 */
 	public TileView() {
@@ -53,6 +58,8 @@ public class TileView extends JComponent {
 	}
 
 	/**
+	 * Creates the view for a tile.
+	 *
 	 * @param size tile width and height in pixels
 	 * @since 0.0.2
 	 */
@@ -62,7 +69,7 @@ public class TileView extends JComponent {
 
 		letterFont = BASE_FONT.deriveFont(size * 0.70f);
 		valueFont = BASE_FONT.deriveFont(size * 0.26f);
-		border = round(size * 0.03f);
+		border = round(size * 0.02f);
 		outerRadius = round(size * 0.15f);
 		innerRadius = round(size * 0.08f);
 		letterX = round(size * 0.45f);
@@ -71,11 +78,10 @@ public class TileView extends JComponent {
 		valueY = round(size * 0.90f);
 
 		setPreferredSize(new Dimension(size, size));
-		setOpaque(true);
 	}
 
 	/**
-	 * @param model
+	 * @param model model of this tile
 	 * @since 0.0.0
 	 */
 	public void setModel(Tile model) {

@@ -1,7 +1,6 @@
 package com.github.achaaab.scrabble.tools;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Toolkit;
 
 import static com.github.achaaab.scrabble.tools.Toolbox.getRootCause;
@@ -24,6 +23,14 @@ public class SwingUtility {
 	private static final int RESOLUTION = TOOLKIT.getScreenResolution();
 
 	/**
+	 * @return screen height in pixels
+	 * @since 0.0.3
+	 */
+	public static int getScreenHeight() {
+		return TOOLKIT.getScreenSize().height;
+	}
+
+	/**
 	 * @param size normalized size for 72 DPI resolution
 	 * @return scaled and rounded size
 	 * @since 0.0.0
@@ -42,33 +49,22 @@ public class SwingUtility {
 	}
 
 	/**
-	 * @param component
-	 * @param fontSize
-	 * @since 0.0.0
-	 */
-	public static void setFontSize(Component component, float fontSize) {
-
-		var originalFont = component.getFont();
-
-		if (originalFont.getSize() != fontSize) {
-
-			var resizedFont = originalFont.deriveFont(fontSize);
-			component.setFont(resizedFont);
-		}
-	}
-
-	/**
-	 * @param color
-	 * @return
+	 * Determines if a color is dark.
+	 * A color is considered dark if its luminance is strictly lower than 50%.
+	 *
+	 * @param color color to test
+	 * @return whether the specified color is dark
 	 * @since 0.0.0
 	 */
 	public static boolean isDark(Color color) {
-		return getLuminance(color) < 128;
+		return getLuminance(color) < 0.5;
 	}
 
 	/**
-	 * @param color
-	 * @return
+	 * Computes the luminance of a color.
+	 *
+	 * @param color color whose luminance is to be computed
+	 * @return luminance of the specified color in range {@code [0.0, 1.0]}
 	 * @since 0.0.0
 	 */
 	public static double getLuminance(Color color) {
@@ -93,7 +89,7 @@ public class SwingUtility {
 			luminance = 1.055 * pow(linearizedLuminance, 1 / 2.4) - 0.055;
 		}
 
-		return 255.0 * luminance;
+		return luminance;
 	}
 
 	/**

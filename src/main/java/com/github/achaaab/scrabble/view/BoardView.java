@@ -14,16 +14,24 @@ import static javax.swing.SwingConstants.LEFT;
 import static javax.swing.SwingConstants.RIGHT;
 import static javax.swing.SwingConstants.TOP;
 
+/**
+ * View of a scrabble board.
+ *
+ * @author Jonathan Guéhenneux
+ * @since 0.0.3
+ */
 public class BoardView extends JComponent {
 
 	private static final Color BACKGROUND = new Color(197, 189, 172);
-	private static final int GAP = round(TileView.SIZE * 0.05f);
+	private static final int GAP = round(TileView.SIZE * 0.03f);
 
-	private final Board model;
-
+	/**
+	 * Creates the view of a scrabble board.
+	 *
+	 * @param model scrabble board model
+	 * @since 0.0.3
+	 */
 	public BoardView(Board model) {
-
-		this.model = model;
 
 		setBackground(BACKGROUND);
 		setLayout(new GridLayout(SIZE + 2, SIZE + 2, GAP, GAP));
