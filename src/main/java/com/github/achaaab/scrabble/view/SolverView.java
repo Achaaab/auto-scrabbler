@@ -10,9 +10,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
 import java.awt.BorderLayout;
 
 import static com.github.achaaab.scrabble.tools.SwingUtility.showException;
@@ -27,6 +24,8 @@ import static javax.swing.JOptionPane.PLAIN_MESSAGE;
 import static javax.swing.JOptionPane.showOptionDialog;
 
 /**
+ * View for a scrabble solver.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -41,7 +40,9 @@ public class SolverView extends Box {
 	private final JButton solve;
 
 	/**
-	 * @param model
+	 * Creates a view for a solver.
+	 *
+	 * @param model solver model
 	 * @since 0.0.0
 	 */
 	public SolverView(Solver model) {
@@ -90,41 +91,7 @@ public class SolverView extends Box {
 		var lettersDocument = letters.getDocument();
 
 		if (lettersDocument instanceof AbstractDocument abstractDocument) {
-
-			abstractDocument.setDocumentFilter(new DocumentFilter() {
-
-				@Override
-				public void insertString(
-						FilterBypass filterBypass,
-						int offset,
-						String string,
-						AttributeSet attributeSet)
-						throws BadLocationException {
-
-					super.insertString(
-							filterBypass,
-							offset,
-							string.toUpperCase().replaceAll("[^A-Z ]+", ""),
-							attributeSet);
-				}
-
-				@Override
-				public void replace(
-						FilterBypass filterBypass,
-						int offset,
-						int length,
-						String string,
-						AttributeSet attributeSet)
-						throws BadLocationException {
-
-					super.replace(
-							filterBypass,
-							offset,
-							length,
-							string.toUpperCase().replaceAll("[^A-Z ]+", ""),
-							attributeSet);
-				}
-			});
+			abstractDocument.setDocumentFilter(DrawDocumentFilter.INSTANCE);
 		}
 
 		letters.getDocument().addDocumentListener(new DocumentListener() {
@@ -156,6 +123,8 @@ public class SolverView extends Box {
 	}
 
 	/**
+	 * Updates letters.
+	 *
 	 * @since 0.0.0
 	 */
 	private void updateLetters() {

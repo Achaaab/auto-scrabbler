@@ -1,14 +1,12 @@
 package com.github.achaaab.scrabble.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import static com.github.achaaab.scrabble.model.Award.LETTER_DOUBLE;
 import static com.github.achaaab.scrabble.model.Award.LETTER_TRIPLE;
@@ -17,7 +15,6 @@ import static com.github.achaaab.scrabble.model.Award.WORD_DOUBLE;
 import static com.github.achaaab.scrabble.model.Award.WORD_TRIPLE;
 import static com.github.achaaab.scrabble.model.Direction.HORIZONTAL;
 import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
-import static java.util.stream.StreamSupport.stream;
 
 /**
  * Scrabble 15x15 board.
@@ -110,18 +107,22 @@ public class Board implements Iterable<Square> {
 	}
 
 	/**
-	 * @param name
-	 * @return
+	 * Gets a reference from its key.
+	 *
+	 * @param key canonical name of a reference
+	 * @return associated reference
 	 * @since 0.0.0
 	 */
-	public Reference getReference(String name) {
-		return references.get(name);
+	public Reference getReference(String key) {
+		return references.get(key);
 	}
 
 	/**
-	 * @param square
-	 * @param direction
-	 * @return
+	 * Gets a reference from a square and direction.
+	 *
+	 * @param square reference square
+	 * @param direction reference direction
+	 * @return reference
 	 * @since 0.0.0
 	 */
 	public Reference getReference(Square square, Direction direction) {
@@ -129,17 +130,10 @@ public class Board implements Iterable<Square> {
 	}
 
 	/**
-	 * @param tiles
-	 * @param reference
-	 * @since 0.0.0
-	 */
-	public void play(List<Tile> tiles, String reference) {
-		play(tiles, references.get(reference));
-	}
-
-	/**
-	 * @param tiles
-	 * @param reference
+	 * Plays the given tiles at the given reference.
+	 *
+	 * @param tiles tiles to play
+	 * @param reference reference indicating the starting square and the layout direction
 	 * @since 0.0.0
 	 */
 	public void play(List<Tile> tiles, Reference reference) {
@@ -158,18 +152,11 @@ public class Board implements Iterable<Square> {
 	}
 
 	/**
-	 * @param reference
-	 * @return
-	 * @since 0.0.0
-	 */
-	public List<Tile> getPreviousTiles(Reference reference) {
-		return getPreviousTiles(reference.square(), reference.direction());
-	}
-
-	/**
-	 * @param square
-	 * @param direction
-	 * @return
+	 * Gets the adjacent tiles before a square in a direction.
+	 *
+	 * @param square square
+	 * @param direction direction
+	 * @return previous tiles
 	 * @since 0.0.0
 	 */
 	public List<Tile> getPreviousTiles(Square square, Direction direction) {
@@ -188,19 +175,11 @@ public class Board implements Iterable<Square> {
 	}
 
 	/**
-	 * @param reference
-	 * @return
-	 * @since 0.0.0
-	 */
-	public List<Tile> getNextTiles(Reference reference) {
-		return getNextTiles(reference.square(), reference.direction());
-	}
-
-	/**
-	 /**
-	 * @param square
-	 * @param direction
-	 * @return
+	 * Gets the adjacent tiles after a square in a direction.
+	 *
+	 * @param square square
+	 * @param direction direction
+	 * @return next tiles
 	 * @since 0.0.0
 	 */
 	public List<Tile> getNextTiles(Square square, Direction direction) {
@@ -218,76 +197,14 @@ public class Board implements Iterable<Square> {
 		return tiles;
 	}
 
-	/**
-	 * @param reference
-	 * @return
-	 * @since 0.0.0
-	 */
-	public List<Tile> getTiles(String reference) {
-		return getTiles(references.get(reference));
-	}
-
-	/**
-	 * @param reference
-	 * @return
-	 * @since 0.0.0
-	 */
-	public List<Tile> getTiles(Reference reference) {
-
-		var tiles = new ArrayList<Tile>();
-
-		var square = reference.square();
-
-		if (square.hasTile()) {
-
-			tiles.addAll(getPreviousTiles(reference));
-			tiles.addLast(square.getTile());
-			tiles.addAll(getNextTiles(reference));
-		}
-
-		return tiles;
-	}
-
 	@Override
 	public Iterator<Square> iterator() {
 		return new SquareIterator(this);
 	}
 
 	/**
-	 * @return
-	 * @since 0.0.0
-	 */
-	public Stream<Square> anchors() {
-		return stream(spliterator(), false).filter(Square::isAnchor);
-	}
-
-	/**
-	 * @return
-	 * @since 0.0.0
-	 */
-	public Collection<Reference> references() {
-		return references.values();
-	}
-
-	/**
-	 * @return
-	 * @since 0.0.0
-	 */
-	public int getTileCount() {
-
-		var tileCount = 0;
-
-		for (var square : this) {
-
-			if (square.hasTile()) {
-				tileCount++;
-			}
-		}
-
-		return tileCount;
-	}
-
-	/**
+	 * Clears this board, removing all the tiles on it.
+	 *
 	 * @since 0.0.0
 	 */
 	public void clear() {

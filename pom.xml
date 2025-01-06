@@ -7,7 +7,9 @@
 
 	<groupId>com.github.achaaab</groupId>
 	<artifactId>auto-scrabbler</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
+
+	<name>Auto-Scrabbler</name>
 
 	<licenses>
 		<license>

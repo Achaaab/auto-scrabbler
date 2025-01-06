@@ -2,19 +2,30 @@ package com.github.achaaab.scrabble.view;
 
 import com.github.achaaab.scrabble.sheet.SimpleSheet;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
+import javax.swing.text.AbstractDocument;
 import java.awt.Dimension;
 import java.util.Collections;
 
 import static java.lang.Math.round;
 
 /**
+ * View for a simple sheet.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class SimpleSheetView extends JScrollPane {
+
+	private static final int INDEX_COLUMN = 0;
+	private static final int WORD_COLUMN = 1;
+	private static final int REFERENCE_COLUMN = 2;
+	private static final int SCORE_COLUMN = 3;
+	private static final int TOTAL_COLUMN = 4;
 
 	private static final float INDEX_COLUMN_WIDTH = 1.50f;
 	private static final float WORD_COLUMN_WIDTH = 4.00f;
@@ -27,7 +38,9 @@ public class SimpleSheetView extends JScrollPane {
 	private final SimpleSheet model;
 
 	/**
-	 * @param model
+	 * Creates a view for a simple sheet.
+	 *
+	 * @param model simple sheet
 	 * @since 0.0.2
 	 */
 	public SimpleSheetView(SimpleSheet model) {
@@ -41,13 +54,20 @@ public class SimpleSheetView extends JScrollPane {
 
 		var columnModel = table.getColumnModel();
 
-		columnModel.getColumn(0).setPreferredWidth(round(TileView.SIZE * INDEX_COLUMN_WIDTH));
-		columnModel.getColumn(1).setPreferredWidth(round(TileView.SIZE * WORD_COLUMN_WIDTH));
-		columnModel.getColumn(2).setPreferredWidth(round(TileView.SIZE * REFERENCE_COLUMN_WIDTH));
-		columnModel.getColumn(3).setPreferredWidth(round(TileView.SIZE * SCORE_COLUMN_WIDTH));
+		var indexColumn = columnModel.getColumn(INDEX_COLUMN);
+		var wordColumn = columnModel.getColumn(WORD_COLUMN);
+		var referenceColumn = columnModel.getColumn(REFERENCE_COLUMN);
+		var scoreColumn = columnModel.getColumn(SCORE_COLUMN);
+
+		indexColumn.setPreferredWidth(round(TileView.SIZE * INDEX_COLUMN_WIDTH));
+		wordColumn.setPreferredWidth(round(TileView.SIZE * WORD_COLUMN_WIDTH));
+		referenceColumn.setPreferredWidth(round(TileView.SIZE * REFERENCE_COLUMN_WIDTH));
+		scoreColumn.setPreferredWidth(round(TileView.SIZE * SCORE_COLUMN_WIDTH));
 
 		if (model.isAccumulative()) {
-			columnModel.getColumn(4).setPreferredWidth(round(TileView.SIZE * TOTAL_COLUMN_WIDTH));
+
+			var totalColumn = columnModel.getColumn(TOTAL_COLUMN);
+			totalColumn.setPreferredWidth(round(TileView.SIZE * TOTAL_COLUMN_WIDTH));
 		}
 
 		var preferredWidth = Collections.
@@ -57,10 +77,21 @@ public class SimpleSheetView extends JScrollPane {
 				sum();
 
 		setPreferredSize(new Dimension(preferredWidth, round(TileView.SIZE * HEIGHT)));
+
+		// customize the word edition field with a document filter
+
+		var wordEditionField = new JTextField();
+		var wordDocument = wordEditionField.getDocument();
+
+		if (wordDocument instanceof AbstractDocument abstractDocument) {
+			abstractDocument.setDocumentFilter(WordDocumentFilter.INSTANCE);
+		}
+
+		wordColumn.setCellEditor(new DefaultCellEditor(wordEditionField));
 	}
 
 	/**
-	 * @return
+	 * @return model of this view
 	 * @since 0.0.0
 	 */
 	public SimpleSheet model() {

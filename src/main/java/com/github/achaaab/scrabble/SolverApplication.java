@@ -7,10 +7,9 @@ import com.github.achaaab.scrabble.view.SolverView;
 import javax.swing.JFrame;
 import java.awt.FlowLayout;
 
-import static com.github.achaaab.scrabble.model.Dictionary.ENGLISH_CSW21;
 import static com.github.achaaab.scrabble.model.Dictionary.FRENCH_ODS9;
-import static com.github.achaaab.scrabble.model.Tile.getEnglishTiles;
 import static com.github.achaaab.scrabble.model.Tile.getFrenchTiles;
+import static com.github.achaaab.scrabble.tools.ResourceUtility.loadImage;
 import static com.github.achaaab.scrabble.tools.SwingUtility.showException;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;
 import static javax.swing.UIManager.setLookAndFeel;
@@ -38,6 +37,7 @@ public class SolverApplication {
 		solver.sheet().add(new SimpleSheetEntry());
 
 		var window = new JFrame("Scrabble solver");
+		window.setIconImage(loadImage("icon_256.png"));
 		window.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		var view = new SolverView(solver);
 		var contentPane = window.getContentPane();
