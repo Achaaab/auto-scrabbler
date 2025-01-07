@@ -16,6 +16,7 @@ import static com.github.achaaab.scrabble.model.Dictionary.LETTER_COUNT;
 import static com.github.achaaab.scrabble.model.Direction.HORIZONTAL;
 import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
 import static com.github.achaaab.scrabble.model.Tile.blank;
+import static com.github.achaaab.scrabble.tools.MessageBundle.getMessage;
 import static java.lang.Character.toLowerCase;
 
 /**
@@ -61,6 +62,7 @@ public class Evaluator {
 	 * @param word word to play
 	 * @param tileCollection tile collection from which to pick tiles to complete the word on the board
 	 * @return created move
+	 * @throws IllegalArgumentException if the given word do not fit at the given square and direction
 	 * @since 0.0.2
 	 */
 	public Move getMove(Square square, Direction direction, String word, TileCollection tileCollection) {
@@ -71,10 +73,13 @@ public class Evaluator {
 		tiles = new ArrayList<>();
 
 		var letters = word.toCharArray();
+		var reference = board.getReference(startSquare, direction);
 
 		for (var letter : letters) {
 
-			if (square.isEmpty()) {
+			if (square == null) {
+				throw new IllegalArgumentException(getMessage("word_not_fitting", word, reference));
+			} else if (square.isEmpty()) {
 				tiles.add(tileCollection.pick(letter));
 			}
 
@@ -82,7 +87,7 @@ public class Evaluator {
 		}
 
 		return new Move(
-				board.getReference(startSquare, direction),
+				reference,
 				word,
 				new ArrayList<>(tiles),
 				getScore());

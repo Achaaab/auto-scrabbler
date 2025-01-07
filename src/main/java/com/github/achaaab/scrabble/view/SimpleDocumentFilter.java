@@ -46,7 +46,7 @@ public abstract class SimpleDocumentFilter extends DocumentFilter {
 		if (maxLength != -1) {
 
 			var availableLength = maxLength - filterBypass.getDocument().getLength();
-			filteredString = truncate(string, availableLength);
+			filteredString = truncate(filteredString, availableLength);
 		}
 
 		super.insertString(
@@ -70,7 +70,7 @@ public abstract class SimpleDocumentFilter extends DocumentFilter {
 		if (maxLength != -1) {
 
 			var availableLength = maxLength - filterBypass.getDocument().getLength() + length;
-			filteredString = truncate(string, availableLength);
+			filteredString = truncate(filteredString, availableLength);
 		}
 
 		super.replace(

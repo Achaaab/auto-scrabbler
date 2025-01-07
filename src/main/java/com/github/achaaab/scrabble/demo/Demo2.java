@@ -65,7 +65,7 @@ public class Demo2 {
 				if (sheet.entryCount() < 15 && bag.size() >= 7) {
 
 					while (rack.getVowelCount() < 2 && bag.getVowelCount() >= 2 ||
-							rack.getConsonnantCount() < 2 && bag.getConsonnantCount() >= 2) {
+							rack.getConsonantCount() < 2 && bag.getConsonantCount() >= 2) {
 
 						var tiles = rack.pickAll();
 						rack.fill(bag);

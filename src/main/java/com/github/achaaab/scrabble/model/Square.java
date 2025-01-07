@@ -6,6 +6,8 @@ import static com.github.achaaab.scrabble.model.Direction.HORIZONTAL;
 import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
 
 /**
+ * Scrabble board square.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

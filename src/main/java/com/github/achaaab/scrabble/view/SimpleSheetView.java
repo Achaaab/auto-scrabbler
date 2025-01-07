@@ -36,6 +36,7 @@ public class SimpleSheetView extends JScrollPane {
 	private static final float HEIGHT = 15.00f;
 
 	private final SimpleSheet model;
+	private final JTable table;
 
 	/**
 	 * Creates a view for a simple sheet.
@@ -47,7 +48,7 @@ public class SimpleSheetView extends JScrollPane {
 
 		this.model = model;
 
-		var table = new JTable(model);
+		table = new JTable(model);
 		table.setRowHeight(round(TileView.SIZE * 0.50f));
 
 		setViewportView(table);
@@ -96,5 +97,15 @@ public class SimpleSheetView extends JScrollPane {
 	 */
 	public SimpleSheet model() {
 		return model;
+	}
+
+	/**
+	 * Returns the inner table.
+	 *
+	 * @return inner table
+	 * @since 0.0.5
+	 */
+	public JTable table() {
+		return table;
 	}
 }

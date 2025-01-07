@@ -9,6 +9,8 @@ import static java.lang.Character.compare;
 import static java.util.stream.IntStream.range;
 
 /**
+ * Scrabble tile.
+ *
  * @param letter letter on the tile or {@code ' '} for blank tile
  * @param value raw value of the tile
  * @author Jonathan Guéhenneux
@@ -18,13 +20,15 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 
 	public static final Set<Character> VOWELS = Set.of(' ', 'A', 'E', 'I', 'O', 'U');
 
-	public static final Set<Character> CONSONNANTS = Set.of(
+	public static final Set<Character> CONSONANTS = Set.of(
 			' ', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z');
 
 	public static final char BLANK = ' ';
 
 	/**
-	 * @return
+	 * Returns the list of french tiles.
+	 *
+	 * @return french tiles
 	 * @since 0.0.0
 	 */
 	public static List<Tile> getFrenchTiles() {
@@ -63,7 +67,9 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 	}
 
 	/**
-	 * @return
+	 * Returns the list of english tiles.
+	 *
+	 * @return english tiles
 	 * @since 0.0.0
 	 */
 	public static List<Tile> getEnglishTiles() {
@@ -102,8 +108,10 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 	}
 
 	/**
-	 * @param letter
-	 * @return
+	 * Creates a blank letter with a ghost letter.
+	 *
+	 * @param letter ghost letter to set
+	 * @return created blank letter
 	 * @since 0.0.0
 	 */
 	public static Tile blank(char letter) {
@@ -111,10 +119,12 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 	}
 
 	/**
-	 * @param tiles
-	 * @param letter
-	 * @param value
-	 * @param count
+	 * Creates a tile with the specified letter and value and add it {@code count} times in the given list of tiles.
+	 *
+	 * @param tiles tiles in which to add the created tile
+	 * @param letter letter of the tile to create
+	 * @param value value of the tile to create
+	 * @param count number of times to add the created tile to the list
 	 * @since 0.0.0
 	 */
 	private static void addTiles(List<Tile> tiles, char letter, int value, int count) {
@@ -122,9 +132,11 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 	}
 
 	/**
-	 * @param tiles
-	 * @param tile
-	 * @param count
+	 * Adds {@code count} times the specified tile in the specified list of tiles.
+	 *
+	 * @param tiles tiles in which to add the specified tile
+	 * @param tile tile to add
+	 * @param count number of times to add the specified tile to the list
 	 * @since 0.0.0
 	 */
 	private static void addTiles(List<Tile> tiles, Tile tile, int count) {
@@ -137,7 +149,10 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 	}
 
 	/**
-	 * @return
+	 * Returns the letter index of this tile, such as {@code 'A' + index = letter}.
+	 * Returns {@link Dictionary#LETTER_COUNT} for blank tiles.
+	 *
+	 * @return letter index
 	 * @since 0.0.0
 	 */
 	public int letterIndex() {
@@ -145,7 +160,10 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 	}
 
 	/**
-	 * @return
+	 * Determines if this tile has a vowel letter. Blank tiles are considered to have both a vowel letter and
+	 * a consonant letter.
+	 *
+	 * @return whether this tile has a vowel letter
 	 * @since 0.0.0
 	 */
 	public boolean isVowel() {
@@ -153,11 +171,14 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 	}
 
 	/**
-	 * @return
+	 * Determines if this tile has a consonant letter. Blank tiles are considered to have both a vowel letter and
+	 * a consonant letter.
+	 *
+	 * @return whether this tile has a consonant letter
 	 * @since 0.0.0
 	 */
-	public boolean isConsonnant() {
-		return CONSONNANTS.contains(letter);
+	public boolean isConsonant() {
+		return CONSONANTS.contains(letter);
 	}
 
 	/**

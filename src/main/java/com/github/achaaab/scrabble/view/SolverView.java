@@ -11,7 +11,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.AbstractDocument;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 
+import static com.github.achaaab.scrabble.tools.MessageBundle.getMessage;
 import static com.github.achaaab.scrabble.tools.SwingUtility.showException;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.EAST;
@@ -55,7 +57,7 @@ public class SolverView extends Box {
 		rack = new RackView(model.rack());
 		sheet = new SimpleSheetView(model.sheet());
 		letters = new JTextField();
-		solve = new JButton("Résoudre");
+		solve = new JButton(getMessage("solve"));
 
 		var rackPanel = new Box(Y_AXIS);
 		rackPanel.setAlignmentX(CENTER_ALIGNMENT);
@@ -65,7 +67,7 @@ public class SolverView extends Box {
 		drawPanel.setLayout(new BorderLayout());
 		drawPanel.add(letters, CENTER);
 		drawPanel.add(solve, EAST);
-		drawPanel.setBorder(createTitledBorder("Tirage"));
+		drawPanel.setBorder(createTitledBorder(getMessage("drawn_tiles")));
 
 		var leftPanel = new JPanel();
 		leftPanel.setLayout(new BorderLayout());
@@ -112,14 +114,24 @@ public class SolverView extends Box {
 			}
 		});
 
-		solve.addActionListener(event -> {
+		letters.addActionListener(this::solve);
+		solve.addActionListener(this::solve);
+	}
 
-			var bestMovesSheet = model.solve();
-			var options = new String[] { "OK" };
+	/**
+	 * Finds all the moves with the drawn letters.
+	 *
+	 * @param event action event
+	 * @since 0.0.5
+	 */
+	private void solve(ActionEvent event) {
 
-			showOptionDialog(this, new SimpleSheetView(bestMovesSheet), "Meilleurs coups",
-					DEFAULT_OPTION, PLAIN_MESSAGE, null, options, options[0]);
-		});
+		var sheet = model.solve();
+		var sheetView = new SimpleSheetView(sheet);
+		var options = new String[] { "OK" };
+
+		showOptionDialog(this, sheetView, getMessage("best_moves"),
+				DEFAULT_OPTION, PLAIN_MESSAGE, null, options, options[0]);
 	}
 
 	/**

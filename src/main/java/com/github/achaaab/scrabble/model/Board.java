@@ -134,6 +134,7 @@ public class Board implements Iterable<Square> {
 	 *
 	 * @param tiles tiles to play
 	 * @param reference reference indicating the starting square and the layout direction
+	 * @throws IllegalArgumentException if the given tiles do not fit at the given reference
 	 * @since 0.0.0
 	 */
 	public void play(List<Tile> tiles, Reference reference) {
@@ -144,7 +145,12 @@ public class Board implements Iterable<Square> {
 		for (var tile : tiles) {
 
 			while (square.hasTile()) {
+
 				square = square.getNext(direction);
+
+				if (square == null) {
+					throw new IllegalArgumentException();
+				}
 			}
 
 			square.setTile(tile);

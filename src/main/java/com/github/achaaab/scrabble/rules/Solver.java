@@ -21,8 +21,10 @@ import static java.util.Comparator.reverseOrder;
 public class Solver {
 
 	/**
-	 * @param move
-	 * @return
+	 * Creates an entry from a move.
+	 *
+	 * @param move move to convert into en entry
+	 * @return created entry
 	 * @since 0.0.0
 	 */
 	private static SimpleSheetEntry createEntry(Move move) {
@@ -69,7 +71,10 @@ public class Solver {
 	}
 
 	/**
-	 * @param entry
+	 * Plays the specified entry.
+	 *
+	 * @param entry entry to play
+	 * @throws IllegalArgumentException if the specified word does not fit at the specified reference
 	 * @since 0.0.0
 	 */
 	private void play(SimpleSheetEntry entry) {
@@ -87,6 +92,7 @@ public class Solver {
 			var move = evaluator.getMove(square, direction, word, bag);
 			var score = move.score();
 			var tiles = move.tiles();
+
 			board.play(tiles, reference);
 			entry.setScore(score);
 		}
