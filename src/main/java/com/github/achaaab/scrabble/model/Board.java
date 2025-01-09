@@ -83,13 +83,13 @@ public class Board implements Iterable<Square> {
 		for (var column = 0; column < SIZE; column++) {
 			for (var row = 0; row < SIZE; row++) {
 
-				var name = Square.getName(column, row);
+				var name = Square.getKey(column, row);
 				var award = getAward(name);
 				var square = new Square(this, column, row, award);
 
 				grid[column][row] = square;
-				references.put(square.getName(HORIZONTAL), new Reference(square, HORIZONTAL));
-				references.put(square.getName(VERTICAL), new Reference(square, VERTICAL));
+				references.put(square.getKey(HORIZONTAL), new Reference(square, HORIZONTAL));
+				references.put(square.getKey(VERTICAL), new Reference(square, VERTICAL));
 			}
 		}
 	}
@@ -126,7 +126,7 @@ public class Board implements Iterable<Square> {
 	 * @since 0.0.0
 	 */
 	public Reference getReference(Square square, Direction direction) {
-		return getReference(square.getName(direction));
+		return getReference(square.getKey(direction));
 	}
 
 	/**

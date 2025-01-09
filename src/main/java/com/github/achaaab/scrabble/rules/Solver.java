@@ -40,8 +40,10 @@ public class Solver {
 	private final Evaluator evaluator;
 
 	/**
-	 * @param tiles
-	 * @param dictionary
+	 * Creates a solver with the specified tiles and dictionary.
+	 *
+	 * @param tiles set of tiles
+	 * @param dictionary dictionary
 	 * @since 0.0.0
 	 */
 	public Solver(List<Tile> tiles, Dictionary dictionary) {
@@ -58,6 +60,8 @@ public class Solver {
 	}
 
 	/**
+	 * Resets the board, rack and bag then replays the sheet.
+	 *
 	 * @since 0.0.0
 	 */
 	public void replay() {
@@ -82,9 +86,7 @@ public class Solver {
 		if (entry.isComplete()) {
 
 			var word = entry.getWord();
-
 			var key = entry.getKey();
-
 			var reference = board.getReference(key);
 			var square = reference.square();
 			var direction = reference.direction();
@@ -98,8 +100,25 @@ public class Solver {
 		}
 	}
 
+	public void preview(SimpleSheetEntry entry) {
+
+		var word = entry.getWord();
+		var key = entry.getKey();
+		var reference = board.getReference(key);
+
+		var square = reference.square();
+		var direction = reference.direction();
+
+		var move = evaluator.getMove(square, direction, word, rack);
+		var tiles = move.tiles();
+
+		board.play(tiles, reference);
+	}
+
 	/**
-	 * @param letters
+	 * Changes the rack letters, putting back in the bag the letters that were previously on the rack.
+	 *
+	 * @param letters new letters
 	 * @since 0.0.0
 	 */
 	public void change(String letters) {
@@ -109,6 +128,8 @@ public class Solver {
 	}
 
 	/**
+	 * Finds the best moves with the current board and rack.
+	 *
 	 * @return best moves sheet
 	 * @since 0.0.0
 	 */
@@ -125,7 +146,7 @@ public class Solver {
 	}
 
 	/**
-	 * @return
+	 * @return scrabble board on which to place the words
 	 * @since 0.0.0
 	 */
 	public Board board() {
@@ -133,7 +154,7 @@ public class Solver {
 	}
 
 	/**
-	 * @return
+	 * @return bag in which to put and pick the tiles
 	 * @since 0.0.0
 	 */
 	public Bag bag() {
@@ -141,7 +162,7 @@ public class Solver {
 	}
 
 	/**
-	 * @return
+	 * @return rack on which to place the drawn tiles
 	 * @since 0.0.0
 	 */
 	public Rack rack() {
@@ -149,7 +170,7 @@ public class Solver {
 	}
 
 	/**
-	 * @return
+	 * @return sheet containing the list of played words
 	 * @since 0.0.0
 	 */
 	public SimpleSheet sheet() {

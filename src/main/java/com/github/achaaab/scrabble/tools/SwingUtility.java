@@ -1,12 +1,16 @@
 package com.github.achaaab.scrabble.tools;
 
+import javax.swing.AbstractButton;
+import javax.swing.JScrollPane;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import static com.github.achaaab.scrabble.tools.Toolbox.getRootCause;
 import static java.awt.Toolkit.getDefaultToolkit;
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
+import static java.lang.Math.toIntExact;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -19,8 +23,6 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class SwingUtility {
 
 	private static final Toolkit TOOLKIT = getDefaultToolkit();
-	private static final float BASE_RESOLUTION = 72.0f;
-	private static final int RESOLUTION = TOOLKIT.getScreenResolution();
 
 	/**
 	 * @return screen height in pixels
@@ -28,24 +30,6 @@ public class SwingUtility {
 	 */
 	public static int getScreenHeight() {
 		return TOOLKIT.getScreenSize().height;
-	}
-
-	/**
-	 * @param size normalized size for 72 DPI resolution
-	 * @return scaled and rounded size
-	 * @since 0.0.0
-	 */
-	public static int scale(float size) {
-		return round(scaleFloat(size));
-	}
-
-	/**
-	 * @param size normalized size for 72 DPI resolution
-	 * @return scaled size
-	 * @since 0.0.0
-	 */
-	public static float scaleFloat(float size) {
-		return size * RESOLUTION / BASE_RESOLUTION;
 	}
 
 	/**
@@ -122,5 +106,36 @@ public class SwingUtility {
 	 */
 	public static void showException(Exception exception) {
 		showMessageDialog(null, getRootCause(exception).getMessage(), "Erreur", ERROR_MESSAGE);
+	}
+
+	/**
+	 * This method allows to set the size of the vertical and horizontal bars of a scroll pane.
+	 *
+	 * @param scrollPane scroll pane to customize
+	 * @param barThickness thickness of the bars to set, in pixels
+	 * @param barButtonSize height of the vertical bar buttons and width of the horizontal bar buttons, in pixels
+	 * @since 0.0.5
+	 */
+	public static void resizeScrollBars(JScrollPane scrollPane, double barThickness, double barButtonSize) {
+
+		var verticalScrollBar = scrollPane.getVerticalScrollBar();
+		var horizontalScrollBar = scrollPane.getHorizontalScrollBar();
+
+		verticalScrollBar.setPreferredSize(new Dimension(toIntExact(round(barThickness)), 0));
+		horizontalScrollBar.setPreferredSize(new Dimension(0, toIntExact(round(barThickness))));
+
+		for (var scrollBarComponent : verticalScrollBar.getComponents()) {
+
+			if (scrollBarComponent instanceof AbstractButton button) {
+				button.setPreferredSize(new Dimension(0, toIntExact(round(barButtonSize))));
+			}
+		}
+
+		for (var scrollBarComponent : horizontalScrollBar.getComponents()) {
+
+			if (scrollBarComponent instanceof AbstractButton button) {
+				button.setPreferredSize(new Dimension(toIntExact(round(barButtonSize)), 0));
+			}
+		}
 	}
 }

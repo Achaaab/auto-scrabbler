@@ -11,7 +11,9 @@ import javax.swing.text.AbstractDocument;
 import java.awt.Dimension;
 import java.util.Collections;
 
+import static com.github.achaaab.scrabble.tools.SwingUtility.resizeScrollBars;
 import static java.lang.Math.round;
+import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
 
 /**
  * View for a simple sheet.
@@ -50,6 +52,9 @@ public class SimpleSheetView extends JScrollPane {
 
 		table = new JTable(model);
 		table.setRowHeight(round(TileView.SIZE * 0.50f));
+		table.setSelectionMode(SINGLE_SELECTION);
+
+		resizeScrollBars(this, TileView.SIZE * 0.25f, TileView.SIZE * 0.25f);
 
 		setViewportView(table);
 

@@ -14,23 +14,27 @@ import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
 public class Square {
 
 	/**
-	 * @param column
-	 * @param row
-	 * @return
+	 * Gets the name of the square at the specified column and row.
+	 *
+	 * @param column square column
+	 * @param row square row
+	 * @return name of the square
 	 * @since 0.0.0
 	 */
-	public static String getName(int column, int row) {
-		return getReference(column, row, HORIZONTAL);
+	public static String getKey(int column, int row) {
+		return getKey(column, row, HORIZONTAL);
 	}
 
 	/**
-	 * @param column
-	 * @param row
-	 * @param direction
-	 * @return
+	 * Gets the key of the reference at the specified column, row and direction.
+	 *
+	 * @param column reference column
+	 * @param row reference row
+	 * @param direction reference direction
+	 * @return key of the reference
 	 * @since 0.0.0
 	 */
-	public static String getReference(int column, int row, Direction direction) {
+	public static String getKey(int column, int row, Direction direction) {
 
 		var columnString = Integer.toString(column + 1);
 		var rowString = Character.toString('A' + row);
@@ -48,10 +52,12 @@ public class Square {
 	private Tile tile;
 
 	/**
-	 * @param board
-	 * @param column
-	 * @param row
-	 * @param award
+	 * Creates a square.
+	 *
+	 * @param board board
+	 * @param column square column
+	 * @param row square row
+	 * @param award square award
 	 * @since 0.0.0
 	 */
 	public Square(Board board, int column, int row, Award award) {
@@ -65,6 +71,8 @@ public class Square {
 	}
 
 	/**
+	 * Clears this square, removing its tile.
+	 *
 	 * @since 0.0.0
 	 */
 	public void clear() {
@@ -72,6 +80,8 @@ public class Square {
 	}
 
 	/**
+	 * Determines if this square does not contain a tile.
+	 *
 	 * @return whether this square is empty
 	 * @since 0.0.0
 	 */
@@ -80,6 +90,8 @@ public class Square {
 	}
 
 	/**
+	 * Determines if this square does contain a tile.
+	 *
 	 * @return whether this square has a tile
 	 * @since 0.0.0
 	 */
@@ -88,7 +100,7 @@ public class Square {
 	}
 
 	/**
-	 * @return column
+	 * @return column of this square
 	 * @since 0.0.0
 	 */
 	public int column() {
@@ -96,7 +108,7 @@ public class Square {
 	}
 
 	/**
-	 * @return
+	 * @return row of this square
 	 * @since 0.0.0
 	 */
 	public int row() {
@@ -104,7 +116,7 @@ public class Square {
 	}
 
 	/**
-	 * @return
+	 * @return award of this square
 	 * @since 0.0.0
 	 */
 	public Award award() {
@@ -112,7 +124,7 @@ public class Square {
 	}
 
 	/**
-	 * @return
+	 * @return tile of this square, {@code null} if this square is empty
 	 * @since 0.0.0
 	 */
 	public Tile getTile() {
@@ -120,7 +132,9 @@ public class Square {
 	}
 
 	/**
-	 * @param tile
+	 * Sets a tile for this square.
+	 *
+	 * @param tile tile to set
 	 * @since 0.0.0
 	 */
 	public void setTile(Tile tile) {
@@ -128,17 +142,21 @@ public class Square {
 	}
 
 	/**
-	 * @param direction
-	 * @return
+	 * Determines the name of this square combined with the specified direction.
+	 *
+	 * @param direction direction to consider
+	 * @return name of this square
 	 * @since 0.0.0
 	 */
-	public String getName(Direction direction) {
-		return getReference(column, row, direction);
+	public String getKey(Direction direction) {
+		return getKey(column, row, direction);
 	}
 
 	/**
-	 * @param direction
-	 * @return whether this square has a next square in the given direction
+	 * Determines if this square has a square next to it along the specified direction.
+	 *
+	 * @param direction direction to consider
+	 * @return whether this square has a square next to it
 	 * @since 0.0.0
 	 */
 	public boolean hasNext(Direction direction) {
@@ -146,7 +164,9 @@ public class Square {
 	}
 
 	/**
-	 * @param direction
+	 * Gets the square next to this along the specified direction.
+	 *
+	 * @param direction direction to consider
 	 * @return square next to this in the given direction, or {@code null} if there is no next square
 	 * @since 0.0.0
 	 */
@@ -165,8 +185,10 @@ public class Square {
 	}
 
 	/**
-	 * @param direction
-	 * @return whether this square has a previous square in the given direction
+	 * Determines if this square has a previous square along the specified direction.
+	 *
+	 * @param direction direction to consider
+	 * @return whether this square has a previous square
 	 * @since 0.0.0
 	 */
 	public boolean hasPrevious(Direction direction) {
@@ -174,8 +196,10 @@ public class Square {
 	}
 
 	/**
-	 * @param direction
-	 * @return square previous to this in the given direction, or {@code null} if there is no previous square
+	 * Gets the previous square along the specified direction.
+	 *
+	 * @param direction direction to consider
+	 * @return previous square in the given direction, or {@code null} if there is no previous square
 	 * @since 0.0.0
 	 */
 	public Square getPrevious(Direction direction) {
@@ -193,18 +217,9 @@ public class Square {
 	}
 
 	/**
-	 * @param direction
-	 * @return whether this square has a previous square with a tile in the given direction
-	 * @since 0.0.0
-	 */
-	public boolean hasPreviousTile(Direction direction) {
-
-		var previousSquare = getPrevious(direction);
-		return previousSquare != null && previousSquare.hasTile();
-	}
-
-	/**
-	 * @param direction
+	 * Determines if this square has a next square in the specified direction and if this next square has a tile.
+	 *
+	 * @param direction direction to consider
 	 * @return whether this square has a next square with a tile in the given direction
 	 * @since 0.0.0
 	 */
@@ -215,6 +230,22 @@ public class Square {
 	}
 
 	/**
+	 * Determines if this square has a previous square in the specified direction
+	 * and if this previous square has a tile.
+	 *
+	 * @param direction direction to consider
+	 * @return whether this square has a previous square with a tile in the given direction
+	 * @since 0.0.0
+	 */
+	public boolean hasPreviousTile(Direction direction) {
+
+		var previousSquare = getPrevious(direction);
+		return previousSquare != null && previousSquare.hasTile();
+	}
+
+	/**
+	 * Determines if this square has at least one adjacent square (left, right, top or bottom) with a tile.
+	 *
 	 * @return whether this square has an adjacent square with a tile
 	 * @since 0.0.0
 	 */
@@ -227,6 +258,8 @@ public class Square {
 	}
 
 	/**
+	 * Determines if this square is the central square of the board, assuming the board has an odd size.
+	 *
 	 * @return whether this square is the central square
 	 * @since 0.0.0
 	 */
@@ -235,6 +268,11 @@ public class Square {
 	}
 
 	/**
+	 * Determines if this square is an anchor square. An anchor square is an empty square adjacent to at least 1 square
+	 * with a tile.
+	 * A played word must cover at least 1 anchor square.
+	 * For the first word to play, the central square is considered as an anchor square.
+	 *
 	 * @return whether this square is an anchor
 	 * @since 0.0.0
 	 */
@@ -244,6 +282,6 @@ public class Square {
 
 	@Override
 	public String toString() {
-		return getName(column, row);
+		return getKey(column, row);
 	}
 }

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Simple scrabble sheet without drawn letters indication.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -19,9 +21,11 @@ public class SimpleSheet extends AbstractTableModel {
 	private final List<ExceptionListener> exceptionListeners;
 
 	/**
-	 * @param solver
-	 * @param editable
-	 * @param accumulative
+	 * Creates a simple sheet.
+	 *
+	 * @param solver solver associated to this sheet
+	 * @param editable whether this sheet is editable
+	 * @param accumulative Whether this sheet is accumulative. An accumulative sheet has a cumulative total column.
 	 * @since 0.0.2
 	 */
 	public SimpleSheet(Solver solver, boolean editable, boolean accumulative) {
@@ -35,7 +39,7 @@ public class SimpleSheet extends AbstractTableModel {
 	}
 
 	/**
-	 * @return
+	 * @return Whether this sheet is accumulative. An accumulative sheet has a cumulative total column.
 	 * @since 0.0.2
 	 */
 	public boolean isAccumulative() {
@@ -43,7 +47,10 @@ public class SimpleSheet extends AbstractTableModel {
 	}
 
 	/**
-	 * @param exceptionListener
+	 * Adds an exception listener to this sheet.
+	 * Any exception fired by an action on this sheet should signal it to the listeners.
+	 *
+	 * @param exceptionListener exception listener to add
 	 * @since 0.0.0
 	 */
 	public void addExceptionListener(ExceptionListener exceptionListener) {
@@ -51,7 +58,10 @@ public class SimpleSheet extends AbstractTableModel {
 	}
 
 	/**
-	 * @param exception
+	 * Fires a signal: exception occurred. Calls the method {@link ExceptionListener#exceptionOccurred(Exception)} on
+	 * all the registered listeners.
+	 *
+	 * @param exception exception to signal
 	 * @since 0.0.0
 	 */
 	private void fireExceptionOccurred(Exception exception) {
@@ -59,11 +69,27 @@ public class SimpleSheet extends AbstractTableModel {
 	}
 
 	/**
-	 * @param entry
+	 * Adds an entry to this sheet.
+	 *
+	 * @param entry entry to add
 	 * @since 0.0.0
 	 */
 	public void add(SimpleSheetEntry entry) {
 		entries.add(entry);
+	}
+
+	/**
+	 * Sets the specified entry as the last entry in this sheet then adds en empty entry to allow user input.
+	 *
+	 * @param entry entry to set as last entry
+	 * @since 0.0.5
+	 */
+	public void setLast(SimpleSheetEntry entry) {
+
+		var lastIndex = entries.size() - 1;
+		entries.set(lastIndex, entry);
+		add(new SimpleSheetEntry());
+		fireTableDataChanged();
 	}
 
 	/**
@@ -101,8 +127,10 @@ public class SimpleSheet extends AbstractTableModel {
 	}
 
 	/**
-	 * @param rowIndex
-	 * @return
+	 * Gets the total score at the specified row (for accumulative sheets).
+	 *
+	 * @param rowIndex row index
+	 * @return total score at the specified row
 	 * @since 0.0.2
 	 */
 	private int getTotal(int rowIndex) {
@@ -149,7 +177,7 @@ public class SimpleSheet extends AbstractTableModel {
 			solver.replay();
 
 			if (entries.stream().allMatch(SimpleSheetEntry::isComplete)) {
-				entries.add(new SimpleSheetEntry());
+				add(new SimpleSheetEntry());
 			}
 
 		} catch (Exception exception) {

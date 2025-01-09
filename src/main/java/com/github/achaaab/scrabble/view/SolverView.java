@@ -3,8 +3,10 @@ package com.github.achaaab.scrabble.view;
 import com.github.achaaab.scrabble.rules.Solver;
 import com.github.achaaab.scrabble.tools.SwingUtility;
 
+import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -12,18 +14,22 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.AbstractDocument;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import static com.github.achaaab.scrabble.tools.MessageBundle.getMessage;
 import static com.github.achaaab.scrabble.tools.SwingUtility.showException;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.EAST;
 import static java.awt.BorderLayout.SOUTH;
+import static java.awt.event.KeyEvent.VK_ENTER;
+import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static javax.swing.BorderFactory.createTitledBorder;
 import static javax.swing.BoxLayout.X_AXIS;
 import static javax.swing.BoxLayout.Y_AXIS;
-import static javax.swing.JOptionPane.DEFAULT_OPTION;
-import static javax.swing.JOptionPane.PLAIN_MESSAGE;
-import static javax.swing.JOptionPane.showOptionDialog;
+import static javax.swing.KeyStroke.getKeyStroke;
+import static javax.swing.SwingUtilities.getWindowAncestor;
+import static javax.swing.SwingUtilities.invokeLater;
 
 /**
  * View for a scrabble solver.
@@ -32,6 +38,9 @@ import static javax.swing.JOptionPane.showOptionDialog;
  * @since 0.0.0
  */
 public class SolverView extends Box {
+
+	private static final String PLAY_SELECTED_MOVE_ACTION = "play-selected-move";
+	private static final String CLOSE_MOVES_DIALOG_ACTION = "close-moves-dialog";
 
 	private final Solver model;
 
@@ -126,16 +135,80 @@ public class SolverView extends Box {
 	 */
 	private void solve(ActionEvent event) {
 
-		var sheet = model.solve();
-		var sheetView = new SimpleSheetView(sheet);
-		var options = new String[] { "OK" };
+		var moves = model.solve();
+		var movesView = new SimpleSheetView(moves);
+		var table = movesView.table();
+		var selectionModel = table.getSelectionModel();
 
-		showOptionDialog(this, sheetView, getMessage("best_moves"),
-				DEFAULT_OPTION, PLAIN_MESSAGE, null, options, options[0]);
+		selectionModel.addListSelectionListener(listSelectionEvent -> {
+
+			var index = selectionModel.getMinSelectionIndex();
+			var move = moves.entries().get(index);
+
+			model.replay();
+			updateLetters();
+			model.preview(move);
+			board.repaint();
+			rack.repaint();
+		});
+
+		var dialog = new JDialog(getWindowAncestor(this), getMessage("best_moves"));
+		dialog.add(movesView);
+		dialog.pack();
+		dialog.setLocationRelativeTo(sheet);
+
+		var inputMap = table.getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		var actionMap = table.getActionMap();
+
+		inputMap.put(getKeyStroke(VK_ENTER, 0), PLAY_SELECTED_MOVE_ACTION);
+		inputMap.put(getKeyStroke(VK_ESCAPE, 0), CLOSE_MOVES_DIALOG_ACTION);
+
+		actionMap.put(PLAY_SELECTED_MOVE_ACTION, new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+
+				var index = selectionModel.getMinSelectionIndex();
+				var move = moves.entries().get(index);
+				sheet.model().setLast(move);
+				dialog.dispose();
+			}
+		});
+
+		actionMap.put(CLOSE_MOVES_DIALOG_ACTION, new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) {
+				dialog.dispose();
+			}
+		});
+
+		dialog.addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowOpened(WindowEvent windowEvent) {
+
+				invokeLater(() -> {
+
+					if (moves.getRowCount() > 0) {
+						selectionModel.setSelectionInterval(0, 0);
+					}
+				});
+			}
+
+			@Override
+			public void windowClosed(WindowEvent windowEvent) {
+
+				model.replay();
+				board.repaint();
+			}
+		});
+
+		dialog.setVisible(true);
 	}
 
 	/**
-	 * Updates letters.
+	 * Updates letters on the rack.
 	 *
 	 * @since 0.0.0
 	 */

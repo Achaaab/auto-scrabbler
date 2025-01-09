@@ -19,6 +19,8 @@ import static java.lang.Math.round;
 import static java.util.stream.IntStream.range;
 
 /**
+ * View for a scrabble rack.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -35,7 +37,9 @@ public class RackView extends JComponent {
 	private final List<TileView> tiles;
 
 	/**
-	 * @param model
+	 * Creates a view for a scrabble rack.
+	 *
+	 * @param model model of the scrabble rack
 	 * @since 0.0.0
 	 */
 	public RackView(Rack model) {
@@ -103,5 +107,13 @@ public class RackView extends JComponent {
 				tile.setModel(null);
 			}
 		}
+	}
+
+	/**
+	 * @return model of this scrabble rack
+	 * @since 0.0.5
+	 */
+	public Rack model() {
+		return model;
 	}
 }
