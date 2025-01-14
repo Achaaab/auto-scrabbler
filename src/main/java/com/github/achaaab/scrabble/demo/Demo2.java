@@ -20,7 +20,6 @@ import static com.github.achaaab.scrabble.model.Tile.getFrenchTiles;
 import static com.github.achaaab.scrabble.tools.Toolbox.toSeconds;
 import static java.time.Duration.between;
 import static java.time.LocalDateTime.now;
-import static java.util.Comparator.naturalOrder;
 import static javax.swing.SwingUtilities.invokeAndWait;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -76,8 +75,7 @@ public class Demo2 {
 					}
 				}
 
-				var optionalBestMove = evaluator.getMoves(rack).stream().
-						max(naturalOrder());
+				var optionalBestMove = evaluator.listMoves(rack).stream().findFirst();
 
 				if (optionalBestMove.isEmpty()) {
 					break;

@@ -30,6 +30,7 @@ import static javax.swing.BoxLayout.Y_AXIS;
 import static javax.swing.KeyStroke.getKeyStroke;
 import static javax.swing.SwingUtilities.getWindowAncestor;
 import static javax.swing.SwingUtilities.invokeLater;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
  * View for a scrabble solver.
@@ -48,7 +49,6 @@ public class SolverView extends Box {
 	private final RackView rack;
 	private final SimpleSheetView sheet;
 	private final JTextField letters;
-	private final JButton solve;
 
 	/**
 	 * Creates a view for a solver.
@@ -66,7 +66,7 @@ public class SolverView extends Box {
 		rack = new RackView(model.rack());
 		sheet = new SimpleSheetView(model.sheet());
 		letters = new JTextField();
-		solve = new JButton(getMessage("solve"));
+		var solve = new JButton(getMessage("solve"));
 
 		var rackPanel = new Box(Y_AXIS);
 		rackPanel.setAlignmentX(CENTER_ALIGNMENT);
@@ -153,6 +153,7 @@ public class SolverView extends Box {
 		});
 
 		var dialog = new JDialog(getWindowAncestor(this), getMessage("best_moves"));
+		dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		dialog.add(movesView);
 		dialog.pack();
 		dialog.setLocationRelativeTo(sheet);
@@ -201,6 +202,7 @@ public class SolverView extends Box {
 
 				model.replay();
 				board.repaint();
+				updateLetters();
 			}
 		});
 

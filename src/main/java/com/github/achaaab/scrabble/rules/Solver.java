@@ -10,8 +10,6 @@ import com.github.achaaab.scrabble.sheet.SimpleSheetEntry;
 
 import java.util.List;
 
-import static java.util.Comparator.reverseOrder;
-
 /**
  * Simple scrabble solver, brute forcing without more insight.
  *
@@ -100,6 +98,12 @@ public class Solver {
 		}
 	}
 
+	/**
+	 * Previews the given entry, playing it on the board.
+	 *
+	 * @param entry entry to preview
+	 * @since 0.0.6
+	 */
 	public void preview(SimpleSheetEntry entry) {
 
 		var word = entry.getWord();
@@ -137,8 +141,7 @@ public class Solver {
 
 		var bestMoveSheet = new SimpleSheet(this, false, false);
 
-		evaluator.getMoves(rack).stream().
-				sorted(reverseOrder()).
+		evaluator.listMoves(rack).stream().
 				map(Solver::createEntry).
 				forEach(bestMoveSheet::add);
 

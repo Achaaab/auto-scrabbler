@@ -11,10 +11,12 @@ import static com.github.achaaab.scrabble.tools.TextHorizontalAlignment.LEFT;
 import static java.lang.Integer.compare;
 
 /**
- * @param reference
- * @param word
- * @param tiles
- * @param score
+ * Scrabble move.
+ *
+ * @param reference square and direction reference
+ * @param word played word
+ * @param tiles played tiles
+ * @param score computed score
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

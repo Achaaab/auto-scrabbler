@@ -10,13 +10,15 @@ import static com.github.achaaab.scrabble.tools.TextHorizontalAlignment.LEFT;
 import static com.github.achaaab.scrabble.tools.TextHorizontalAlignment.RIGHT;
 
 /**
+ * Duplicate scoring sheet entry.
+ *
  * @param number entry number starting from 1
- * @param residual
- * @param reject
- * @param draw
- * @param word
- * @param reference
- * @param score
+ * @param residual residual tiles
+ * @param reject whether this entry is not a move but an exchange of tiles
+ * @param draw drawn tiles
+ * @param word played word, {@code null} if this entry is an exchange of tiles
+ * @param reference reference square and direction, {@code null} if this entry is an exchange of tiles
+ * @param score score
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */

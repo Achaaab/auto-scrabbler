@@ -54,7 +54,7 @@ public class SimpleSheetView extends JScrollPane {
 		table.setRowHeight(round(TileView.SIZE * 0.50f));
 		table.setSelectionMode(SINGLE_SELECTION);
 
-		resizeScrollBars(this, TileView.SIZE * 0.25f, TileView.SIZE * 0.25f);
+		resizeScrollBars(this, TileView.SIZE * 0.28f, TileView.SIZE * 0.28f);
 
 		setViewportView(table);
 

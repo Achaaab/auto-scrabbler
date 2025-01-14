@@ -13,7 +13,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import static com.github.achaaab.scrabble.model.Dictionary.FRENCH_ODS9;
 import static com.github.achaaab.scrabble.model.Tile.getFrenchTiles;
-import static java.util.Comparator.reverseOrder;
 import static javax.swing.SwingUtilities.invokeAndWait;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
@@ -64,16 +63,13 @@ public class Demo1 {
 					}
 				}
 
-				var bestMoves = evaluator.getMoves(rack).stream().
-						sorted(reverseOrder()).
-						limit(1).
-						toList();
+				var optionalBestMove = evaluator.listMoves(rack).stream().findFirst();
 
-				if (bestMoves.isEmpty()) {
+				if (optionalBestMove.isEmpty()) {
 					break;
 				}
 
-				var bestMove = bestMoves.getFirst();
+				var bestMove = optionalBestMove.get();
 				var tiles = bestMove.tiles();
 				var reference = bestMove.reference();
 				rack.removeAll(tiles);

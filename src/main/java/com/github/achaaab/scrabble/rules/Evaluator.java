@@ -18,6 +18,7 @@ import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
 import static com.github.achaaab.scrabble.model.Tile.blank;
 import static com.github.achaaab.scrabble.tools.MessageBundle.getMessage;
 import static java.lang.Character.toLowerCase;
+import static java.util.Comparator.reverseOrder;
 
 /**
  * @author Jonathan Guéhenneux
@@ -90,14 +91,16 @@ public class Evaluator {
 				reference,
 				word,
 				new ArrayList<>(tiles),
-				getScore());
+				computeScore());
 	}
 
 	/**
-	 * @return
+	 * Computes and returns the score of the current move.
+	 *
+	 * @return computed score
 	 * @since 0.0.0
 	 */
-	public int getScore() {
+	private int computeScore() {
 
 		var score = 0;
 		var square = startSquare;
@@ -171,11 +174,13 @@ public class Evaluator {
 	}
 
 	/**
-	 * @param rack
-	 * @return
+	 * Lists all possible moves, sorts it in reverse order (best moves first) then returns the sorted list.
+	 *
+	 * @param rack rack containing available letters
+	 * @return possible moves, sorted in reverse order
 	 * @since 0.0.0
 	 */
-	public List<Move> getMoves(Rack rack) {
+	public List<Move> listMoves(Rack rack) {
 
 		var trie = dictionary.getTrie();
 		letterCounts = rack.getLetterCounts();
@@ -208,11 +213,14 @@ public class Evaluator {
 			}
 		}
 
+		moves.sort(reverseOrder());
 		return moves;
 	}
 
 	/**
-	 * @param trie
+	 * Iterates possible moves prefixing with tiles already placed on the board.
+	 *
+	 * @param trie current trie
 	 * @since 0.0.0
 	 */
 	private void prefixFromBoard(Trie trie) {
@@ -242,8 +250,10 @@ public class Evaluator {
 	}
 
 	/**
-	 * @param trie
-	 * @param square
+	 * Iterates possible moves prefixing with a tile from the rack.
+	 *
+	 * @param trie current trie
+	 * @param square current square
 	 * @since 0.0.0
 	 */
 	private void prefixFromRack(Trie trie, Square square) {
@@ -278,9 +288,11 @@ public class Evaluator {
 	}
 
 	/**
-	 * @param trie
-	 * @param square
-	 * @param tile
+	 * Iterates possible moves prefixing with a tile from the rack.
+	 *
+	 * @param trie current trie
+	 * @param square current square
+	 * @param tile tile to play
 	 * @since 0.0.0
 	 */
 	private void prefixFromRack(Trie trie, Square square, Tile tile) {
@@ -309,10 +321,10 @@ public class Evaluator {
 	}
 
 	/**
-	 * Suffixes the current word with the current letter from the board.
+	 * Iterates possible moves suffixing with a tile from the board.
 	 *
-	 * @param trie
-	 * @param square
+	 * @param trie current trie
+	 * @param square current square
 	 * @since 0.0.0
 	 */
 	private void suffixFromBoard(Trie trie, Square square) {
@@ -348,10 +360,10 @@ public class Evaluator {
 	}
 
 	/**
-	 * Suffixes the word with a letter from the rack.
+	 * Iterates possible moves suffixing with a tile from the rack.
 	 *
-	 * @param trie
-	 * @param square
+	 * @param trie current trie
+	 * @param square current empty square on which to place a tile from the rack
 	 * @since 0.0.0
 	 */
 	private void suffixFromRack(Trie trie, Square square) {
@@ -378,9 +390,11 @@ public class Evaluator {
 	}
 
 	/**
-	 * @param trie
-	 * @param square
-	 * @param tile
+	 * Iterates possible moves suffixing with a tile from the rack.
+	 *
+	 * @param trie current trie
+	 * @param square current empty square on which to place a tile from the rack
+	 * @param tile tile to place
 	 * @since 0.0.0
 	 */
 	private void suffixFromRack(Trie trie, Square square, Tile tile) {
@@ -431,7 +445,7 @@ public class Evaluator {
 	/**
 	 * Adds the score of a formed across word.
 	 *
-	 * @param square
+	 * @param square current square
 	 * @return {@code false} if there is an invalid across word, {@code true} otherwise
 	 * @since 0.0.0
 	 */
@@ -481,7 +495,7 @@ public class Evaluator {
 	/**
 	 * Checks if the current trie is terminal. If it is, adds the current move.
 	 *
-	 * @param trie
+	 * @param trie trie to test
 	 * @since 0.0.0
 	 */
 	private void checkCurrentWord(Trie trie) {
@@ -492,7 +506,7 @@ public class Evaluator {
 					board.getReference(startSquare, direction),
 					word.toString(),
 					new ArrayList<>(tiles),
-					getScore());
+					computeScore());
 
 			moves.add(move);
 		}

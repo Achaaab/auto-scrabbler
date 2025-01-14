@@ -8,6 +8,8 @@ import static com.github.achaaab.scrabble.tools.TextHorizontalAlignment.CENTER;
 import static java.util.stream.Collectors.joining;
 
 /**
+ * Duplicate scoring sheet.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
@@ -17,6 +19,8 @@ public class DuplicateSheet {
 	private int total;
 
 	/**
+	 * Creates an empty duplicate scoring sheet.
+	 *
 	 * @since 0.0.0
 	 */
 	public DuplicateSheet() {
@@ -26,7 +30,9 @@ public class DuplicateSheet {
 	}
 
 	/**
-	 * @param entry
+	 * Adds an entry at the end of this scoring sheet.
+	 *
+	 * @param entry entry to add
 	 * @since 0.0.0
 	 */
 	public void add(DuplicateSheetEntry entry) {
@@ -36,7 +42,7 @@ public class DuplicateSheet {
 	}
 
 	/**
-	 * @return
+	 * @return sum of each entry score
 	 * @since 0.0.0
 	 */
 	public int total() {
@@ -44,7 +50,7 @@ public class DuplicateSheet {
 	}
 
 	/**
-	 * @return
+	 * @return number of entries in this scoring sheet
 	 * @since 0.0.0
 	 */
 	public int entryCount() {

@@ -1,6 +1,8 @@
 package com.github.achaaab.scrabble.sheet;
 
 /**
+ * Simple scoring sheet entry.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.2
  */
@@ -20,9 +22,11 @@ public class SimpleSheetEntry {
 	}
 
 	/**
-	 * @param word
-	 * @param key
-	 * @param score
+	 * Creates an entry from a move.
+	 *
+	 * @param word played word
+	 * @param key square and direction key
+	 * @param score score
 	 * @since 0.0.2
 	 */
 	public SimpleSheetEntry(String word, String key, int score) {
@@ -33,7 +37,7 @@ public class SimpleSheetEntry {
 	}
 
 	/**
-	 * @return
+	 * @return played word
 	 * @since 0.0.2
 	 */
 	public String getWord() {
@@ -41,7 +45,7 @@ public class SimpleSheetEntry {
 	}
 
 	/**
-	 * @param word
+	 * @param word played word
 	 * @since 0.0.2
 	 */
 	public void setWord(String word) {
@@ -49,7 +53,7 @@ public class SimpleSheetEntry {
 	}
 
 	/**
-	 * @return
+	 * @return square and direction key
 	 * @since 0.0.2
 	 */
 	public String getKey() {
@@ -57,7 +61,7 @@ public class SimpleSheetEntry {
 	}
 
 	/**
-	 * @param key
+	 * @param key square and direction key
 	 * @since 0.0.2
 	 */
 	public void setKey(String key) {
@@ -65,7 +69,7 @@ public class SimpleSheetEntry {
 	}
 
 	/**
-	 * @return
+	 * @return score
 	 * @since 0.0.2
 	 */
 	public int getScore() {
@@ -73,7 +77,7 @@ public class SimpleSheetEntry {
 	}
 
 	/**
-	 * @param score
+	 * @param score score
 	 * @since 0.0.2
 	 */
 	public void setScore(int score) {
@@ -81,7 +85,9 @@ public class SimpleSheetEntry {
 	}
 
 	/**
-	 * @return
+	 * An entry is complete if its word and key are non-empty.
+	 *
+	 * @return whether this entry is complete
 	 * @since 0.0.0
 	 */
 	public boolean isComplete() {
