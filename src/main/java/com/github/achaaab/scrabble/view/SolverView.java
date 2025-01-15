@@ -11,19 +11,26 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.AbstractDocument;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import static com.github.achaaab.scrabble.sheet.SimpleSheet.INDEX_COLUMN;
+import static com.github.achaaab.scrabble.sheet.SimpleSheet.KEY_COLUMN;
+import static com.github.achaaab.scrabble.sheet.SimpleSheet.SCORE_COLUMN;
+import static com.github.achaaab.scrabble.sheet.SimpleSheet.WORD_COLUMN;
 import static com.github.achaaab.scrabble.tools.MessageBundle.getMessage;
 import static com.github.achaaab.scrabble.tools.SwingUtility.showException;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.EAST;
 import static java.awt.BorderLayout.SOUTH;
+import static java.awt.Dialog.ModalityType.APPLICATION_MODAL;
 import static java.awt.event.KeyEvent.VK_ENTER;
 import static java.awt.event.KeyEvent.VK_ESCAPE;
+import static java.util.Comparator.naturalOrder;
 import static javax.swing.BorderFactory.createTitledBorder;
 import static javax.swing.BoxLayout.X_AXIS;
 import static javax.swing.BoxLayout.Y_AXIS;
@@ -128,7 +135,7 @@ public class SolverView extends Box {
 	}
 
 	/**
-	 * Finds all the moves with the drawn letters.
+	 * Finds all the moves with the drawn letters and displays the list in a modal dialog.
 	 *
 	 * @param event action event
 	 * @since 0.0.5
@@ -139,20 +146,37 @@ public class SolverView extends Box {
 		var movesView = new SimpleSheetView(moves);
 		var table = movesView.table();
 		var selectionModel = table.getSelectionModel();
+		var tableModel = table.getModel();
+		var sorter = new TableRowSorter<>(tableModel);
+		table.setRowSorter(sorter);
+
+		sorter.setComparator(INDEX_COLUMN, naturalOrder());
+		sorter.setComparator(WORD_COLUMN, naturalOrder());
+		sorter.setComparator(KEY_COLUMN, naturalOrder());
+		sorter.setComparator(SCORE_COLUMN, naturalOrder());
 
 		selectionModel.addListSelectionListener(listSelectionEvent -> {
 
-			var index = selectionModel.getMinSelectionIndex();
-			var move = moves.entries().get(index);
+			var index = table.getSelectedRow();
 
-			model.replay();
-			updateLetters();
-			model.preview(move);
-			board.repaint();
-			rack.repaint();
+			if (index != -1) {
+
+				index = table.convertRowIndexToModel(index);
+				var move = moves.entries().get(index);
+
+				model.replay();
+				updateLetters();
+				model.preview(move);
+				board.repaint();
+				rack.repaint();
+			}
 		});
 
-		var dialog = new JDialog(getWindowAncestor(this), getMessage("best_moves"));
+		var dialog = new JDialog(
+				getWindowAncestor(this),
+				getMessage("best_moves"),
+				APPLICATION_MODAL);
+
 		dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		dialog.add(movesView);
 		dialog.pack();

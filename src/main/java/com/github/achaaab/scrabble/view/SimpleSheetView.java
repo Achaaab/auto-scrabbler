@@ -11,6 +11,11 @@ import javax.swing.text.AbstractDocument;
 import java.awt.Dimension;
 import java.util.Collections;
 
+import static com.github.achaaab.scrabble.sheet.SimpleSheet.INDEX_COLUMN;
+import static com.github.achaaab.scrabble.sheet.SimpleSheet.KEY_COLUMN;
+import static com.github.achaaab.scrabble.sheet.SimpleSheet.SCORE_COLUMN;
+import static com.github.achaaab.scrabble.sheet.SimpleSheet.TOTAL_COLUMN;
+import static com.github.achaaab.scrabble.sheet.SimpleSheet.WORD_COLUMN;
 import static com.github.achaaab.scrabble.tools.SwingUtility.resizeScrollBars;
 import static java.lang.Math.round;
 import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
@@ -23,15 +28,9 @@ import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
  */
 public class SimpleSheetView extends JScrollPane {
 
-	private static final int INDEX_COLUMN = 0;
-	private static final int WORD_COLUMN = 1;
-	private static final int REFERENCE_COLUMN = 2;
-	private static final int SCORE_COLUMN = 3;
-	private static final int TOTAL_COLUMN = 4;
-
 	private static final float INDEX_COLUMN_WIDTH = 1.50f;
 	private static final float WORD_COLUMN_WIDTH = 4.00f;
-	private static final float REFERENCE_COLUMN_WIDTH = 2.50f;
+	private static final float KEY_COLUMN_WIDTH = 2.50f;
 	private static final float SCORE_COLUMN_WIDTH = 2.00f;
 	private static final float TOTAL_COLUMN_WIDTH = 2.00f;
 
@@ -62,12 +61,12 @@ public class SimpleSheetView extends JScrollPane {
 
 		var indexColumn = columnModel.getColumn(INDEX_COLUMN);
 		var wordColumn = columnModel.getColumn(WORD_COLUMN);
-		var referenceColumn = columnModel.getColumn(REFERENCE_COLUMN);
+		var keyColumn = columnModel.getColumn(KEY_COLUMN);
 		var scoreColumn = columnModel.getColumn(SCORE_COLUMN);
 
 		indexColumn.setPreferredWidth(round(TileView.SIZE * INDEX_COLUMN_WIDTH));
 		wordColumn.setPreferredWidth(round(TileView.SIZE * WORD_COLUMN_WIDTH));
-		referenceColumn.setPreferredWidth(round(TileView.SIZE * REFERENCE_COLUMN_WIDTH));
+		keyColumn.setPreferredWidth(round(TileView.SIZE * KEY_COLUMN_WIDTH));
 		scoreColumn.setPreferredWidth(round(TileView.SIZE * SCORE_COLUMN_WIDTH));
 
 		if (model.isAccumulative()) {

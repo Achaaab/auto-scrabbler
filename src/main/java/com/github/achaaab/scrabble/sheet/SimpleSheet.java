@@ -4,6 +4,7 @@ import com.github.achaaab.scrabble.rules.Solver;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -13,6 +14,12 @@ import java.util.List;
  * @since 0.0.0
  */
 public class SimpleSheet extends AbstractTableModel {
+
+	public static final int INDEX_COLUMN = 0;
+	public static final int WORD_COLUMN = 1;
+	public static final int KEY_COLUMN = 2;
+	public static final int SCORE_COLUMN = 3;
+	public static final int TOTAL_COLUMN = 4;
 
 	private final Solver solver;
 	private final boolean editable;
@@ -116,11 +123,11 @@ public class SimpleSheet extends AbstractTableModel {
 
 		return switch (column) {
 
-			case 0 -> "Coup";
-			case 1 -> "Mot";
-			case 2 -> "Référence";
-			case 3 -> "Score";
-			case 4 -> "Total";
+			case INDEX_COLUMN -> "Coup";
+			case WORD_COLUMN -> "Mot";
+			case KEY_COLUMN -> "Référence";
+			case SCORE_COLUMN -> "Score";
+			case TOTAL_COLUMN -> "Total";
 
 			default -> throw new IllegalArgumentException("unknown column: " + column);
 		};
@@ -142,6 +149,15 @@ public class SimpleSheet extends AbstractTableModel {
 				sum();
 	}
 
+	/**
+	 * @param columnIndex
+	 * @return
+	 */
+	public Comparator<?> getComparator(int columnIndex) {
+
+		return Comparator.naturalOrder();
+	}
+
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 
@@ -149,11 +165,11 @@ public class SimpleSheet extends AbstractTableModel {
 
 		return switch (columnIndex) {
 
-			case 0 -> rowIndex + 1;
-			case 1 -> entry.getWord();
-			case 2 -> entry.getKey();
-			case 3 -> entry.getScore();
-			case 4 -> getTotal(rowIndex);
+			case INDEX_COLUMN -> rowIndex + 1;
+			case WORD_COLUMN -> entry.getWord();
+			case KEY_COLUMN -> entry.getKey();
+			case SCORE_COLUMN -> entry.getScore();
+			case TOTAL_COLUMN -> getTotal(rowIndex);
 
 			default -> throw new IllegalArgumentException("unknown column: " + columnIndex);
 		};
@@ -166,10 +182,13 @@ public class SimpleSheet extends AbstractTableModel {
 
 		switch (columnIndex) {
 
-			case 1 -> entry.setWord((String) value);
-			case 2 -> entry.setKey((String) value);
+			case WORD_COLUMN -> entry.setWord((String) value);
+			case KEY_COLUMN -> entry.setKey((String) value);
 
-			default -> throw new IllegalArgumentException("unmodifiable column: " + columnIndex);
+			case INDEX_COLUMN, SCORE_COLUMN, TOTAL_COLUMN ->
+					throw new IllegalArgumentException("unmodifiable column: " + columnIndex);
+
+			default -> throw new IllegalArgumentException("unknown column: " + columnIndex);
 		};
 
 		try {
@@ -195,8 +214,8 @@ public class SimpleSheet extends AbstractTableModel {
 
 		return editable && switch (columnIndex) {
 
-			case 0, 3 -> false;
-			case 1, 2 -> true;
+			case INDEX_COLUMN, SCORE_COLUMN, TOTAL_COLUMN -> false;
+			case WORD_COLUMN, KEY_COLUMN -> true;
 
 			default -> throw new IllegalArgumentException("unknown column: " + columnIndex);
 		};
