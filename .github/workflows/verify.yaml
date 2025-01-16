@@ -2,8 +2,7 @@ name: "verify"
 
 on:
   push:
-    tags:
-      - '*'
+    branches: [ main ]
 
 jobs:
 
@@ -14,8 +13,6 @@ jobs:
 
       - name: "checkout project"
         uses: "actions/checkout@v4"
-        with:
-          ref: "${{ github.ref_name }}"
 
       - name: "setup Java 21"
         uses: "actions/setup-java@v4"
