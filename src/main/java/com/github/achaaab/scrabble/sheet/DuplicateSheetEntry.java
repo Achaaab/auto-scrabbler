@@ -6,8 +6,8 @@ import com.github.achaaab.scrabble.model.Tile;
 import java.util.List;
 
 import static com.github.achaaab.scrabble.tools.StringUtilities.pad;
-import static com.github.achaaab.scrabble.tools.TextHorizontalAlignment.LEFT;
-import static com.github.achaaab.scrabble.tools.TextHorizontalAlignment.RIGHT;
+import static com.github.achaaab.scrabble.tools.Alignment.LEFT;
+import static com.github.achaaab.scrabble.tools.Alignment.RIGHT;
 
 /**
  * Duplicate scoring sheet entry.

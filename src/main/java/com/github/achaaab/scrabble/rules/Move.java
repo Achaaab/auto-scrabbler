@@ -7,7 +7,7 @@ import java.util.List;
 
 import static com.github.achaaab.scrabble.model.Board.SIZE;
 import static com.github.achaaab.scrabble.tools.StringUtilities.pad;
-import static com.github.achaaab.scrabble.tools.TextHorizontalAlignment.LEFT;
+import static com.github.achaaab.scrabble.tools.Alignment.LEFT;
 import static java.lang.Integer.compare;
 
 /**

@@ -12,8 +12,8 @@ import java.awt.Graphics2D;
 
 import static com.github.achaaab.scrabble.tools.FontUtilities.align;
 import static com.github.achaaab.scrabble.tools.SwingUtility.getScreenHeight;
-import static com.github.achaaab.scrabble.tools.TextAlignment.BOTTOM_RIGHT;
-import static com.github.achaaab.scrabble.tools.TextAlignment.CENTER_CENTER;
+import static com.github.achaaab.scrabble.tools.Alignment.BOTTOM_RIGHT;
+import static com.github.achaaab.scrabble.tools.Alignment.CENTER_CENTER;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 import static java.lang.Math.round;

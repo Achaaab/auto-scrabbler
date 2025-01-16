@@ -4,7 +4,6 @@ import com.github.achaaab.scrabble.rules.Solver;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -147,15 +146,6 @@ public class SimpleSheet extends AbstractTableModel {
 				stream().
 				mapToInt(SimpleSheetEntry::getScore).
 				sum();
-	}
-
-	/**
-	 * @param columnIndex
-	 * @return
-	 */
-	public Comparator<?> getComparator(int columnIndex) {
-
-		return Comparator.naturalOrder();
 	}
 
 	@Override

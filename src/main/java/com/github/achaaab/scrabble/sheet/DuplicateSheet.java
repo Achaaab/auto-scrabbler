@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.achaaab.scrabble.tools.StringUtilities.pad;
-import static com.github.achaaab.scrabble.tools.TextHorizontalAlignment.CENTER;
+import static com.github.achaaab.scrabble.tools.Alignment.CENTER;
 import static java.util.stream.Collectors.joining;
 
 /**

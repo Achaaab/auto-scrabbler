@@ -1,43 +1,27 @@
 package com.github.achaaab.scrabble.view;
 
 import com.github.achaaab.scrabble.rules.Solver;
+import com.github.achaaab.scrabble.sheet.SimpleSheetEntry;
 import com.github.achaaab.scrabble.tools.SwingUtility;
 
-import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.TableRowSorter;
 import javax.swing.text.AbstractDocument;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.INDEX_COLUMN;
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.KEY_COLUMN;
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.SCORE_COLUMN;
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.WORD_COLUMN;
 import static com.github.achaaab.scrabble.tools.MessageBundle.getMessage;
 import static com.github.achaaab.scrabble.tools.SwingUtility.showException;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.EAST;
 import static java.awt.BorderLayout.SOUTH;
-import static java.awt.Dialog.ModalityType.APPLICATION_MODAL;
-import static java.awt.event.KeyEvent.VK_ENTER;
-import static java.awt.event.KeyEvent.VK_ESCAPE;
-import static java.util.Comparator.naturalOrder;
 import static javax.swing.BorderFactory.createTitledBorder;
 import static javax.swing.BoxLayout.X_AXIS;
 import static javax.swing.BoxLayout.Y_AXIS;
-import static javax.swing.KeyStroke.getKeyStroke;
-import static javax.swing.SwingUtilities.getWindowAncestor;
-import static javax.swing.SwingUtilities.invokeLater;
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
  * View for a scrabble solver.
@@ -47,8 +31,22 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  */
 public class SolverView extends Box {
 
-	private static final String PLAY_SELECTED_MOVE_ACTION = "play-selected-move";
-	private static final String CLOSE_MOVES_DIALOG_ACTION = "close-moves-dialog";
+	/**
+	 * Compare words.
+	 *
+	 * @param object0 first word to compare
+	 * @param object1 second word to compare
+	 * @return negative integer, zero, or a positive integer as the specified String is greater than, equal to,
+	 * or less than this String, ignoring case considerations.
+	 */
+	public static int compareWords(Object object0, Object object1) {
+
+		if (object0 instanceof String word0 && object1 instanceof String word1){
+			return word0.compareToIgnoreCase(word1);
+		}
+
+		throw new IllegalArgumentException("given objects are not words");
+	}
 
 	private final Solver model;
 
@@ -56,6 +54,8 @@ public class SolverView extends Box {
 	private final RackView rack;
 	private final SimpleSheetView sheet;
 	private final JTextField letters;
+
+	private MoveListView moveList;
 
 	/**
 	 * Creates a view for a solver.
@@ -143,94 +143,47 @@ public class SolverView extends Box {
 	private void solve(ActionEvent event) {
 
 		var moves = model.solve();
-		var movesView = new SimpleSheetView(moves);
-		var table = movesView.table();
-		var selectionModel = table.getSelectionModel();
-		var tableModel = table.getModel();
-		var sorter = new TableRowSorter<>(tableModel);
-		table.setRowSorter(sorter);
+		moveList = new MoveListView(sheet, moves, this::preview, this::play, this::refresh);
+		moveList.setVisible(true);
+	}
 
-		sorter.setComparator(INDEX_COLUMN, naturalOrder());
-		sorter.setComparator(WORD_COLUMN, naturalOrder());
-		sorter.setComparator(KEY_COLUMN, naturalOrder());
-		sorter.setComparator(SCORE_COLUMN, naturalOrder());
+	/**
+	 * Previews the specified move.
+	 *
+	 * @param move move to preview
+	 * @since 0.0.6
+	 */
+	private void preview(SimpleSheetEntry move) {
 
-		selectionModel.addListSelectionListener(listSelectionEvent -> {
+		model.replay();
+		updateLetters();
+		model.preview(move);
+		board.repaint();
+		rack.repaint();
+	}
 
-			var index = table.getSelectedRow();
+	/**
+	 * Plays the specified move then closes the move list dialog.
+	 *
+	 * @param move move to play
+	 * @since 0.0.6
+	 */
+	private void play(SimpleSheetEntry move) {
 
-			if (index != -1) {
+		sheet.model().setLast(move);
+		moveList.dispose();
+	}
 
-				index = table.convertRowIndexToModel(index);
-				var move = moves.entries().get(index);
+	/**
+	 * Refreshes the board and rack.
+	 *
+	 * @since 0.0.6
+	 */
+	private void refresh() {
 
-				model.replay();
-				updateLetters();
-				model.preview(move);
-				board.repaint();
-				rack.repaint();
-			}
-		});
-
-		var dialog = new JDialog(
-				getWindowAncestor(this),
-				getMessage("best_moves"),
-				APPLICATION_MODAL);
-
-		dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		dialog.add(movesView);
-		dialog.pack();
-		dialog.setLocationRelativeTo(sheet);
-
-		var inputMap = table.getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-		var actionMap = table.getActionMap();
-
-		inputMap.put(getKeyStroke(VK_ENTER, 0), PLAY_SELECTED_MOVE_ACTION);
-		inputMap.put(getKeyStroke(VK_ESCAPE, 0), CLOSE_MOVES_DIALOG_ACTION);
-
-		actionMap.put(PLAY_SELECTED_MOVE_ACTION, new AbstractAction() {
-
-			@Override
-			public void actionPerformed(ActionEvent actionEvent) {
-
-				var index = selectionModel.getMinSelectionIndex();
-				var move = moves.entries().get(index);
-				sheet.model().setLast(move);
-				dialog.dispose();
-			}
-		});
-
-		actionMap.put(CLOSE_MOVES_DIALOG_ACTION, new AbstractAction() {
-
-			@Override
-			public void actionPerformed(ActionEvent actionEvent) {
-				dialog.dispose();
-			}
-		});
-
-		dialog.addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowOpened(WindowEvent windowEvent) {
-
-				invokeLater(() -> {
-
-					if (moves.getRowCount() > 0) {
-						selectionModel.setSelectionInterval(0, 0);
-					}
-				});
-			}
-
-			@Override
-			public void windowClosed(WindowEvent windowEvent) {
-
-				model.replay();
-				board.repaint();
-				updateLetters();
-			}
-		});
-
-		dialog.setVisible(true);
+		model.replay();
+		board.repaint();
+		updateLetters();
 	}
 
 	/**
