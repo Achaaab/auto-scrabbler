@@ -1,5 +1,6 @@
 # Auto-Scrabbler
-![Verify](https://github.com/Achaaab/auto-scrabbler/actions/workflows/validation.yaml/badge.svg)
+![Validation](https://github.com/Achaaab/auto-scrabbler/actions/workflows/validation.yaml/badge.svg)
+![CodeQL](https://github.com/Achaaab/auto-scrabbler/actions/workflows/github-code-scanning/codeql/badge.svg)
 ![Coverage](.github/badges/jacoco.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
