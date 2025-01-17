@@ -5,11 +5,10 @@
 
 <img src="src/main/resources/icon_256.png" width="256" alt="Auto-Scrabbler icon"/>
 
-### Prerequisites
-* Java 21+
+## Download
 
-### Running
-* Get the [latest release](https://github.com/Achaaab/auto-scrabbler/releases/latest).
+* [auto-scrabbler_0.0.6_amd64.deb](https://github.com/Achaaab/auto-scrabbler/releases/download/0.0.6/auto-scrabbler_0.0.6_amd64.deb)
+* [auto-scrabbler-0.0.6.jar](https://github.com/Achaaab/auto-scrabbler/releases/download/0.0.6/auto-scrabbler-0.0.6.jar) (requires [Java 21 runtime environment](https://adoptium.net/fr/temurin/releases/?package=jre&version=21))
 
 ## Screenshots
 <img src="data/screenshots/french_duplicate.png" width="1024" alt="gameplay screenshot"/>
