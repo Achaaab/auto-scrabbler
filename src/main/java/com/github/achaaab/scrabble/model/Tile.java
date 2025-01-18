@@ -21,7 +21,8 @@ public record Tile(char letter, int value) implements Comparable<Tile> {
 	public static final Set<Character> VOWELS = Set.of(' ', 'A', 'E', 'I', 'O', 'U');
 
 	public static final Set<Character> CONSONANTS = Set.of(
-			' ', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z');
+			' ', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R',
+			'S', 'T', 'V', 'W', 'X', 'Y', 'Z');
 
 	public static final char BLANK = ' ';
 

@@ -194,4 +194,148 @@ class TileCollectionTest {
 		tileCollection.add(tile2);
 		assertEquals(tile2, tileCollection.pick('B'));
 	}
+
+	@Test
+	void pickAllOk() {
+
+		var tileCollection = new Bag();
+
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+		var tile2 = new Tile('C', 3);
+
+		tileCollection.addAll(List.of(tile0, tile1, tile2));
+
+		assertIterableEquals(List.of(tile0, tile1), tileCollection.pickAll('A', 'B'));
+	}
+
+	@Test
+	void pickAllKo() {
+
+		var tileCollection = new Bag();
+
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+		var tile2 = new Tile('C', 3);
+
+		tileCollection.addAll(List.of(tile0, tile1, tile2));
+
+		assertThrows(NoSuchElementException.class, () -> tileCollection.pickAll('A', 'B', 'D'));
+		assertEquals(3, tileCollection.size());
+	}
+
+	@Test
+	void pickAllStringOk() {
+
+		var tileCollection = new Bag();
+
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+		var tile2 = new Tile('C', 3);
+
+		tileCollection.addAll(List.of(tile0, tile1, tile2));
+
+		assertIterableEquals(List.of(tile0, tile1), tileCollection.pickAll("AB"));
+	}
+
+	@Test
+	void pickAllStringKo() {
+
+		var tileCollection = new Bag();
+
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+		var tile2 = new Tile('C', 3);
+
+		tileCollection.addAll(List.of(tile0, tile1, tile2));
+
+		assertThrows(NoSuchElementException.class, () -> tileCollection.pickAll("ABD"));
+		assertEquals(3, tileCollection.size());
+	}
+
+	@Test
+	void getFirstBlankOk() {
+
+		var tileCollection = new Bag();
+
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+		var tile2 = new Tile(BLANK, 0);
+
+		tileCollection.addAll(List.of(tile0, tile1, tile2));
+
+		assertEquals(tile2, tileCollection.getFirstBlank());
+		assertEquals(3, tileCollection.size());
+	}
+
+	@Test
+	void getFirstBlankKo() {
+
+		var tileCollection = new Bag();
+
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+		var tile2 = new Tile('C', 3);
+
+		tileCollection.addAll(List.of(tile0, tile1, tile2));
+		assertThrows(NoSuchElementException.class, tileCollection::getFirstBlank);
+	}
+
+	@Test
+	void getFirstOk() {
+
+		var tileCollection = new Bag();
+
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+		var tile2 = new Tile(BLANK, 0);
+
+		tileCollection.addAll(List.of(tile0, tile1, tile2));
+		assertEquals(tile1, tileCollection.getFirst('B'));
+	}
+
+	@Test
+	void getFirstKo() {
+
+		var tileCollection = new Bag();
+
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+		var tile2 = new Tile(BLANK, 0);
+
+		tileCollection.addAll(List.of(tile0, tile1, tile2));
+		assertThrows(NoSuchElementException.class, () -> tileCollection.getFirst('C'));
+	}
+
+	@Test
+	void getVowelCount() {
+
+		var tileCollection = new Bag();
+
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+		var tile2 = new Tile('C', 3);
+		var tile3 = new Tile('E', 1);
+		var tile4 = new Tile('Y', 10);
+		var tile5 = new Tile(BLANK, 0);
+
+		tileCollection.addAll(List.of(tile0, tile1, tile2, tile3, tile4, tile5));
+		assertEquals(3, tileCollection.getVowelCount());
+	}
+
+	@Test
+	void getConsonantCount() {
+
+		var tileCollection = new Bag();
+
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+		var tile2 = new Tile('C', 3);
+		var tile3 = new Tile('E', 1);
+		var tile4 = new Tile('Y', 10);
+		var tile5 = new Tile(BLANK, 0);
+
+		tileCollection.addAll(List.of(tile0, tile1, tile2, tile3, tile4, tile5));
+		assertEquals(4, tileCollection.getConsonantCount());
+	}
 }

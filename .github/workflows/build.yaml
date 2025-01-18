@@ -97,7 +97,7 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
           upload_url: "${{ needs.building.outputs.upload_url }}"
-          asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.rpm"
+          asset_path: "target/auto-scrabbler-${{ github.ref_name }}.x86_64.rpm"
           asset_name: "auto-scrabbler-${{ github.ref_name }}.x86_64.rpm"
           asset_content_type: "application/x-redhat-package-manager"
 
