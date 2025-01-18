@@ -98,7 +98,7 @@ jobs:
         with:
           upload_url: "${{ needs.building.outputs.upload_url }}"
           asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.rpm"
-          asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.rpm"
+          asset_name: "auto-scrabbler-${{ github.ref_name }}.x86_64.rpm"
           asset_content_type: "application/x-redhat-package-manager"
 
   building-macos:
@@ -134,8 +134,8 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
           upload_url: "${{ needs.building.outputs.upload_url }}"
-          asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.pkg"
-          asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.pkg"
+          asset_path: "target/auto-scrabbler-${{ github.ref_name }}.pkg"
+          asset_name: "auto-scrabbler-${{ github.ref_name }}.pkg"
           asset_content_type: "application/x-newton-compatible-pkg"
 
   building-windows:
@@ -165,12 +165,12 @@ jobs:
             --dest target `
             --icon src\main\resources\icon_256.png `
             --vendor "Jonathan Guéhenneux"
-      - name: "Upload Windows executable."
+      - name: "Upload Windows installer."
         uses: "actions/upload-release-asset@v1"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
           upload_url: "${{ needs.building.outputs.upload_url }}"
-          asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.exe"
-          asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.exe"
+          asset_path: "target/auto-scrabbler-${{ github.ref_name }}.exe"
+          asset_name: "auto-scrabbler-${{ github.ref_name }}.exe"
           asset_content_type: "application/application/vnd.microsoft.portable-executable"
