@@ -2,6 +2,7 @@
 ![Validate](https://github.com/Achaaab/auto-scrabbler/actions/workflows/validate.yaml/badge.svg)
 ![CodeQL](https://github.com/Achaaab/auto-scrabbler/actions/workflows/github-code-scanning/codeql/badge.svg)
 ![Coverage](.github/badges/jacoco.svg)
+
 ![Debian package](https://github.com/Achaaab/auto-scrabbler/actions/workflows/build-deb.yaml/badge.svg)
 ![RPM package](https://github.com/Achaaab/auto-scrabbler/actions/workflows/build-rpm.yaml/badge.svg)
 ![macOS package](https://github.com/Achaaab/auto-scrabbler/actions/workflows/build-pkg.yaml/badge.svg)

@@ -2,7 +2,8 @@ name: "Build for Windows"
 
 on:
   push:
-    tags: [*]
+    tags:
+      - '*'
 
 jobs:
 

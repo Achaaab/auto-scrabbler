@@ -2,7 +2,8 @@ name: "Build for Debian"
 
 on:
   push:
-    tags: [*]
+    tags:
+      - '*'
 
 jobs:
 
