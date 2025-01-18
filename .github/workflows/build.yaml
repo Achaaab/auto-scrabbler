@@ -1,0 +1,158 @@
+name: "Build"
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+
+  building:
+    name: "Build executable jar."
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "checkout project"
+        uses: "actions/checkout@v4"
+      - name: "setup Java 21"
+        uses: "actions/setup-java@v4"
+        with:
+          distribution: "temurin"
+          java-version: "21"
+      - name: "maven - verify"
+        run: "mvn package --no-transfer-progress --errors"
+      - name: "create release"
+        id: "create_release"
+        uses: "actions/create-release@v1"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          tag_name: "${{ github.ref }}"
+          release_name: "auto-scrabbler-${{ github.ref_name }}"
+          draft: false
+          prerelease: false
+
+  building-linux:
+    name: "Build packages for Linux."
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "checkout project"
+        uses: "actions/checkout@v4"
+      - name: "setup Java 21"
+        uses: "actions/setup-java@v4"
+        with:
+          distribution: "temurin"
+          java-version: "21"
+      - name: "maven - package"
+        run: "mvn package --no-transfer-progress --errors"
+      - name: "jpackage deb"
+        run: |
+          jpackage \
+            --name "Auto-Scrabbler" \
+            --app-version "${{ github.ref_name }}" \
+            --input target \
+            --main-jar auto-scrabbler-${{ github.ref_name }}.jar \
+            --main-class com.github.achaaab.scrabble.SolverApplication \
+            --type deb \
+            --dest target \
+            --icon src/main/resources/icon_256.png \
+            --vendor "Jonathan Guéhenneux"
+      - name: "jpackage rpm"
+        run: |
+          jpackage \
+            --name "Auto-Scrabbler" \
+            --app-version "${{ github.ref_name }}" \
+            --input target \
+            --main-jar auto-scrabbler-${{ github.ref_name }}.jar \
+            --main-class com.github.achaaab.scrabble.SolverApplication \
+            --type rpm \
+            --dest target \
+            --icon src/main/resources/icon_256.png \
+            --vendor "Jonathan Guéhenneux"
+      - name: "Upload Debian package."
+        uses: "actions/upload-release-asset@v1"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          upload_url: "${{ steps.create_release.outputs.upload_url }}"
+          asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.deb"
+          asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.deb"
+          asset_content_type: "application/vnd.debian.binary-package"
+      - name: "Upload RPM package."
+        uses: "actions/upload-release-asset@v1"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          upload_url: "${{ steps.create_release.outputs.upload_url }}"
+          asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.rpm"
+          asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.rpm"
+          asset_content_type: "application/x-redhat-package-manager"
+
+  building-macos:
+    name: "Build package for macOS."
+    runs-on: "macos-latest"
+    steps:
+      - name: "checkout project"
+        uses: "actions/checkout@v4"
+      - name: "setup Java 21"
+        uses: "actions/setup-java@v4"
+        with:
+          distribution: "temurin"
+          java-version: "21"
+      - name: "maven - package"
+        run: "mvn package --no-transfer-progress --errors"
+      - name: "jpackage"
+        run: |
+          jpackage \
+            --name "Auto-Scrabbler" \
+            --app-version "${{ github.ref_name }}" \
+            --input target \
+            --main-jar auto-scrabbler-${{ github.ref_name }}.jar \
+            --main-class com.github.achaaab.scrabble.SolverApplication \
+            --type pkg \
+            --dest target \
+            --icon src/main/resources/icon_256.icns \
+            --vendor "Jonathan Guéhenneux"
+      - name: "Upload macOS package."
+        uses: "actions/upload-release-asset@v1"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          upload_url: "${{ steps.create_release.outputs.upload_url }}"
+          asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.pkg"
+          asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.pkg"
+          asset_content_type: "application/x-newton-compatible-pkg"
+
+  building-windows:
+    name: "Build executable for Windows."
+    runs-on: "windows-latest"
+    steps:
+      - name: "checkout project"
+        uses: "actions/checkout@v4"
+      - name: "setup Java 21"
+        uses: "actions/setup-java@v4"
+        with:
+          distribution: "temurin"
+          java-version: "21"
+      - name: "maven - package"
+        run: "mvn package --no-transfer-progress --errors"
+      - name: "jpackage"
+        run: |
+          jpackage `
+            --name "Auto-Scrabbler" `
+            --app-version "${{ github.ref_name }}" `
+            --input target `
+            --main-jar auto-scrabbler-${{ github.ref_name }}.jar `
+            --main-class com.github.achaaab.scrabble.SolverApplication `
+            --type exe `
+            --dest target `
+            --icon src\main\resources\icon_256.png `
+            --vendor "Jonathan Guéhenneux"
+      - name: "Upload Windows executable."
+        uses: "actions/upload-release-asset@v1"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          upload_url: "${{ steps.create_release.outputs.upload_url }}"
+          asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.exe"
+          asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.exe"
+          asset_content_type: "application/application/vnd.microsoft.portable-executable"
