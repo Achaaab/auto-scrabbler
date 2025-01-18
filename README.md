@@ -7,9 +7,11 @@
 <img src="src/main/resources/icon_256.png" width="256" alt="Auto-Scrabbler icon"/>
 
 ## Download
-
-* [auto-scrabbler_0.0.6_amd64.deb](https://github.com/Achaaab/auto-scrabbler/releases/download/0.0.6/auto-scrabbler_0.0.6_amd64.deb)
-* [auto-scrabbler-0.0.6.jar](https://github.com/Achaaab/auto-scrabbler/releases/download/0.0.6/auto-scrabbler-0.0.6.jar) (requires [Java 21 runtime environment](https://adoptium.net/fr/temurin/releases/?package=jre&version=21))
+* Windows installer: [auto-scrabbler-1.0.0.exe](https://github.com/Achaaab/auto-scrabbler/releases/download/untagged-e02a371747a82571bd4e/auto-scrabbler-1.0.0.exe)
+* Debian package: [auto-scrabbler_1.0.0_amd64.deb](https://github.com/Achaaab/auto-scrabbler/releases/download/untagged-e02a371747a82571bd4e/auto-scrabbler_1.0.0_amd64.deb)
+* MacOS package: [auto-scrabbler-1.0.0.pkg](https://github.com/Achaaab/auto-scrabbler/releases/download/untagged-e02a371747a82571bd4e/auto-scrabbler-1.0.0.pkg)
+* RPM package:
+* Raw executable jar [auto-scrabbler-1.0.0.jar](https://github.com/Achaaab/auto-scrabbler/releases/download/untagged-e02a371747a82571bd4e/auto-scrabbler-1.0.0.jar) (requires [Java 21 runtime environment](https://adoptium.net/fr/temurin/releases/?package=jre&version=21))
 
 ## Screenshots
 <img src="data/screenshots/french_duplicate.png" width="1024" alt="gameplay screenshot"/>
