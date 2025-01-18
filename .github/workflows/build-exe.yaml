@@ -27,13 +27,13 @@ jobs:
 
       - name: "jpackage"
         run: |
-          jpackage \
-            --name "Auto-Scrabbler" \
-            --app-version "${{ github.ref_name }}" \
-            --input target \
-            --main-jar auto-scrabbler-${{ github.ref_name }}.jar \
-            --main-class com.github.achaaab.scrabble.SolverApplication \
-            --type exe \
-            --dest target \
-            --icon src\main\resources\icon_256.png \
+          jpackage ^
+            --name "Auto-Scrabbler" ^
+            --app-version "${{ github.ref_name }}" ^
+            --input target ^
+            --main-jar auto-scrabbler-${{ github.ref_name }}.jar ^
+            --main-class com.github.achaaab.scrabble.SolverApplication ^
+            --type exe ^
+            --dest target ^
+            --icon src\main\resources\icon_256.png ^
             --vendor "Jonathan Guéhenneux"
