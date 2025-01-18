@@ -1,13 +1,13 @@
-name: "Validation"
+name: "Validate"
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
 
-  build:
-    name: "project compilation and testing"
+  validation:
+    name: "compilation and testing"
     runs-on: "ubuntu-latest"
     permissions:
       contents: write

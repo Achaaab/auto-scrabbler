@@ -1,0 +1,38 @@
+name: "Build for Windows"
+
+on:
+  push:
+    tags: [*]
+
+jobs:
+
+  building-windows:
+    name: "Build executable for Windows."
+    runs-on: "windows-latest"
+
+    steps:
+
+      - name: "checkout project"
+        uses: "actions/checkout@v4"
+
+      - name: "setup Java 21"
+        uses: "actions/setup-java@v4"
+        with:
+          distribution: "temurin"
+          java-version: "21"
+
+      - name: "maven - verify"
+        run: "mvn package --no-transfer-progress --errors"
+
+      - name: "jpackage"
+        run: |
+          jpackage \
+            --name "Auto-Scrabbler" \
+            --app-version "${{ github.ref_name }}" \
+            --input target \
+            --main-jar auto-scrabbler-${{ github.ref_name }}.jar \
+            --main-class com.github.achaaab.scrabble.SolverApplication \
+            --type exe \
+            --dest target \
+            --icon src\main\resources\icon_256.png \
+            --vendor "Jonathan Guéhenneux"
