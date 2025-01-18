@@ -80,7 +80,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
-          upload_url: "$RELEASE_UPLOAD_URL"
+          upload_url: "${{ RELEASE_UPLOAD_URL }}"
           asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.deb"
           asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.deb"
           asset_content_type: "application/vnd.debian.binary-package"
@@ -89,7 +89,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
-          upload_url: "$RELEASE_UPLOAD_URL"
+          upload_url: "${{ RELEASE_UPLOAD_URL }}"
           asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.rpm"
           asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.rpm"
           asset_content_type: "application/x-redhat-package-manager"
@@ -125,7 +125,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
-          upload_url: "$RELEASE_UPLOAD_URL"
+          upload_url: "${{ RELEASE_UPLOAD_URL }}"
           asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.pkg"
           asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.pkg"
           asset_content_type: "application/x-newton-compatible-pkg"
@@ -161,7 +161,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
-          upload_url: "$RELEASE_UPLOAD_URL"
+          upload_url: "${{ RELEASE_UPLOAD_URL }}"
           asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.exe"
           asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.exe"
           asset_content_type: "application/application/vnd.microsoft.portable-executable"
