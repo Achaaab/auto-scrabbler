@@ -33,13 +33,20 @@ jobs:
           release_name: "auto-scrabbler-${{ github.ref_name }}"
           draft: false
           prerelease: false
-      - name: "save release upload URL"
-        run: |
-          echo "RELEASE_UPLOAD_URL=${{ steps.create_release.outputs.upload_url }}" >> $GITHUB_ENV
+      - name: "Upload executable jar file."
+        uses: "actions/upload-release-asset@v1"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          upload_url: "${{ steps.create_release.outputs.upload_url }}"
+          asset_path: "target/auto-scrabbler-${{ github.ref_name }}.jar"
+          asset_name: "auto-scrabbler-${{ github.ref_name }}.jar"
+          asset_content_type: "application/java-archive"
 
   building-linux:
     name: "Build packages for Linux."
     runs-on: "ubuntu-latest"
+    needs: "building"
     permissions: write-all
     steps:
       - name: "checkout project"
@@ -80,7 +87,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
-          upload_url: "${{ RELEASE_UPLOAD_URL }}"
+          upload_url: "${{ needs.building.outputs.upload_url }}"
           asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.deb"
           asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.deb"
           asset_content_type: "application/vnd.debian.binary-package"
@@ -89,7 +96,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
-          upload_url: "${{ RELEASE_UPLOAD_URL }}"
+          upload_url: "${{ needs.building.outputs.upload_url }}"
           asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.rpm"
           asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.rpm"
           asset_content_type: "application/x-redhat-package-manager"
@@ -97,6 +104,7 @@ jobs:
   building-macos:
     name: "Build package for macOS."
     runs-on: "macos-latest"
+    needs: building
     permissions: write-all
     steps:
       - name: "checkout project"
@@ -125,7 +133,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
-          upload_url: "${{ RELEASE_UPLOAD_URL }}"
+          upload_url: "${{ needs.building.outputs.upload_url }}"
           asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.pkg"
           asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.pkg"
           asset_content_type: "application/x-newton-compatible-pkg"
@@ -133,6 +141,7 @@ jobs:
   building-windows:
     name: "Build executable for Windows."
     runs-on: "windows-latest"
+    needs: building
     permissions: write-all
     steps:
       - name: "checkout project"
@@ -161,7 +170,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
-          upload_url: "${{ RELEASE_UPLOAD_URL }}"
+          upload_url: "${{ needs.building.outputs.upload_url }}"
           asset_path: "target/auto-scrabbler_${{ github.ref_name }}_amd64.exe"
           asset_name: "auto-scrabbler_${{ github.ref_name }}_amd64.exe"
           asset_content_type: "application/application/vnd.microsoft.portable-executable"
