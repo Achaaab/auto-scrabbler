@@ -10,6 +10,7 @@ jobs:
   building:
     name: "Build executable jar."
     runs-on: "ubuntu-latest"
+    permissions: write-all
     steps:
       - name: "checkout project"
         uses: "actions/checkout@v4"
@@ -34,6 +35,7 @@ jobs:
   building-linux:
     name: "Build packages for Linux."
     runs-on: "ubuntu-latest"
+    permissions: write-all
     steps:
       - name: "checkout project"
         uses: "actions/checkout@v4"
@@ -90,6 +92,7 @@ jobs:
   building-macos:
     name: "Build package for macOS."
     runs-on: "macos-latest"
+    permissions: write-all
     steps:
       - name: "checkout project"
         uses: "actions/checkout@v4"
@@ -125,6 +128,7 @@ jobs:
   building-windows:
     name: "Build executable for Windows."
     runs-on: "windows-latest"
+    permissions: write-all
     steps:
       - name: "checkout project"
         uses: "actions/checkout@v4"
