@@ -12,6 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 import java.util.List;
 
+import static com.github.achaaab.scrabble.view.ViewUtilities.pixels;
 import static java.awt.FlowLayout.CENTER;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
@@ -26,7 +27,7 @@ import static java.util.stream.IntStream.range;
  */
 public class RackView extends JComponent {
 
-	private static final int RACK_TILE_SIZE = round(TileView.SIZE * 1.50f);
+	private static final int RACK_TILE_SIZE = pixels(1.50);
 	public static final Dimension SIZE = new Dimension(RACK_TILE_SIZE * 10, RACK_TILE_SIZE * 2);
 
 	private static final Color BOTTOM_COLOR = new Color(202, 162, 123);

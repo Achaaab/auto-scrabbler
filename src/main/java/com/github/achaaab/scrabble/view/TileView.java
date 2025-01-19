@@ -11,9 +11,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import static com.github.achaaab.scrabble.tools.FontUtilities.align;
-import static com.github.achaaab.scrabble.tools.SwingUtility.getScreenHeight;
 import static com.github.achaaab.scrabble.tools.Alignment.BOTTOM_RIGHT;
 import static com.github.achaaab.scrabble.tools.Alignment.CENTER_CENTER;
+import static com.github.achaaab.scrabble.view.ViewUtilities.pixels;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 import static java.lang.Math.round;
@@ -26,7 +26,7 @@ import static java.lang.Math.round;
  */
 public class TileView extends JComponent {
 
-	public static final int SIZE = getScreenHeight() / 25;
+	public static final int SIZE = pixels(1.00);
 
 	public static final Color FOREGROUND = new Color(38, 15, 1);
 	public static final Color BACKGROUND = new Color(254, 236, 207);

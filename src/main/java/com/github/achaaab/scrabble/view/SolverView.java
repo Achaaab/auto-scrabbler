@@ -2,7 +2,6 @@ package com.github.achaaab.scrabble.view;
 
 import com.github.achaaab.scrabble.model.solver.Solver;
 import com.github.achaaab.scrabble.model.solver.SimpleSheetEntry;
-import com.github.achaaab.scrabble.tools.SwingUtility;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -15,7 +14,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 
 import static com.github.achaaab.scrabble.tools.MessageBundle.getMessage;
-import static com.github.achaaab.scrabble.tools.SwingUtility.showException;
+import static com.github.achaaab.scrabble.view.ViewUtilities.showException;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.EAST;
 import static java.awt.BorderLayout.SOUTH;
@@ -104,7 +103,7 @@ public class SolverView extends Box {
 			letters.setText("");
 		});
 
-		sheet.model().addExceptionListener(SwingUtility::showException);
+		sheet.model().addExceptionListener(ViewUtilities::showException);
 
 		var lettersDocument = letters.getDocument();
 

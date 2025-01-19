@@ -7,14 +7,22 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 /**
+ * Drawn letters view.
+ *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
 public class LettersView extends JTextField {
 
 	/**
-	 * @param string
-	 * @return
+	 * Filters typed characters:
+	 * <ul>
+	 *   <li>Switches characters to upper case.</li>
+	 *   <li>Removes non upper case letters.</li>
+	 * </ul>
+	 *
+	 * @param string typed characters
+	 * @return filtered characters
 	 * @since 0.0.0
 	 */
 	private static String filter(String string) {
@@ -22,6 +30,8 @@ public class LettersView extends JTextField {
 	}
 
 	/**
+	 * Creates a new view for drawn letters input.
+	 *
 	 * @since 0.0.0
 	 */
 	public LettersView() {

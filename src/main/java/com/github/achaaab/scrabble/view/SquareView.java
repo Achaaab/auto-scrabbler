@@ -14,10 +14,10 @@ import static com.github.achaaab.scrabble.model.core.Direction.HORIZONTAL;
 import static com.github.achaaab.scrabble.model.core.Direction.VERTICAL;
 import static com.github.achaaab.scrabble.tools.GeometryUtilities.getFiveBranchStar;
 import static com.github.achaaab.scrabble.tools.GeometryUtilities.getPolygon;
+import static com.github.achaaab.scrabble.view.ViewUtilities.pixels;
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
-import static java.lang.Math.round;
 import static javax.swing.BorderFactory.createEmptyBorder;
 
 /**
@@ -35,7 +35,7 @@ public class SquareView extends JComponent {
 	private static final Color LETTER_TRIPLE_BACKGROUND = new Color(55, 153, 184);
 	private static final Color CENTRAL_STAR_PAINT = new Color(47, 34, 36);
 
-	public static final int INNER_MARGIN = round(TileView.SIZE * 0.00f);
+	public static final int INNER_MARGIN = pixels(0.00);
 
 	private final Square model;
 	private final TileView tile;

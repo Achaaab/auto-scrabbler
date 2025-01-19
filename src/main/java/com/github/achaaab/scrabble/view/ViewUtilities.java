@@ -1,8 +1,9 @@
-package com.github.achaaab.scrabble.tools;
+package com.github.achaaab.scrabble.view;
 
 import javax.swing.AbstractButton;
 import javax.swing.JScrollPane;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -15,21 +16,36 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
- * Swing utility methods
+ * View utility methods
  *
  * @author Jonathan Guéhenneux
- * @since 0.0.0
+ * @since 1.0.1
  */
-public class SwingUtility {
+public class ViewUtilities {
 
 	private static final Toolkit TOOLKIT = getDefaultToolkit();
+	private static final int SCREEN_HEIGHT = TOOLKIT.getScreenSize().height;
 
 	/**
-	 * @return screen height in pixels
-	 * @since 0.0.3
+	 * Converts a size relative to screen height in pixels.
+	 *
+	 * @param size in 1/25th of screen height
+	 * @return specified size in pixels
+	 * @since 1.0.1
 	 */
-	public static int getScreenHeight() {
-		return TOOLKIT.getScreenSize().height;
+	public static int pixels(double size) {
+		return toIntExact(round(size * SCREEN_HEIGHT / 25));
+	}
+
+	/**
+	 * Converts a size relative to screen height in pixels.
+	 *
+	 * @param size in 1/25th of screen height
+	 * @return specified size in pixels
+	 * @since 1.0.1
+	 */
+	public static float pixelsFloat(double size) {
+		return (float) (size * SCREEN_HEIGHT / 25);
 	}
 
 	/**
@@ -106,6 +122,27 @@ public class SwingUtility {
 	 */
 	public static void showException(Exception exception) {
 		showMessageDialog(null, getRootCause(exception).getMessage(), "Erreur", ERROR_MESSAGE);
+	}
+
+	/**
+	 * Creates a scroll pane and adds the given component in it.
+	 * This helper aims to adapt the scroll pane components (track, buttons, thumb...) to scale with the
+	 * pixel density of the monitor.
+	 *
+	 * @param component component to add into a scroll pane
+	 * @param opaque whether to set the scroll pane opaque
+	 * @return created scroll pane
+	 * @since 1.0.1
+	 */
+	public static JScrollPane scrollPane(Component component, boolean opaque) {
+
+		var scrollPane = new JScrollPane(component);
+
+		scrollPane.setOpaque(opaque);
+		scrollPane.getViewport().setOpaque(opaque);
+		resizeScrollBars(scrollPane, pixels(0.28), pixels(0.28));
+
+		return scrollPane;
 	}
 
 	/**

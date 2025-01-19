@@ -6,8 +6,9 @@ import javax.swing.JLabel;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import static com.github.achaaab.scrabble.tools.SwingUtility.isDark;
+import static com.github.achaaab.scrabble.view.ViewUtilities.isDark;
 import static com.github.achaaab.scrabble.view.TileView.SIZE;
+import static com.github.achaaab.scrabble.view.ViewUtilities.pixelsFloat;
 
 /**
  * View for a scrabble board coordinate.
@@ -18,7 +19,7 @@ import static com.github.achaaab.scrabble.view.TileView.SIZE;
 public class CoordinateView extends JLabel {
 
 	private static final Font BASE_FONT = FontUtilities.load("lt_superior/LTSuperior-SemiBold.otf");
-	private static final Font FONT = BASE_FONT.deriveFont(SIZE * 0.30f);
+	private static final Font FONT = BASE_FONT.deriveFont(pixelsFloat(0.30));
 
 	/**
 	 * Creates a view for a scrabble board coordinate.

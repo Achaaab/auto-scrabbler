@@ -2,7 +2,7 @@ package com.github.achaaab.scrabble.model.core;
 
 import com.github.achaaab.scrabble.tools.Trie;
 
-import static com.github.achaaab.scrabble.tools.ResourceUtility.consumeLines;
+import static com.github.achaaab.scrabble.tools.ResourceUtilities.consumeLines;
 
 /**
  * Scrabble dictionary.
