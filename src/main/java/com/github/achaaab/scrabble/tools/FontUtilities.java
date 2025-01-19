@@ -1,7 +1,5 @@
 package com.github.achaaab.scrabble.tools;
 
-import com.github.achaaab.scrabble.view.SquareView;
-
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
@@ -29,7 +27,7 @@ public class FontUtilities {
 	 */
 	public static Font load(String resourceName) {
 
-		var classLoader = SquareView.class.getClassLoader();
+		var classLoader = FontUtilities.class.getClassLoader();
 
 		try (var inputStream = classLoader.getResourceAsStream(resourceName)) {
 

@@ -1,20 +1,21 @@
-package com.github.achaaab.scrabble.model;
+package com.github.achaaab.scrabble.model.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
-import static com.github.achaaab.scrabble.model.Award.LETTER_DOUBLE;
-import static com.github.achaaab.scrabble.model.Award.LETTER_TRIPLE;
-import static com.github.achaaab.scrabble.model.Award.NONE;
-import static com.github.achaaab.scrabble.model.Award.WORD_DOUBLE;
-import static com.github.achaaab.scrabble.model.Award.WORD_TRIPLE;
-import static com.github.achaaab.scrabble.model.Direction.HORIZONTAL;
-import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
+import static com.github.achaaab.scrabble.model.core.Award.LETTER_DOUBLE;
+import static com.github.achaaab.scrabble.model.core.Award.LETTER_TRIPLE;
+import static com.github.achaaab.scrabble.model.core.Award.NONE;
+import static com.github.achaaab.scrabble.model.core.Award.WORD_DOUBLE;
+import static com.github.achaaab.scrabble.model.core.Award.WORD_TRIPLE;
+import static com.github.achaaab.scrabble.model.core.Direction.HORIZONTAL;
+import static com.github.achaaab.scrabble.model.core.Direction.VERTICAL;
 
 /**
  * Scrabble 15x15 board.
@@ -22,7 +23,7 @@ import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class Board implements Iterable<Square> {
+public class Board {
 
 	public static final int SIZE = 15;
 	public static final int HALF_SIZE = SIZE / 2;
@@ -67,7 +68,7 @@ public class Board implements Iterable<Square> {
 		return award;
 	}
 
-	private final Square[][] grid;
+	private final Square[][] squares;
 	private final Map<String, Reference> references;
 
 	/**
@@ -77,7 +78,7 @@ public class Board implements Iterable<Square> {
 	 */
 	public Board() {
 
-		grid = new Square[SIZE][SIZE];
+		squares = new Square[SIZE][SIZE];
 		references = new HashMap<>();
 
 		for (var column = 0; column < SIZE; column++) {
@@ -87,7 +88,7 @@ public class Board implements Iterable<Square> {
 				var award = getAward(name);
 				var square = new Square(this, column, row, award);
 
-				grid[column][row] = square;
+				squares[column][row] = square;
 				references.put(square.getKey(HORIZONTAL), new Reference(square, HORIZONTAL));
 				references.put(square.getKey(VERTICAL), new Reference(square, VERTICAL));
 			}
@@ -103,7 +104,7 @@ public class Board implements Iterable<Square> {
 	 * @since 0.0.0
 	 */
 	public Square getSquare(int column, int row) {
-		return grid[column][row];
+		return squares[column][row];
 	}
 
 	/**
@@ -203,9 +204,14 @@ public class Board implements Iterable<Square> {
 		return tiles;
 	}
 
-	@Override
-	public Iterator<Square> iterator() {
-		return new SquareIterator(this);
+	/**
+	 * Streams the squares of this board.
+	 *
+	 * @return square stream
+	 * @since 1.0.1
+	 */
+	public Stream<Square> squares() {
+		return Arrays.stream(squares).flatMap(Arrays::stream);
 	}
 
 	/**
@@ -214,6 +220,6 @@ public class Board implements Iterable<Square> {
 	 * @since 0.0.0
 	 */
 	public void clear() {
-		forEach(Square::clear);
+		squares().forEach(Square::clear);
 	}
 }

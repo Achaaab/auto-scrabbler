@@ -1,7 +1,7 @@
 package com.github.achaaab.scrabble.view;
 
-import com.github.achaaab.scrabble.rules.Solver;
-import com.github.achaaab.scrabble.sheet.SimpleSheetEntry;
+import com.github.achaaab.scrabble.model.solver.Solver;
+import com.github.achaaab.scrabble.model.solver.SimpleSheetEntry;
 import com.github.achaaab.scrabble.tools.SwingUtility;
 
 import javax.swing.Box;

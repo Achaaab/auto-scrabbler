@@ -1,4 +1,4 @@
-package com.github.achaaab.scrabble.model;
+package com.github.achaaab.scrabble.model.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static com.github.achaaab.scrabble.model.Tile.BLANK;
+import static com.github.achaaab.scrabble.model.core.Tile.BLANK;
 import static com.github.achaaab.scrabble.tools.MessageBundle.getMessage;
 import static java.lang.Character.isLowerCase;
 import static java.lang.Character.toUpperCase;

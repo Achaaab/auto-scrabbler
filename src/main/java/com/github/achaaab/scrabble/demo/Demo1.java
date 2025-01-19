@@ -1,18 +1,18 @@
 package com.github.achaaab.scrabble.demo;
 
-import com.github.achaaab.scrabble.model.Bag;
-import com.github.achaaab.scrabble.model.Board;
-import com.github.achaaab.scrabble.model.Duplicate;
-import com.github.achaaab.scrabble.model.Rack;
-import com.github.achaaab.scrabble.rules.Evaluator;
+import com.github.achaaab.scrabble.model.core.Bag;
+import com.github.achaaab.scrabble.model.core.Board;
+import com.github.achaaab.scrabble.model.duplicate.Duplicate;
+import com.github.achaaab.scrabble.model.core.Rack;
+import com.github.achaaab.scrabble.model.move.Evaluator;
 import com.github.achaaab.scrabble.view.DuplicateView;
 
 import javax.swing.JFrame;
 import java.awt.FlowLayout;
 import java.lang.reflect.InvocationTargetException;
 
-import static com.github.achaaab.scrabble.model.Dictionary.FRENCH_ODS9;
-import static com.github.achaaab.scrabble.model.Tile.getFrenchTiles;
+import static com.github.achaaab.scrabble.model.core.Dictionary.FRENCH_ODS9;
+import static com.github.achaaab.scrabble.model.core.Tile.getFrenchTiles;
 import static javax.swing.SwingUtilities.invokeAndWait;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 

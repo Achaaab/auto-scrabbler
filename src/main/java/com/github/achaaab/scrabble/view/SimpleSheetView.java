@@ -1,6 +1,6 @@
 package com.github.achaaab.scrabble.view;
 
-import com.github.achaaab.scrabble.sheet.SimpleSheet;
+import com.github.achaaab.scrabble.model.solver.SimpleSheet;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JScrollPane;
@@ -11,11 +11,11 @@ import javax.swing.text.AbstractDocument;
 import java.awt.Dimension;
 import java.util.Collections;
 
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.INDEX_COLUMN;
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.KEY_COLUMN;
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.SCORE_COLUMN;
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.TOTAL_COLUMN;
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.WORD_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SimpleSheet.INDEX_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SimpleSheet.KEY_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SimpleSheet.SCORE_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SimpleSheet.TOTAL_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SimpleSheet.WORD_COLUMN;
 import static com.github.achaaab.scrabble.tools.SwingUtility.resizeScrollBars;
 import static java.lang.Math.round;
 import static javax.swing.ListSelectionModel.SINGLE_SELECTION;

@@ -1,6 +1,6 @@
 package com.github.achaaab.scrabble.view;
 
-import com.github.achaaab.scrabble.model.Square;
+import com.github.achaaab.scrabble.model.core.Square;
 
 import javax.swing.JComponent;
 import java.awt.BorderLayout;
@@ -9,9 +9,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 
-import static com.github.achaaab.scrabble.model.Award.NONE;
-import static com.github.achaaab.scrabble.model.Direction.HORIZONTAL;
-import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
+import static com.github.achaaab.scrabble.model.core.Award.NONE;
+import static com.github.achaaab.scrabble.model.core.Direction.HORIZONTAL;
+import static com.github.achaaab.scrabble.model.core.Direction.VERTICAL;
 import static com.github.achaaab.scrabble.tools.GeometryUtilities.getFiveBranchStar;
 import static com.github.achaaab.scrabble.tools.GeometryUtilities.getPolygon;
 import static java.awt.BorderLayout.CENTER;

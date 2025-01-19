@@ -1,8 +1,10 @@
-package com.github.achaaab.scrabble.model;
+package com.github.achaaab.scrabble.tools;
+
+import com.github.achaaab.scrabble.model.core.Tile;
 
 import java.util.List;
 
-import static com.github.achaaab.scrabble.model.Dictionary.LETTER_COUNT;
+import static com.github.achaaab.scrabble.model.core.Dictionary.LETTER_COUNT;
 import static java.lang.Character.toUpperCase;
 
 /**

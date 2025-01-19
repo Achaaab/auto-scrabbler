@@ -1,6 +1,6 @@
 package com.github.achaaab.scrabble.view;
 
-import com.github.achaaab.scrabble.model.Rack;
+import com.github.achaaab.scrabble.model.core.Rack;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;

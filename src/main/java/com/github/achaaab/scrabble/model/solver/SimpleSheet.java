@@ -1,6 +1,6 @@
-package com.github.achaaab.scrabble.sheet;
+package com.github.achaaab.scrabble.model.solver;
 
-import com.github.achaaab.scrabble.rules.Solver;
+import com.github.achaaab.scrabble.tools.ExceptionListener;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;

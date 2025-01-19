@@ -1,6 +1,6 @@
 package com.github.achaaab.scrabble.demo;
 
-import com.github.achaaab.scrabble.model.Tile;
+import com.github.achaaab.scrabble.model.core.Tile;
 import com.github.achaaab.scrabble.view.TileView;
 
 import java.awt.image.BufferedImage;

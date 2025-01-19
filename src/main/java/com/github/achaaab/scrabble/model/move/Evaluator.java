@@ -1,21 +1,21 @@
-package com.github.achaaab.scrabble.rules;
+package com.github.achaaab.scrabble.model.move;
 
-import com.github.achaaab.scrabble.model.Board;
-import com.github.achaaab.scrabble.model.Dictionary;
-import com.github.achaaab.scrabble.model.Direction;
-import com.github.achaaab.scrabble.model.Rack;
-import com.github.achaaab.scrabble.model.Square;
-import com.github.achaaab.scrabble.model.Tile;
-import com.github.achaaab.scrabble.model.TileCollection;
-import com.github.achaaab.scrabble.model.Trie;
+import com.github.achaaab.scrabble.model.core.Board;
+import com.github.achaaab.scrabble.model.core.Dictionary;
+import com.github.achaaab.scrabble.model.core.Direction;
+import com.github.achaaab.scrabble.model.core.Rack;
+import com.github.achaaab.scrabble.model.core.Square;
+import com.github.achaaab.scrabble.model.core.Tile;
+import com.github.achaaab.scrabble.model.core.TileCollection;
+import com.github.achaaab.scrabble.tools.Trie;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.achaaab.scrabble.model.Dictionary.LETTER_COUNT;
-import static com.github.achaaab.scrabble.model.Direction.HORIZONTAL;
-import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
-import static com.github.achaaab.scrabble.model.Tile.blank;
+import static com.github.achaaab.scrabble.model.core.Dictionary.LETTER_COUNT;
+import static com.github.achaaab.scrabble.model.core.Direction.HORIZONTAL;
+import static com.github.achaaab.scrabble.model.core.Direction.VERTICAL;
+import static com.github.achaaab.scrabble.model.core.Tile.blank;
 import static com.github.achaaab.scrabble.tools.MessageBundle.getMessage;
 import static java.lang.Character.toLowerCase;
 import static java.util.Comparator.reverseOrder;
@@ -189,7 +189,7 @@ public class Evaluator {
 		word = new StringBuilder();
 		moves = new ArrayList<>();
 
-		for (var square : board) {
+		board.squares().forEach(square -> {
 
 			if (square.isAnchor()) {
 
@@ -211,7 +211,7 @@ public class Evaluator {
 					prefixFromRack(trie, anchorSquare);
 				}
 			}
-		}
+		});
 
 		moves.sort(reverseOrder());
 		return moves;

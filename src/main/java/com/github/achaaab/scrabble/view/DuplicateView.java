@@ -1,6 +1,6 @@
 package com.github.achaaab.scrabble.view;
 
-import com.github.achaaab.scrabble.model.Duplicate;
+import com.github.achaaab.scrabble.model.duplicate.Duplicate;
 
 import javax.swing.Box;
 import javax.swing.JPanel;

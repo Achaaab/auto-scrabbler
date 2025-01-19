@@ -1,12 +1,12 @@
 package com.github.achaaab.scrabble.demo;
 
-import com.github.achaaab.scrabble.model.Bag;
-import com.github.achaaab.scrabble.model.Board;
-import com.github.achaaab.scrabble.sheet.DuplicateSheet;
-import com.github.achaaab.scrabble.sheet.DuplicateSheetEntry;
-import com.github.achaaab.scrabble.model.Rack;
-import com.github.achaaab.scrabble.model.Tile;
-import com.github.achaaab.scrabble.rules.Evaluator;
+import com.github.achaaab.scrabble.model.core.Bag;
+import com.github.achaaab.scrabble.model.core.Board;
+import com.github.achaaab.scrabble.model.duplicate.DuplicateSheet;
+import com.github.achaaab.scrabble.model.duplicate.DuplicateSheetEntry;
+import com.github.achaaab.scrabble.model.core.Rack;
+import com.github.achaaab.scrabble.model.core.Tile;
+import com.github.achaaab.scrabble.model.move.Evaluator;
 import com.github.achaaab.scrabble.view.BoardView;
 
 import javax.swing.JFrame;
@@ -15,8 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.achaaab.scrabble.model.Dictionary.FRENCH_ODS9;
-import static com.github.achaaab.scrabble.model.Tile.getFrenchTiles;
+import static com.github.achaaab.scrabble.model.core.Dictionary.FRENCH_ODS9;
+import static com.github.achaaab.scrabble.model.core.Tile.getFrenchTiles;
 import static com.github.achaaab.scrabble.tools.Toolbox.toSeconds;
 import static java.time.Duration.between;
 import static java.time.LocalDateTime.now;

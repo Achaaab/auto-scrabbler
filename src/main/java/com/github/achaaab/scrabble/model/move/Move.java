@@ -1,11 +1,11 @@
-package com.github.achaaab.scrabble.rules;
+package com.github.achaaab.scrabble.model.move;
 
-import com.github.achaaab.scrabble.model.Reference;
-import com.github.achaaab.scrabble.model.Tile;
+import com.github.achaaab.scrabble.model.core.Reference;
+import com.github.achaaab.scrabble.model.core.Tile;
 
 import java.util.List;
 
-import static com.github.achaaab.scrabble.model.Board.SIZE;
+import static com.github.achaaab.scrabble.model.core.Board.SIZE;
 import static com.github.achaaab.scrabble.tools.StringUtilities.pad;
 import static com.github.achaaab.scrabble.tools.Alignment.LEFT;
 import static java.lang.Integer.compare;

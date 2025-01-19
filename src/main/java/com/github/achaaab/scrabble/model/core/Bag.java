@@ -1,7 +1,8 @@
-package com.github.achaaab.scrabble.model;
+package com.github.achaaab.scrabble.model.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
@@ -21,6 +22,10 @@ public class Bag extends TileCollection {
 	 * @since 0.0.0
 	 */
 	public Tile pickRandom() {
+
+		if (isEmpty()) {
+			throw new NoSuchElementException("This bag is empty.");
+		}
 
 		var tileCount = tiles.size();
 		var tileIndex = RANDOM.nextInt(tileCount);

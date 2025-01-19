@@ -1,14 +1,14 @@
 package com.github.achaaab.scrabble;
 
-import com.github.achaaab.scrabble.rules.Solver;
-import com.github.achaaab.scrabble.sheet.SimpleSheetEntry;
+import com.github.achaaab.scrabble.model.solver.Solver;
+import com.github.achaaab.scrabble.model.solver.SimpleSheetEntry;
 import com.github.achaaab.scrabble.view.SolverView;
 
 import javax.swing.JFrame;
 import java.awt.FlowLayout;
 
-import static com.github.achaaab.scrabble.model.Dictionary.FRENCH_ODS9;
-import static com.github.achaaab.scrabble.model.Tile.getFrenchTiles;
+import static com.github.achaaab.scrabble.model.core.Dictionary.FRENCH_ODS9;
+import static com.github.achaaab.scrabble.model.core.Tile.getFrenchTiles;
 import static com.github.achaaab.scrabble.tools.ResourceUtility.loadImage;
 import static com.github.achaaab.scrabble.tools.SwingUtility.showException;
 import static javax.swing.UIManager.getSystemLookAndFeelClassName;

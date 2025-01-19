@@ -1,4 +1,4 @@
-package com.github.achaaab.scrabble.model;
+package com.github.achaaab.scrabble.model.core;
 
 /**
  * Square award.

@@ -1,12 +1,12 @@
-package com.github.achaaab.scrabble.rules;
+package com.github.achaaab.scrabble.model.solver;
 
-import com.github.achaaab.scrabble.model.Bag;
-import com.github.achaaab.scrabble.model.Board;
-import com.github.achaaab.scrabble.model.Dictionary;
-import com.github.achaaab.scrabble.model.Rack;
-import com.github.achaaab.scrabble.model.Tile;
-import com.github.achaaab.scrabble.sheet.SimpleSheet;
-import com.github.achaaab.scrabble.sheet.SimpleSheetEntry;
+import com.github.achaaab.scrabble.model.core.Bag;
+import com.github.achaaab.scrabble.model.core.Board;
+import com.github.achaaab.scrabble.model.core.Dictionary;
+import com.github.achaaab.scrabble.model.core.Rack;
+import com.github.achaaab.scrabble.model.core.Tile;
+import com.github.achaaab.scrabble.model.move.Evaluator;
+import com.github.achaaab.scrabble.model.move.Move;
 
 import java.util.List;
 

@@ -1,9 +1,8 @@
-package com.github.achaaab.scrabble.model;
+package com.github.achaaab.scrabble.model.core;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static com.github.achaaab.scrabble.model.Tile.getFrenchTiles;
+import static com.github.achaaab.scrabble.model.core.Tile.getFrenchTiles;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

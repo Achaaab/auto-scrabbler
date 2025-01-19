@@ -1,4 +1,4 @@
-package com.github.achaaab.scrabble.sheet;
+package com.github.achaaab.scrabble.model.solver;
 
 /**
  * Simple scoring sheet entry.

@@ -1,10 +1,10 @@
-package com.github.achaaab.scrabble.model;
+package com.github.achaaab.scrabble.model.core;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.github.achaaab.scrabble.model.Dictionary.LETTER_COUNT;
+import static com.github.achaaab.scrabble.model.core.Dictionary.LETTER_COUNT;
 import static java.lang.Character.compare;
 import static java.util.stream.IntStream.range;
 

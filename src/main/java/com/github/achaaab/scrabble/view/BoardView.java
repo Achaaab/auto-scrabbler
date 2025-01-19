@@ -1,12 +1,12 @@
 package com.github.achaaab.scrabble.view;
 
-import com.github.achaaab.scrabble.model.Board;
+import com.github.achaaab.scrabble.model.core.Board;
 
 import javax.swing.JComponent;
 import java.awt.Color;
 import java.awt.GridLayout;
 
-import static com.github.achaaab.scrabble.model.Board.SIZE;
+import static com.github.achaaab.scrabble.model.core.Board.SIZE;
 import static java.lang.Math.round;
 import static javax.swing.SwingConstants.BOTTOM;
 import static javax.swing.SwingConstants.CENTER;

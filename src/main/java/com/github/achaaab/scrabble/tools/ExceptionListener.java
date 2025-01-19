@@ -1,4 +1,4 @@
-package com.github.achaaab.scrabble.sheet;
+package com.github.achaaab.scrabble.tools;
 
 /**
  * Exception listener primarily implemented by views to catch model exceptions.

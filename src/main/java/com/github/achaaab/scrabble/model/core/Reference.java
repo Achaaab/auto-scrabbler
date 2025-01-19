@@ -1,6 +1,6 @@
-package com.github.achaaab.scrabble.model;
+package com.github.achaaab.scrabble.model.core;
 
-import static com.github.achaaab.scrabble.model.Direction.HORIZONTAL;
+import static com.github.achaaab.scrabble.model.core.Direction.HORIZONTAL;
 
 /**
  * A reference is a combination of a square and a direction.

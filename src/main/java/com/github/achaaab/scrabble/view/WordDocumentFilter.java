@@ -1,6 +1,6 @@
 package com.github.achaaab.scrabble.view;
 
-import com.github.achaaab.scrabble.model.Board;
+import com.github.achaaab.scrabble.model.core.Board;
 
 /**
  * Document filter for played words.

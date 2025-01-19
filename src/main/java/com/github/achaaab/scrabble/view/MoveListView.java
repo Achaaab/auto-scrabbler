@@ -1,7 +1,7 @@
 package com.github.achaaab.scrabble.view;
 
-import com.github.achaaab.scrabble.sheet.SimpleSheet;
-import com.github.achaaab.scrabble.sheet.SimpleSheetEntry;
+import com.github.achaaab.scrabble.model.solver.SimpleSheet;
+import com.github.achaaab.scrabble.model.solver.SimpleSheetEntry;
 
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
@@ -16,10 +16,10 @@ import java.awt.event.WindowEvent;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.INDEX_COLUMN;
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.KEY_COLUMN;
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.SCORE_COLUMN;
-import static com.github.achaaab.scrabble.sheet.SimpleSheet.WORD_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SimpleSheet.INDEX_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SimpleSheet.KEY_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SimpleSheet.SCORE_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SimpleSheet.WORD_COLUMN;
 import static com.github.achaaab.scrabble.tools.MessageBundle.getMessage;
 import static java.awt.Dialog.ModalityType.APPLICATION_MODAL;
 import static java.awt.event.KeyEvent.VK_ENTER;

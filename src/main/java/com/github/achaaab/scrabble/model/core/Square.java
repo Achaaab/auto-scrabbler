@@ -1,9 +1,9 @@
-package com.github.achaaab.scrabble.model;
+package com.github.achaaab.scrabble.model.core;
 
-import static com.github.achaaab.scrabble.model.Board.HALF_SIZE;
-import static com.github.achaaab.scrabble.model.Board.SIZE;
-import static com.github.achaaab.scrabble.model.Direction.HORIZONTAL;
-import static com.github.achaaab.scrabble.model.Direction.VERTICAL;
+import static com.github.achaaab.scrabble.model.core.Board.HALF_SIZE;
+import static com.github.achaaab.scrabble.model.core.Board.SIZE;
+import static com.github.achaaab.scrabble.model.core.Direction.HORIZONTAL;
+import static com.github.achaaab.scrabble.model.core.Direction.VERTICAL;
 
 /**
  * Scrabble board square.
