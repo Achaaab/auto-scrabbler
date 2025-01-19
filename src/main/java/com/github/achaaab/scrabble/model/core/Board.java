@@ -49,7 +49,7 @@ public class Board {
 	 * @return award given by the specified square
 	 * @since 0.0.0
 	 */
-	private static Award getAward(String square) {
+	static Award getAward(String square) {
 
 		Award award;
 
@@ -101,6 +101,7 @@ public class Board {
 	 * @param column column, between 0 and {@link #SIZE} excluded
 	 * @param row row, between 0 and {@link #SIZE} excluded
 	 * @return square at the specified column and row
+	 * @throws ArrayIndexOutOfBoundsException if the specified column or row is out of bounds
 	 * @since 0.0.0
 	 */
 	public Square getSquare(int column, int row) {
@@ -110,7 +111,7 @@ public class Board {
 	/**
 	 * Gets a reference from its key.
 	 *
-	 * @param key canonical name of a reference
+	 * @param key canonical name of a reference, {@code null} if the specified key has no reference
 	 * @return associated reference
 	 * @since 0.0.0
 	 */
