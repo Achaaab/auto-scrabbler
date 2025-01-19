@@ -15,8 +15,9 @@
   (requires [Java 21 runtime environment](https://adoptium.net/fr/temurin/releases/?package=jre&version=21))
 
 ## Screenshots
-<img src="data/screenshots/french_duplicate.png" width="1024" alt="gameplay screenshot"/>
-<img src="data/screenshots/french_duplicate_solve.png" width="320" alt="about screenshot"/>
+<img src="data/screenshots/french_solver.png" width="1024" alt="gameplay screenshot"/>
+<img src="data/screenshots/french_solver_moves.png" width="320" alt="about screenshot"/>
+<img src="data/screenshots/about.png" width="1024" alt="about screenshot"/>
 
 ## Authors
 * **Jonathan Guéhenneux** - *Programmer* - [Achaaab](https://github.com/Achaaab)
