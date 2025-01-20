@@ -18,7 +18,7 @@ import static com.github.achaaab.scrabble.view.ViewUtilities.pixelsFloat;
  */
 public class CoordinateView extends JLabel {
 
-	private static final Font BASE_FONT = FontUtilities.load("lt_superior/LTSuperior-SemiBold.otf");
+	private static final Font BASE_FONT = FontUtilities.load("fonts/lt_superior/LTSuperior-SemiBold.otf");
 	private static final Font FONT = BASE_FONT.deriveFont(pixelsFloat(0.30));
 
 	/**

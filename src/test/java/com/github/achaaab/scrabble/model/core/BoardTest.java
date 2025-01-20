@@ -15,8 +15,10 @@ import static com.github.achaaab.scrabble.model.core.Board.SIZE;
 import static com.github.achaaab.scrabble.model.core.Direction.HORIZONTAL;
 import static com.github.achaaab.scrabble.model.core.Direction.VERTICAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests of {@link Board}.
@@ -218,5 +220,213 @@ class BoardTest {
 		var referenceError = board.getReference("8E");
 		assertThrows(IllegalArgumentException.class, () -> board.play(tilesError, referenceError));
 		assertEquals(tile10, board.getSquare(7, 4).getTile());
+	}
+
+	@Test
+	void getPreviousTilesA1() {
+
+		var board = new Board();
+		var referenceA1 = board.getReference("A1");
+
+		var tiles = board.getPreviousTiles(referenceA1.square(), referenceA1.direction());
+		assertTrue(tiles.isEmpty());
+	}
+
+	@Test
+	void getPreviousTilesA2() {
+
+		var board = new Board();
+		var referenceA1 = board.getReference("A1");
+		var referenceA2 = board.getReference("A2");
+		var tile0 = new Tile('A', 1);
+
+		var tiles = board.getPreviousTiles(referenceA2.square(), referenceA2.direction());
+		assertTrue(tiles.isEmpty());
+
+		board.play(List.of(tile0), referenceA1);
+		tiles = board.getPreviousTiles(referenceA2.square(), referenceA2.direction());
+		assertIterableEquals(List.of(tile0), tiles);
+	}
+
+	@Test
+	void getPreviousTilesA3() {
+
+		var board = new Board();
+		var referenceA1 = board.getReference("A1");
+		var referenceA2 = board.getReference("A2");
+		var referenceA3 = board.getReference("A3");
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+
+		var tiles = board.getPreviousTiles(referenceA3.square(), referenceA3.direction());
+		assertTrue(tiles.isEmpty());
+
+		board.play(List.of(tile1), referenceA2);
+		tiles = board.getPreviousTiles(referenceA3.square(), referenceA3.direction());
+		assertIterableEquals(List.of(tile1), tiles);
+
+		board.play(List.of(tile0), referenceA1);
+		tiles = board.getPreviousTiles(referenceA3.square(), referenceA3.direction());
+		assertIterableEquals(List.of(tile0, tile1), tiles);
+
+		referenceA2.square().clear();
+		tiles = board.getPreviousTiles(referenceA3.square(), referenceA3.direction());
+		assertTrue(tiles.isEmpty());
+	}
+
+	@Test
+	void getPreviousTiles1A() {
+
+		var board = new Board();
+		var reference1A = board.getReference("1A");
+
+		var tiles = board.getPreviousTiles(reference1A.square(), reference1A.direction());
+		assertTrue(tiles.isEmpty());
+	}
+
+	@Test
+	void getPreviousTiles1B() {
+
+		var board = new Board();
+		var reference1A = board.getReference("1A");
+		var reference1B = board.getReference("1B");
+		var tile0 = new Tile('A', 1);
+
+		var tiles = board.getPreviousTiles(reference1B.square(), reference1B.direction());
+		assertTrue(tiles.isEmpty());
+
+		board.play(List.of(tile0), reference1A);
+		tiles = board.getPreviousTiles(reference1B.square(), reference1B.direction());
+		assertIterableEquals(List.of(tile0), tiles);
+	}
+
+	@Test
+	void getPreviousTiles1C() {
+
+		var board = new Board();
+		var reference1A = board.getReference("1A");
+		var reference1B = board.getReference("1B");
+		var reference1C = board.getReference("1C");
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+
+		var tiles = board.getPreviousTiles(reference1C.square(), reference1C.direction());
+		assertTrue(tiles.isEmpty());
+
+		board.play(List.of(tile1), reference1B);
+		tiles = board.getPreviousTiles(reference1C.square(), reference1C.direction());
+		assertIterableEquals(List.of(tile1), tiles);
+
+		board.play(List.of(tile0), reference1A);
+		tiles = board.getPreviousTiles(reference1C.square(), reference1C.direction());
+		assertIterableEquals(List.of(tile0, tile1), tiles);
+
+		reference1B.square().clear();
+		tiles = board.getPreviousTiles(reference1C.square(), reference1C.direction());
+		assertTrue(tiles.isEmpty());
+	}
+
+	@Test
+	void getNextTilesA15() {
+
+		var board = new Board();
+		var referenceA15 = board.getReference("A15");
+
+		var tiles = board.getNextTiles(referenceA15.square(), referenceA15.direction());
+		assertTrue(tiles.isEmpty());
+	}
+
+	@Test
+	void getNextTilesA14() {
+
+		var board = new Board();
+		var referenceA14 = board.getReference("A14");
+		var referenceA15 = board.getReference("A15");
+		var tile0 = new Tile('A', 1);
+
+		var tiles = board.getNextTiles(referenceA14.square(), referenceA14.direction());
+		assertTrue(tiles.isEmpty());
+
+		board.play(List.of(tile0), referenceA15);
+		tiles = board.getNextTiles(referenceA14.square(), referenceA14.direction());
+		assertIterableEquals(List.of(tile0), tiles);
+	}
+
+	@Test
+	void getNextTilesA13() {
+
+		var board = new Board();
+		var referenceA13 = board.getReference("A13");
+		var referenceA14 = board.getReference("A14");
+		var referenceA15 = board.getReference("A15");
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+
+		var tiles = board.getNextTiles(referenceA13.square(), referenceA13.direction());
+		assertTrue(tiles.isEmpty());
+
+		board.play(List.of(tile0), referenceA14);
+		tiles = board.getNextTiles(referenceA13.square(), referenceA13.direction());
+		assertIterableEquals(List.of(tile0), tiles);
+
+		board.play(List.of(tile1), referenceA15);
+		tiles = board.getNextTiles(referenceA13.square(), referenceA13.direction());
+		assertIterableEquals(List.of(tile0, tile1), tiles);
+
+		referenceA14.square().clear();
+		tiles = board.getNextTiles(referenceA13.square(), referenceA13.direction());
+		assertTrue(tiles.isEmpty());
+	}
+
+	@Test
+	void getNextTiles1O() {
+
+		var board = new Board();
+		var reference1O = board.getReference("1O");
+
+		var tiles = board.getNextTiles(reference1O.square(), reference1O.direction());
+		assertTrue(tiles.isEmpty());
+	}
+
+	@Test
+	void getNextTiles1N() {
+
+		var board = new Board();
+		var reference1N = board.getReference("1N");
+		var reference1O = board.getReference("1O");
+		var tile0 = new Tile('A', 1);
+
+		var tiles = board.getNextTiles(reference1N.square(), reference1N.direction());
+		assertTrue(tiles.isEmpty());
+
+		board.play(List.of(tile0), reference1O);
+		tiles = board.getNextTiles(reference1N.square(), reference1N.direction());
+		assertIterableEquals(List.of(tile0), tiles);
+	}
+
+	@Test
+	void getNextTiles1M() {
+
+		var board = new Board();
+		var reference1M = board.getReference("1M");
+		var reference1N = board.getReference("1N");
+		var reference1O = board.getReference("1O");
+		var tile0 = new Tile('A', 1);
+		var tile1 = new Tile('B', 3);
+
+		var tiles = board.getNextTiles(reference1M.square(), reference1M.direction());
+		assertTrue(tiles.isEmpty());
+
+		board.play(List.of(tile0), reference1N);
+		tiles = board.getNextTiles(reference1M.square(), reference1M.direction());
+		assertIterableEquals(List.of(tile0), tiles);
+
+		board.play(List.of(tile1), reference1O);
+		tiles = board.getNextTiles(reference1M.square(), reference1M.direction());
+		assertIterableEquals(List.of(tile0, tile1), tiles);
+
+		reference1N.square().clear();
+		tiles = board.getNextTiles(reference1M.square(), reference1M.direction());
+		assertTrue(tiles.isEmpty());
 	}
 }

@@ -4,7 +4,7 @@
 ![Coverage](.github/badges/jacoco.svg)
 ![Build](https://github.com/Achaaab/auto-scrabbler/actions/workflows/build.yaml/badge.svg)
 
-<img src="src/main/resources/icon_256.png" width="256" alt="Auto-Scrabbler icon"/>
+<img src="src/main/resources/icons/icon_256.png" width="256" alt="Auto-Scrabbler icon"/>
 
 ## Download
 * Windows installer: [auto-scrabbler-1.0.1.exe](https://github.com/Achaaab/auto-scrabbler/releases/download/1.0.1/auto-scrabbler-1.0.1.exe)

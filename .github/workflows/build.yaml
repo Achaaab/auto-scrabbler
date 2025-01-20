@@ -68,7 +68,7 @@ jobs:
             --main-class com.github.achaaab.scrabble.SolverApplication \
             --type deb \
             --dest target \
-            --icon src/main/resources/icon_256.png \
+            --icon src/main/resources/icons/icon_256.png \
             --vendor "Jonathan Guéhenneux"
       - name: "jpackage rpm"
         run: |
@@ -80,7 +80,7 @@ jobs:
             --main-class com.github.achaaab.scrabble.SolverApplication \
             --type rpm \
             --dest target \
-            --icon src/main/resources/icon_256.png \
+            --icon src/main/resources/icons/icon_256.png \
             --vendor "Jonathan Guéhenneux"
       - name: "Upload Debian package."
         uses: "actions/upload-release-asset@v1"
@@ -126,7 +126,8 @@ jobs:
             --main-class com.github.achaaab.scrabble.SolverApplication \
             --type pkg \
             --dest target \
-            --icon src/main/resources/icon_256.icns \
+            --icon src/main/resources/icons/icon_256.icns \
+            --mac-app-category public.app-category.word-games \
             --vendor "Jonathan Guéhenneux"
       - name: "Upload macOS package."
         uses: "actions/upload-release-asset@v1"
@@ -163,7 +164,9 @@ jobs:
             --main-class com.github.achaaab.scrabble.SolverApplication `
             --type exe `
             --dest target `
-            --icon src\main\resources\icon_256.png `
+            --icon src\main\resources\icons\icon_256.ico `
+            --win-menu `
+            --win-shortcut-prompt `
             --vendor "Jonathan Guéhenneux"
       - name: "Upload Windows installer."
         uses: "actions/upload-release-asset@v1"

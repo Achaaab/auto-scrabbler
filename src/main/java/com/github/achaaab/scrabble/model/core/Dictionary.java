@@ -14,8 +14,8 @@ public class Dictionary {
 
 	public static final int LETTER_COUNT = 26;
 
-	public static final Dictionary FRENCH_ODS9 = new Dictionary("ods9.txt");
-	public static final Dictionary ENGLISH_CSW21 = new Dictionary("csw21.txt");
+	public static final Dictionary FRENCH_ODS9 = new Dictionary("dictionaries/ods9.txt");
+	public static final Dictionary ENGLISH_CSW21 = new Dictionary("dictionaries/csw21.txt");
 
 	private final Trie trie;
 

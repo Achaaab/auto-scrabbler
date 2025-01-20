@@ -2,13 +2,17 @@ package com.github.achaaab.scrabble.view;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.event.HyperlinkEvent;
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
+import java.awt.Graphics2D;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -51,9 +55,14 @@ public class MessagePanel extends JPanel {
 	/**
 	 * Creates a message panel.
 	 *
+	 * @param window parent window
 	 * @since 1.0.1
 	 */
-	public MessagePanel() {
+	public MessagePanel(JFrame window) {
+
+		var rootPane = window.getRootPane();
+		setLocation(0, 0);
+		rootPane.add(this, 0);
 
 		setOpaque(false);
 
@@ -77,9 +86,15 @@ public class MessagePanel extends JPanel {
 		add(buttonPanel, SOUTH);
 
 		setVisible(false);
+
 		ok.addActionListener(event -> setVisible(false));
 
-		addMouseListener(new MouseAdapter() {
+		rootPane.addComponentListener(new ComponentAdapter() {
+
+			@Override
+			public void componentResized(ComponentEvent event) {
+				resize();
+			}
 		});
 	}
 
@@ -149,6 +164,8 @@ public class MessagePanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics graphics) {
 
+		var graphics2d = (Graphics2D) graphics;
+
 		var componentWidth = getWidth();
 		var componentHeight = getHeight();
 		var width = min(componentWidth, MESSAGE_WIDTH);
@@ -157,176 +174,77 @@ public class MessagePanel extends JPanel {
 		graphics.setColor(VEIL_COLOR);
 		graphics.fillRect(0, 0, componentWidth, componentHeight);
 
-		var x00 = (componentWidth - width) / 2;
-		var x01 = x00 + MINOR_STROKE;
-		var x02 = x00 + MAJOR_STROKE - MINOR_STROKE;
-		var x03 = x00 + MAJOR_STROKE;
-		var x04 = x00 + CORNER;
-		var x05 = x00 + CORNER + MAJOR_STROKE - MINOR_STROKE;
-		var x06 = x00 + CORNER + MAJOR_STROKE;
-		var x07 = x00 + 2 * CORNER;
-		var x08 = x00 + 2 * CORNER + MAJOR_STROKE - MINOR_STROKE;
-		var x09 = x00 + 2 * CORNER + MAJOR_STROKE;
-		var x10 = x00 + width - 2 * CORNER - MAJOR_STROKE;
-		var x11 = x00 + width - 2 * CORNER - MINOR_STROKE;
-		var x12 = x00 + width - 2 * CORNER;
-		var x13 = x00 + width - CORNER - MAJOR_STROKE;
-		var x14 = x00 + width - CORNER - MINOR_STROKE;
-		var x15 = x00 + width - CORNER;
-		var x16 = x00 + width - MAJOR_STROKE;
-		var x17 = x00 + width - MINOR_STROKE;
+		var x0 = (componentWidth - width) / 2;
+		var x1 = x0 + CORNER;
+		var x2 = x0 + 2 * CORNER;
+		var x3 = x0 + width - 2 * CORNER;
+		var x4 = x0 + width - CORNER;
+		var x5 = x0 + width;
 
-		var y00 = (componentHeight - height) / 2;
-		var y01 = y00 + MAJOR_STROKE - MINOR_STROKE;
-		var y02 = y00 + MAJOR_STROKE;
-		var y03 = y00 + CORNER;
-		var y04 = y00 + CORNER + MAJOR_STROKE - MINOR_STROKE;
-		var y05 = y00 + CORNER + MAJOR_STROKE;
-		var y06 = y00 + 2 * CORNER;
-		var y07 = y00 + 2 * CORNER + MAJOR_STROKE - MINOR_STROKE;
-		var y08 = y00 + 2 * CORNER + MAJOR_STROKE;
-		var y09 = y00 + height - 2 * CORNER - MAJOR_STROKE;
-		var y10 = y00 + height - 2 * CORNER - MAJOR_STROKE + MINOR_STROKE;
-		var y11 = y00 + height - 2 * CORNER - MINOR_STROKE;
-		var y12 = y00 + height - 2 * CORNER;
-		var y13 = y00 + height - CORNER - MAJOR_STROKE;
-		var y14 = y00 + height - CORNER - MAJOR_STROKE + MINOR_STROKE;
-		var y15 = y00 + height - CORNER - MINOR_STROKE;
-		var y16 = y00 + height - CORNER;
-		var y17 = y00 + height - MAJOR_STROKE;
-		var y18 = y00 + height - MINOR_STROKE;
+		var y0 = (componentHeight - height) / 2;
+		var y1 = y0 + CORNER;
+		var y2 = y0 + 2 * CORNER;
+		var y3 = y0 + height - 2 * CORNER;
+		var y4 = y0 + height - CORNER;
+		var y5 = y0 + height;
 
-		var w00 = MINOR_STROKE;
-		var w01 = MAJOR_STROKE;
-		var w02 = CORNER - MAJOR_STROKE + MINOR_STROKE;
-		var w03 = CORNER;
-		var w04 = CORNER + MINOR_STROKE;
-		var w05 = 2 * CORNER;
-		var w06 = width - 4 * CORNER - 2 * MAJOR_STROKE;
-		var w07 = width - 4 * CORNER;
-		var w08 = width - 2 * CORNER;
-
-		var h00 = MINOR_STROKE;
-		var h01 = MAJOR_STROKE;
-		var h02 = CORNER - MAJOR_STROKE + MINOR_STROKE;
-		var h03 = CORNER;
-		var h04 = CORNER + MINOR_STROKE;
-		var h05 = CORNER * 2;
-		var h06 = height - 4 * CORNER - 2 * MAJOR_STROKE;
-		var h07 = height - 4 * CORNER;
-		var h08 = height - 2 * CORNER;
-		var h09 = height;
-
-		// BACKGROUND
 		graphics.setColor(BACKGROUND);
-		graphics.fillRect(x00, y06, w03, h07);
-		graphics.fillRect(x04, y03, w03, h08);
-		graphics.fillRect(x07, y00, w07, h09);
-		graphics.fillRect(x10, y03, w03, h08);
-		graphics.fillRect(x13, y06, w03, h07);
+		graphics.fillRect(x0, y2, width, height - 4 * CORNER);
+		graphics.fillRect(x1, y1, width - 2 * CORNER, height - 2 * CORNER);
+		graphics.fillRect(x2, y0, width - 4 * CORNER, height);
 
-		// OUTSIDE
-		graphics.setColor(MAJOR_STROKE_COLOR);
-		graphics.fillRect(x04, y00, w08, h01);
-		graphics.fillRect(x16, y03, w01, h08);
-		graphics.fillRect(x04, y17, w08, h01);
-		graphics.fillRect(x00, y03, w01, h08);
-		graphics.fillRect(x03, y03, w05, h01);
-		graphics.fillRect(x04, y00, w01, h05);
-		graphics.fillRect(x13, y02, w01, h05);
-		graphics.fillRect(x12, y03, w05, h01);
-		graphics.fillRect(x12, y13, w05, h01);
-		graphics.fillRect(x13, y09, w01, h05);
-		graphics.fillRect(x04, y09, w01, h05);
-		graphics.fillRect(x03, y13, w05, h01);
+		var defaultStroke = graphics2d.getStroke();
 
-		// INSIDE
-		graphics.fillRect(x03, y06, w03, h01);
-		graphics.fillRect(x07, y02, w01, h03);
-		graphics.fillRect(x10, y02, w01, h03);
-		graphics.fillRect(x15, y06, w03, h01);
-		graphics.fillRect(x15, y09, w03, h01);
-		graphics.fillRect(x10, y13, w01, h03);
-		graphics.fillRect(x07, y16, w01, h03);
-		graphics.fillRect(x00, y09, w03, h01);
-
-		// OUTSIDE BORDER
 		graphics.setColor(MINOR_STROKE_COLOR);
-		graphics.fillRect(x04, y00, w08, h00);
-		graphics.fillRect(x17, y03, w00, h08);
-		graphics.fillRect(x04, y18, w08, h00);
-		graphics.fillRect(x00, y03, w00, h08);
+		graphics2d.setStroke(new BasicStroke(MAJOR_STROKE + 2 * MINOR_STROKE));
 
-		// OUTSIDE CORNERS
-		graphics.fillRect(x01, y03, w03, h00);
-		graphics.fillRect(x04, y00, w00, h03);
-		graphics.fillRect(x14, y00, w00, h03);
-		graphics.fillRect(x14, y03, w03, h00);
-		graphics.fillRect(x15, y15, w03, h00);
-		graphics.fillRect(x14, y15, w00, h03);
-		graphics.fillRect(x04, y15, w00, h03);
-		graphics.fillRect(x00, y15, w03, h00);
+		graphics.drawLine(x1, y0, x4, y0);
+		graphics.drawLine(x0, y1, x2, y1);
+		graphics.drawLine(x3, y1, x5, y1);
+		graphics.drawLine(x0, y2, x1, y2);
+		graphics.drawLine(x4, y2, x5, y2);
+		graphics.drawLine(x0, y3, x1, y3);
+		graphics.drawLine(x4, y3, x5, y3);
+		graphics.drawLine(x0, y4, x2, y4);
+		graphics.drawLine(x3, y4, x5, y4);
+		graphics.drawLine(x1, y5, x4, y5);
 
-		graphics.fillRect(x09, y01, w06, h00);
-		graphics.fillRect(x16, y08, w00, h06);
-		graphics.fillRect(x09, y17, w06, h00);
-		graphics.fillRect(x02, y08, w00, h06);
+		graphics.drawLine(x0, y1, x0, y4);
+		graphics.drawLine(x1, y0, x1, y2);
+		graphics.drawLine(x1, y3, x1, y5);
+		graphics.drawLine(x2, y0, x2, y1);
+		graphics.drawLine(x2, y4, x2, y5);
+		graphics.drawLine(x3, y0, x3, y1);
+		graphics.drawLine(x3, y4, x3, y5);
+		graphics.drawLine(x4, y0, x4, y2);
+		graphics.drawLine(x4, y3, x4, y5);
+		graphics.drawLine(x5, y1, x5, y4);
 
-		graphics.fillRect(x02, y07, w03, h00);
-		graphics.fillRect(x05, y05, w00, h03);
-		graphics.fillRect(x05, y04, w03, h00);
-		graphics.fillRect(x08, y01, w00, h04);
-		graphics.fillRect(x10, y01, w00, h03);
-		graphics.fillRect(x10, y04, w03, h00);
-		graphics.fillRect(x13, y04, w00, h03);
-		graphics.fillRect(x13, y07, w04, h00);
-		graphics.fillRect(x13, y09, w04, h00);
-		graphics.fillRect(x13, y10, w00, h03);
-		graphics.fillRect(x10, y13, w03, h00);
-		graphics.fillRect(x10, y14, w00, h03);
-		graphics.fillRect(x08, y13, w00, h04);
-		graphics.fillRect(x05, y13, w03, h00);
-		graphics.fillRect(x05, y09, w00, h03);
-		graphics.fillRect(x02, y09, w03, h00);
+		graphics.setColor(MAJOR_STROKE_COLOR);
+		graphics2d.setStroke(new BasicStroke(MAJOR_STROKE));
 
-		graphics.fillRect(x02, y04, w02, h00);
-		graphics.fillRect(x04, y04, w00, h02);
-		graphics.fillRect(x03, y06, w02, h00);
-		graphics.fillRect(x02, y05, w00, h02);
+		graphics.drawLine(x1, y0, x4, y0);
+		graphics.drawLine(x0, y1, x2, y1);
+		graphics.drawLine(x3, y1, x5, y1);
+		graphics.drawLine(x0, y2, x1, y2);
+		graphics.drawLine(x4, y2, x5, y2);
+		graphics.drawLine(x0, y3, x1, y3);
+		graphics.drawLine(x4, y3, x5, y3);
+		graphics.drawLine(x0, y4, x2, y4);
+		graphics.drawLine(x3, y4, x5, y4);
+		graphics.drawLine(x1, y5, x4, y5);
 
-		graphics.fillRect(x05, y01, w02, h00);
-		graphics.fillRect(x07, y01, w00, h02);
-		graphics.fillRect(x06, y03, w02, h00);
-		graphics.fillRect(x05, y02, w00, h02);
+		graphics.drawLine(x0, y1, x0, y4);
+		graphics.drawLine(x1, y0, x1, y2);
+		graphics.drawLine(x1, y3, x1, y5);
+		graphics.drawLine(x2, y0, x2, y1);
+		graphics.drawLine(x2, y4, x2, y5);
+		graphics.drawLine(x3, y0, x3, y1);
+		graphics.drawLine(x3, y4, x3, y5);
+		graphics.drawLine(x4, y0, x4, y2);
+		graphics.drawLine(x4, y3, x4, y5);
+		graphics.drawLine(x5, y1, x5, y4);
 
-		graphics.fillRect(x11, y01, w02, h00);
-		graphics.fillRect(x13, y01, w00, h02);
-		graphics.fillRect(x12, y03, w02, h00);
-		graphics.fillRect(x11, y02, w00, h02);
-
-		graphics.fillRect(x14, y04, w02, h00);
-		graphics.fillRect(x16, y04, w00, h02);
-		graphics.fillRect(x15, y06, w02, h00);
-		graphics.fillRect(x14, y05, w00, h02);
-
-		graphics.fillRect(x14, y11, w02, h00);
-		graphics.fillRect(x16, y11, w00, h02);
-		graphics.fillRect(x15, y13, w02, h00);
-		graphics.fillRect(x14, y12, w00, h02);
-
-		graphics.fillRect(x11, y15, w02, h00);
-		graphics.fillRect(x13, y15, w00, h02);
-		graphics.fillRect(x12, y17, w02, h00);
-		graphics.fillRect(x11, y16, w00, h02);
-
-		graphics.fillRect(x05, y15, w02, h00);
-		graphics.fillRect(x07, y15, w00, h02);
-		graphics.fillRect(x06, y17, w02, h00);
-		graphics.fillRect(x05, y16, w00, h02);
-
-		graphics.fillRect(x02, y11, w02, h00);
-		graphics.fillRect(x04, y11, w00, h02);
-		graphics.fillRect(x03, y13, w02, h00);
-		graphics.fillRect(x02, y12, w00, h02);
+		graphics2d.setStroke(defaultStroke);
 	}
 }

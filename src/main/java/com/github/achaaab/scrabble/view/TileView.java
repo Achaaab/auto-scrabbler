@@ -32,7 +32,7 @@ public class TileView extends JComponent {
 	public static final Color BACKGROUND = new Color(254, 236, 207);
 	private static final Color BLANK_FOREGROUND = new Color(10, 150, 10);
 
-	private static final Font BASE_FONT = FontUtilities.load("lt_superior/LTSuperior-SemiBold.otf");
+	private static final Font BASE_FONT = FontUtilities.load("fonts/lt_superior/LTSuperior-SemiBold.otf");
 
 	private Tile model;
 

@@ -1,6 +1,8 @@
 package com.github.achaaab.scrabble.tools;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +18,9 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
+import static java.awt.Image.SCALE_SMOOTH;
+import static java.lang.Math.round;
+import static java.lang.Math.toIntExact;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.regex.Pattern.compile;
@@ -31,6 +36,46 @@ public class ResourceUtilities {
 
 	private static final ClassLoader CLASS_LOADER = ResourceUtilities.class.getClassLoader();
 	private static final Pattern MESSAGE_PARAMETER_PATTERN = compile("\\{\\{(\\s*\\w+\\s*)}}");
+
+	/**
+	 * Loads an icon resource and scale it if necessary.
+	 *
+	 * @param name name of the icon resource to load
+	 * @param targetWidth target icon width in pixels
+	 * @param targetHeight target icon height in pixels
+	 * @return loaded and scaled icon
+	 * @since 0.0.0
+	 */
+	public static ImageIcon loadIcon(String name, double targetWidth, double targetHeight) {
+
+		var image = loadImage(name);
+		var scaledImage = scale(image, targetWidth, targetHeight);
+
+		return new ImageIcon(scaledImage);
+	}
+
+	/**
+	 * @param image image to scale
+	 * @param targetWidth target width in pixels
+	 * @param targetHeight target height in pixels
+	 * @return scaled image
+	 */
+	private static Image scale(BufferedImage image, double targetWidth, double targetHeight) {
+
+		Image scaledImage = image;
+		var width = image.getWidth();
+		var height = image.getHeight();
+
+		if (width != targetWidth || height != targetHeight) {
+
+			scaledImage = image.getScaledInstance(
+					toIntExact(round(targetWidth)),
+					toIntExact(round(targetHeight)),
+					SCALE_SMOOTH);
+		}
+
+		return scaledImage;
+	}
 
 	/**
 	 * Loads an image resource.
@@ -74,29 +119,25 @@ public class ResourceUtilities {
 	}
 
 	/**
-	 * Loads a document resource.
+	 * Loads a document resource using the current user language,
+	 * then replace its placeholders with specified parameters.
 	 *
 	 * @param name name of the document resource
-	 * @param parameters
-	 * @return
+	 * @param parameters document replacement parameters
+	 * @return loaded document with replaced parameters
 	 * @since 1.0.1
 	 */
 	public static String getDocument(String name, Map<String, Object> parameters) {
 
-		var defaultLanguage = Locale.getDefault().getLanguage();
-
+		var language = Locale.getDefault().getLanguage();
 		var resourceNames = new ArrayList<String>();
 
 		var extensionIndex = name.lastIndexOf('.');
 
 		if (extensionIndex == -1) {
-
-			resourceNames.add(name + '_' + defaultLanguage);
-
+			resourceNames.add(name + '_' + language);
 		} else {
-
-			resourceNames.add(
-					name.substring(0, extensionIndex) + '_' + defaultLanguage + name.substring(extensionIndex));
+			resourceNames.add(name.substring(0, extensionIndex) + '_' + language + name.substring(extensionIndex));
 		}
 
 		resourceNames.add(name);
@@ -107,7 +148,9 @@ public class ResourceUtilities {
 	}
 
 	/**
-	 * @param url message URL, not {@code null}
+	 * Loads a document and replace its placeholders with specified parameters.
+	 *
+	 * @param url document URL, not {@code null}
 	 * @param parameters message parameters
 	 * @return message with variables replaced with given parameters
 	 * @since 1.0.1

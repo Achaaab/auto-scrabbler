@@ -138,6 +138,7 @@ public class ViewUtilities {
 
 		var scrollPane = new JScrollPane(component);
 
+		scrollPane.setBorder(null);
 		scrollPane.setOpaque(opaque);
 		scrollPane.getViewport().setOpaque(opaque);
 		resizeScrollBars(scrollPane, pixels(0.28), pixels(0.28));

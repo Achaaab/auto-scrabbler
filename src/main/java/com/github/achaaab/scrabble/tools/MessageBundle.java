@@ -13,7 +13,7 @@ import static java.util.ResourceBundle.getBundle;
  */
 public class MessageBundle {
 
-	private static final ResourceBundle BUNDLE = getBundle("messages");
+	private static final ResourceBundle BUNDLE = getBundle("bundles/messages");
 
 	/**
 	 * Gets a message from the bundle.
