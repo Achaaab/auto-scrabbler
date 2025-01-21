@@ -7,11 +7,11 @@
 <img src="src/main/resources/icons/icon_256.png" width="256" alt="Auto-Scrabbler icon"/>
 
 ## Download
-* Windows installer: [auto-scrabbler-1.0.1.exe](https://github.com/Achaaab/auto-scrabbler/releases/download/1.0.1/auto-scrabbler-1.0.1.exe)
-* Debian package: [auto-scrabbler_1.0.1_amd64.deb](https://github.com/Achaaab/auto-scrabbler/releases/download/1.0.1/auto-scrabbler_1.0.1_amd64.deb)
-* MacOS package: [auto-scrabbler-1.0.1.pkg](https://github.com/Achaaab/auto-scrabbler/releases/download/1.0.1/auto-scrabbler-1.0.1.pkg)
-* RPM package: [auto-scrabbler-1.0.1-1.x86_64.rpm](https://github.com/Achaaab/auto-scrabbler/releases/download/1.0.1/auto-scrabbler-1.0.1-1.x86_64.rpm)
-* Raw executable jar [auto-scrabbler-1.0.1.jar](https://github.com/Achaaab/auto-scrabbler/releases/download/1.0.1/auto-scrabbler-1.0.1.jar)
+* Windows installer: [auto-scrabbler-1.0.2.exe](https://github.com/Achaaab/auto-scrabbler/releases/download/1.0.2/auto-scrabbler-1.0.2.exe)
+* Debian package: [auto-scrabbler_1.0.2_amd64.deb](https://github.com/Achaaab/auto-scrabbler/releases/download/1.0.2/auto-scrabbler_1.0.2_amd64.deb)
+* MacOS package: [auto-scrabbler-1.0.2.pkg](https://github.com/Achaaab/auto-scrabbler/releases/download/1.0.2/auto-scrabbler-1.0.2.pkg)
+* RPM package: [auto-scrabbler-1.0.2-1.x86_64.rpm](https://github.com/Achaaab/auto-scrabbler/releases/download/1.0.2/auto-scrabbler-1.0.2-1.x86_64.rpm)
+* Raw executable jar [auto-scrabbler-1.0.2.jar](https://github.com/Achaaab/auto-scrabbler/releases/download/1.0.2/auto-scrabbler-1.0.2.jar)
   (requires [Java 21 runtime environment](https://adoptium.net/fr/temurin/releases/?package=jre&version=21))
 
 ## Screenshots
