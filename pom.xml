@@ -63,7 +63,7 @@
 						<id>generate-report</id>
 						<configuration>
 							<excludes>
-								<exclude>com/github/achaaab/scrabble/view/*</exclude>
+								<exclude>com/github/achaaab/scrabble/view/**</exclude>
 							</excludes>
 						</configuration>
 						<goals>
