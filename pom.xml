@@ -33,6 +33,15 @@
 		<plugins>
 
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.5.0</version>
+				<configuration>
+					<mainClass>com.github.achaaab.scrabble.build.IconGenerator</mainClass>
+				</configuration>
+			</plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.13.0</version>
@@ -64,6 +73,7 @@
 						<configuration>
 							<excludes>
 								<exclude>com/github/achaaab/scrabble/view/**</exclude>
+								<exclude>com/github/achaaab/scrabble/demo/**</exclude>
 							</excludes>
 						</configuration>
 						<goals>

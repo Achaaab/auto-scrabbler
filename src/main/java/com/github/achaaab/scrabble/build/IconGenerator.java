@@ -1,4 +1,4 @@
-package com.github.achaaab.scrabble.demo;
+package com.github.achaaab.scrabble.build;
 
 import com.github.achaaab.scrabble.model.core.Tile;
 import com.github.achaaab.scrabble.view.core.TileView;
