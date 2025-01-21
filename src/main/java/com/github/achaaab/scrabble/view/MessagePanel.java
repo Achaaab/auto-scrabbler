@@ -77,6 +77,8 @@ public class MessagePanel extends JPanel {
 		var ok = new JButton("OK");
 		ok.setHorizontalAlignment(SwingConstants.CENTER);
 		ok.setFont(ok.getFont().deriveFont(FONT_SIZE));
+		ok.setOpaque(false);
+
 		var buttonPanel = new JPanel();
 		buttonPanel.setOpaque(false);
 		buttonPanel.add(ok);
