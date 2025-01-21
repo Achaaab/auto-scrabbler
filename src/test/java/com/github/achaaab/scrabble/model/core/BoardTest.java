@@ -429,4 +429,45 @@ class BoardTest {
 		tiles = board.getNextTiles(reference1M.square(), reference1M.direction());
 		assertTrue(tiles.isEmpty());
 	}
+
+	@Test
+	void squares() {
+
+		var board = new Board();
+		var squares = board.squares().distinct().toList();
+
+		assertEquals(SIZE * SIZE, squares.size());
+	}
+
+	@Test
+	void clear() {
+
+		var board = new Board();
+
+		var emptySquareCount = board.squares().filter(Square::isEmpty).count();
+		assertEquals(SIZE * SIZE, emptySquareCount);
+
+		var tile0 = new Tile('H', 4);
+		var tile1 = new Tile('E', 1);
+		var tile2 = new Tile('L', 1);
+		var tile3 = new Tile('L', 1);
+		var tile4 = new Tile('O', 1);
+
+		var tiles = List.of(
+				tile0,
+				tile1,
+				tile2,
+				tile3,
+				tile4);
+
+		var reference = board.getReference("H4");
+
+		board.play(tiles, reference);
+		emptySquareCount = board.squares().filter(Square::isEmpty).count();
+		assertEquals(SIZE * SIZE - 5, emptySquareCount);
+
+		board.clear();
+		emptySquareCount = board.squares().filter(Square::isEmpty).count();
+		assertEquals(SIZE * SIZE, emptySquareCount);
+	}
 }

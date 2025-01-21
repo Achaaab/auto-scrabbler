@@ -16,6 +16,7 @@ import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import static com.github.achaaab.scrabble.tools.GeometryUtilities.getPolygon;
 import static com.github.achaaab.scrabble.view.ViewUtilities.pixels;
 import static com.github.achaaab.scrabble.view.ViewUtilities.pixelsFloat;
 import static com.github.achaaab.scrabble.view.ViewUtilities.scrollPane;
@@ -188,62 +189,28 @@ public class MessagePanel extends JPanel {
 		var y4 = y0 + height - CORNER;
 		var y5 = y0 + height;
 
+		var frameOutside = getPolygon(
+				x0, x0, x1, x1, x4, x4, x5, x5, x4, x4, x1, x1,
+				y4, y1, y1, y0, y0, y1, y1, y4, y4, y5, y5, y4);
+
+		var frameInside = getPolygon(
+				x0, x0, x1, x1, x2, x2, x3, x3, x4, x4, x5, x5, x4, x4, x3, x3, x2, x2, x1, x1,
+				y3, y2, y2, y1, y1, y0, y0, y1, y1, y2, y2, y3, y3, y4, y4, y5, y5, y4, y4, y3);
+
 		graphics.setColor(BACKGROUND);
-		graphics.fillRect(x0, y2, width, height - 4 * CORNER);
-		graphics.fillRect(x1, y1, width - 2 * CORNER, height - 2 * CORNER);
-		graphics.fillRect(x2, y0, width - 4 * CORNER, height);
+		graphics2d.fill(frameInside);
 
 		var defaultStroke = graphics2d.getStroke();
 
 		graphics.setColor(MINOR_STROKE_COLOR);
 		graphics2d.setStroke(new BasicStroke(MAJOR_STROKE + 2 * MINOR_STROKE));
-
-		graphics.drawLine(x1, y0, x4, y0);
-		graphics.drawLine(x0, y1, x2, y1);
-		graphics.drawLine(x3, y1, x5, y1);
-		graphics.drawLine(x0, y2, x1, y2);
-		graphics.drawLine(x4, y2, x5, y2);
-		graphics.drawLine(x0, y3, x1, y3);
-		graphics.drawLine(x4, y3, x5, y3);
-		graphics.drawLine(x0, y4, x2, y4);
-		graphics.drawLine(x3, y4, x5, y4);
-		graphics.drawLine(x1, y5, x4, y5);
-
-		graphics.drawLine(x0, y1, x0, y4);
-		graphics.drawLine(x1, y0, x1, y2);
-		graphics.drawLine(x1, y3, x1, y5);
-		graphics.drawLine(x2, y0, x2, y1);
-		graphics.drawLine(x2, y4, x2, y5);
-		graphics.drawLine(x3, y0, x3, y1);
-		graphics.drawLine(x3, y4, x3, y5);
-		graphics.drawLine(x4, y0, x4, y2);
-		graphics.drawLine(x4, y3, x4, y5);
-		graphics.drawLine(x5, y1, x5, y4);
+		graphics2d.draw(frameOutside);
+		graphics2d.draw(frameInside);
 
 		graphics.setColor(MAJOR_STROKE_COLOR);
 		graphics2d.setStroke(new BasicStroke(MAJOR_STROKE));
-
-		graphics.drawLine(x1, y0, x4, y0);
-		graphics.drawLine(x0, y1, x2, y1);
-		graphics.drawLine(x3, y1, x5, y1);
-		graphics.drawLine(x0, y2, x1, y2);
-		graphics.drawLine(x4, y2, x5, y2);
-		graphics.drawLine(x0, y3, x1, y3);
-		graphics.drawLine(x4, y3, x5, y3);
-		graphics.drawLine(x0, y4, x2, y4);
-		graphics.drawLine(x3, y4, x5, y4);
-		graphics.drawLine(x1, y5, x4, y5);
-
-		graphics.drawLine(x0, y1, x0, y4);
-		graphics.drawLine(x1, y0, x1, y2);
-		graphics.drawLine(x1, y3, x1, y5);
-		graphics.drawLine(x2, y0, x2, y1);
-		graphics.drawLine(x2, y4, x2, y5);
-		graphics.drawLine(x3, y0, x3, y1);
-		graphics.drawLine(x3, y4, x3, y5);
-		graphics.drawLine(x4, y0, x4, y2);
-		graphics.drawLine(x4, y3, x4, y5);
-		graphics.drawLine(x5, y1, x5, y4);
+		graphics2d.draw(frameOutside);
+		graphics2d.draw(frameInside);
 
 		graphics2d.setStroke(defaultStroke);
 	}

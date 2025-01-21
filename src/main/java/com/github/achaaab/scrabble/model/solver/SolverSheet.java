@@ -6,13 +6,15 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.achaaab.scrabble.tools.MessageBundle.getMessage;
+
 /**
- * Simple scrabble sheet without drawn letters indication.
+ * Scrabble sheet for solver mode.
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class SimpleSheet extends AbstractTableModel {
+public class SolverSheet extends AbstractTableModel {
 
 	public static final int INDEX_COLUMN = 0;
 	public static final int WORD_COLUMN = 1;
@@ -20,23 +22,20 @@ public class SimpleSheet extends AbstractTableModel {
 	public static final int SCORE_COLUMN = 3;
 	public static final int TOTAL_COLUMN = 4;
 
-	private final Solver solver;
 	private final boolean editable;
 	private final boolean accumulative;
-	private final List<SimpleSheetEntry> entries;
+	private final List<SolverSheetEntry> entries;
 	private final List<ExceptionListener> exceptionListeners;
 
 	/**
 	 * Creates a simple sheet.
 	 *
-	 * @param solver solver associated to this sheet
 	 * @param editable whether this sheet is editable
 	 * @param accumulative Whether this sheet is accumulative. An accumulative sheet has a cumulative total column.
-	 * @since 0.0.2
+	 * @since 1.0.2
 	 */
-	public SimpleSheet(Solver solver, boolean editable, boolean accumulative) {
+	public SolverSheet(boolean editable, boolean accumulative) {
 
-		this.solver = solver;
 		this.editable = editable;
 		this.accumulative = accumulative;
 
@@ -80,7 +79,7 @@ public class SimpleSheet extends AbstractTableModel {
 	 * @param entry entry to add
 	 * @since 0.0.0
 	 */
-	public void add(SimpleSheetEntry entry) {
+	public void add(SolverSheetEntry entry) {
 		entries.add(entry);
 	}
 
@@ -90,21 +89,59 @@ public class SimpleSheet extends AbstractTableModel {
 	 * @param entry entry to set as last entry
 	 * @since 0.0.5
 	 */
-	public void setLast(SimpleSheetEntry entry) {
+	public void setLast(SolverSheetEntry entry) {
 
-		var lastIndex = entries.size() - 1;
-		entries.set(lastIndex, entry);
-		add(new SimpleSheetEntry());
+		entries.getLast().copy(entry);
+		add(new SolverSheetEntry());
 		fireTableDataChanged();
 	}
 
 	/**
-	 * Clears this sheet.
+	 * Inserts a new empty entry at the specified index.
+	 *
+	 * @param index index at which the specified element is to be inserted
+	 * @since 1.0.2
+	 */
+	public void insert(int index) {
+
+		var entry = new SolverSheetEntry();
+		entries.add(index, entry);
+		fireTableDataChanged();
+	}
+
+	/**
+	 * Clears the entry at the specified index.
+	 *
+	 * @param index index of the entry to clear
+	 * @since 1.0.2
+	 */
+	public void clear(int index) {
+
+		entries.get(index).clear();
+		fireTableDataChanged();
+	}
+
+	/**
+	 * Removes the entry at the specified index.
+	 *
+	 * @param index index of the entry to remove
+	 * @since 1.0.2
+	 */
+	public void remove(int index) {
+
+		entries.remove(index);
+		fireTableDataChanged();
+	}
+
+	/**
+	 * Clears this sheet, removing all its entries.
 	 *
 	 * @since 0.0.0
 	 */
 	public void clear() {
+
 		entries.clear();
+		fireTableDataChanged();
 	}
 
 	@Override
@@ -122,11 +159,11 @@ public class SimpleSheet extends AbstractTableModel {
 
 		return switch (column) {
 
-			case INDEX_COLUMN -> "Coup";
-			case WORD_COLUMN -> "Mot";
-			case KEY_COLUMN -> "Référence";
-			case SCORE_COLUMN -> "Score";
-			case TOTAL_COLUMN -> "Total";
+			case INDEX_COLUMN -> getMessage("move");
+			case WORD_COLUMN -> getMessage("word");
+			case KEY_COLUMN -> getMessage("reference");
+			case SCORE_COLUMN -> getMessage("score");
+			case TOTAL_COLUMN -> getMessage("sum");
 
 			default -> throw new IllegalArgumentException("unknown column: " + column);
 		};
@@ -144,7 +181,7 @@ public class SimpleSheet extends AbstractTableModel {
 		return entries.
 				subList(0, rowIndex + 1).
 				stream().
-				mapToInt(SimpleSheetEntry::getScore).
+				mapToInt(SolverSheetEntry::getScore).
 				sum();
 	}
 
@@ -183,10 +220,8 @@ public class SimpleSheet extends AbstractTableModel {
 
 		try {
 
-			solver.replay();
-
-			if (entries.stream().allMatch(SimpleSheetEntry::isComplete)) {
-				add(new SimpleSheetEntry());
+			if (entries.stream().allMatch(SolverSheetEntry::isComplete)) {
+				add(new SolverSheetEntry());
 			}
 
 		} catch (Exception exception) {
@@ -215,7 +250,7 @@ public class SimpleSheet extends AbstractTableModel {
 	 * @return entries in this sheet
 	 * @since 0.0.0
 	 */
-	public List<SimpleSheetEntry> entries() {
+	public List<SolverSheetEntry> entries() {
 		return entries;
 	}
 }

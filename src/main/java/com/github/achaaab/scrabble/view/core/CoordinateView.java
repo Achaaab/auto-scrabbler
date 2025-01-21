@@ -1,4 +1,4 @@
-package com.github.achaaab.scrabble.view;
+package com.github.achaaab.scrabble.view.core;
 
 import com.github.achaaab.scrabble.tools.FontUtilities;
 
@@ -7,7 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import static com.github.achaaab.scrabble.view.ViewUtilities.isDark;
-import static com.github.achaaab.scrabble.view.TileView.SIZE;
+import static com.github.achaaab.scrabble.view.core.TileView.SIZE;
 import static com.github.achaaab.scrabble.view.ViewUtilities.pixelsFloat;
 
 /**

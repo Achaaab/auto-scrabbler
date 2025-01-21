@@ -1,12 +1,12 @@
 package com.github.achaaab.scrabble.model.solver;
 
 /**
- * Simple scoring sheet entry.
+ * Entry in solver sheet.
  *
  * @author Jonathan Guéhenneux
  * @since 0.0.2
  */
-public class SimpleSheetEntry {
+public class SolverSheetEntry {
 
 	private String word;
 	private String key;
@@ -17,7 +17,7 @@ public class SimpleSheetEntry {
 	 *
 	 * @since 0.0.2
 	 */
-	public SimpleSheetEntry() {
+	public SolverSheetEntry() {
 		this(null, null, 0);
 	}
 
@@ -29,7 +29,7 @@ public class SimpleSheetEntry {
 	 * @param score score
 	 * @since 0.0.2
 	 */
-	public SimpleSheetEntry(String word, String key, int score) {
+	public SolverSheetEntry(String word, String key, int score) {
 
 		this.word = word;
 		this.key = key;
@@ -92,5 +92,30 @@ public class SimpleSheetEntry {
 	 */
 	public boolean isComplete() {
 		return word != null && !word.isEmpty() && key != null && !key.isEmpty();
+	}
+
+	/**
+	 * Clears the word, key and score of this entry.
+	 *
+	 * @since 1.0.2
+	 */
+	public void clear() {
+
+		word = null;
+		key = null;
+		score = 0;
+	}
+
+	/**
+	 * Copies the specified entry.
+	 *
+	 * @param entry entry to copy
+	 * @since 1.0.2
+	 */
+	public void copy(SolverSheetEntry entry) {
+
+		word = entry.word;
+		key = entry.key;
+		score = entry.score;
 	}
 }

@@ -1,14 +1,14 @@
-package com.github.achaaab.scrabble.view;
+package com.github.achaaab.scrabble.view.solver;
 
+import com.github.achaaab.scrabble.model.solver.SolverSheetEntry;
 import com.github.achaaab.scrabble.model.solver.Solver;
-import com.github.achaaab.scrabble.model.solver.SimpleSheetEntry;
+import com.github.achaaab.scrabble.view.ViewUtilities;
+import com.github.achaaab.scrabble.view.core.BoardView;
+import com.github.achaaab.scrabble.view.core.RackView;
 
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.AbstractDocument;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -51,8 +51,8 @@ public class SolverView extends Box {
 
 	private final BoardView board;
 	private final RackView rack;
-	private final SimpleSheetView sheet;
-	private final JTextField letters;
+	private final SolverSheetView sheet;
+	private final DrawView draw;
 
 	private MoveListView moveList;
 
@@ -70,8 +70,9 @@ public class SolverView extends Box {
 
 		board = new BoardView(model.board());
 		rack = new RackView(model.rack());
-		sheet = new SimpleSheetView(model.sheet());
-		letters = new JTextField();
+		sheet = new SolverSheetView(model.sheet());
+		draw = new DrawView(this::updateLetters);
+
 		var solve = new JButton(getMessage("solve"));
 
 		var rackPanel = new Box(Y_AXIS);
@@ -80,7 +81,7 @@ public class SolverView extends Box {
 
 		var drawPanel = new JPanel();
 		drawPanel.setLayout(new BorderLayout());
-		drawPanel.add(letters, CENTER);
+		drawPanel.add(draw, CENTER);
 		drawPanel.add(solve, EAST);
 		drawPanel.setBorder(createTitledBorder(getMessage("drawn_tiles")));
 
@@ -99,37 +100,20 @@ public class SolverView extends Box {
 
 		sheet.model().addTableModelListener(event -> {
 
+			model.replay();
 			leftPanel.repaint();
-			letters.setText("");
+			draw.setText("");
 		});
 
 		sheet.model().addExceptionListener(ViewUtilities::showException);
 
-		var lettersDocument = letters.getDocument();
+		var lettersDocument = draw.getDocument();
 
 		if (lettersDocument instanceof AbstractDocument abstractDocument) {
 			abstractDocument.setDocumentFilter(DrawDocumentFilter.INSTANCE);
 		}
 
-		letters.getDocument().addDocumentListener(new DocumentListener() {
-
-			@Override
-			public void insertUpdate(DocumentEvent event) {
-				updateLetters();
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent event) {
-				updateLetters();
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent event) {
-
-			}
-		});
-
-		letters.addActionListener(this::solve);
+		draw.addActionListener(this::solve);
 		solve.addActionListener(this::solve);
 	}
 
@@ -152,7 +136,7 @@ public class SolverView extends Box {
 	 * @param move move to preview
 	 * @since 0.0.6
 	 */
-	private void preview(SimpleSheetEntry move) {
+	private void preview(SolverSheetEntry move) {
 
 		model.replay();
 		updateLetters();
@@ -167,7 +151,7 @@ public class SolverView extends Box {
 	 * @param move move to play
 	 * @since 0.0.6
 	 */
-	private void play(SimpleSheetEntry move) {
+	private void play(SolverSheetEntry move) {
 
 		sheet.model().setLast(move);
 		moveList.dispose();
@@ -193,7 +177,7 @@ public class SolverView extends Box {
 	private void updateLetters() {
 
 		try {
-			model.change(letters.getText());
+			model.change(draw.getText());
 		} catch (Exception exception) {
 			showException(exception);
 		} finally {

@@ -20,10 +20,27 @@ public class GeometryUtilities {
 	private static final double GOLDEN_RATIO_CONJUGATE = (1 - sqrt(5)) / 2;
 
 	/**
+	 * Creates a polygon from a scale factor and a 1-dimension array.
+	 *
+	 * @param scale scale factor
+	 * @param coordinates x coordinates followed by y coordinates
+	 * @return created scaled polygon
+	 * @since 1.0.2
+	 */
+	public static Polygon getScaledPolygon(double scale, double... coordinates) {
+
+		var scaledCoordinates = stream(coordinates).
+				map(coordinate -> coordinate * scale).
+				toArray();
+
+		return getPolygon(scaledCoordinates);
+	}
+
+	/**
 	 * Creates a polygon from a 1-dimension array.
 	 *
 	 * @param coordinates x coordinates followed by y coordinates
-	 * @return create polygon
+	 * @return created polygon
 	 * @since 0.0.3
 	 */
 	public static Polygon getPolygon(double... coordinates) {
@@ -39,7 +56,8 @@ public class GeometryUtilities {
 	 *
 	 * @param xs x coordinates
 	 * @param ys y coordinates
-	 * @return 0.0.3
+	 * @return created polygon
+	 * @since 0.0.3
 	 */
 	public static Polygon getPolygon(double[] xs, double[] ys) {
 

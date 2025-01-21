@@ -25,8 +25,8 @@ public class Solver {
 	 * @return created entry
 	 * @since 0.0.0
 	 */
-	private static SimpleSheetEntry createEntry(Move move) {
-		return new SimpleSheetEntry(move.word(), move.reference().toString(), move.score());
+	private static SolverSheetEntry createEntry(Move move) {
+		return new SolverSheetEntry(move.word(), move.reference().toString(), move.score());
 	}
 
 	private final List<Tile> tiles;
@@ -34,7 +34,7 @@ public class Solver {
 	private final Board board;
 	private final Bag bag;
 	private final Rack rack;
-	private final SimpleSheet sheet;
+	private final SolverSheet sheet;
 	private final Evaluator evaluator;
 
 	/**
@@ -51,7 +51,7 @@ public class Solver {
 		board = new Board();
 		bag = new Bag();
 		rack = new Rack();
-		sheet = new SimpleSheet(this, true, true);
+		sheet = new SolverSheet(true, true);
 		evaluator = new Evaluator(board, dictionary);
 
 		bag.addAll(tiles);
@@ -79,7 +79,7 @@ public class Solver {
 	 * @throws IllegalArgumentException if the specified word does not fit at the specified reference
 	 * @since 0.0.0
 	 */
-	private void play(SimpleSheetEntry entry) {
+	private void play(SolverSheetEntry entry) {
 
 		if (entry.isComplete()) {
 
@@ -104,7 +104,7 @@ public class Solver {
 	 * @param entry entry to preview
 	 * @since 0.0.6
 	 */
-	public void preview(SimpleSheetEntry entry) {
+	public void preview(SolverSheetEntry entry) {
 
 		var word = entry.getWord();
 		var key = entry.getKey();
@@ -137,9 +137,9 @@ public class Solver {
 	 * @return best moves sheet
 	 * @since 0.0.0
 	 */
-	public SimpleSheet solve() {
+	public SolverSheet solve() {
 
-		var bestMoveSheet = new SimpleSheet(this, false, false);
+		var bestMoveSheet = new SolverSheet(false, false);
 
 		evaluator.listMoves(rack).stream().
 				map(Solver::createEntry).
@@ -176,7 +176,7 @@ public class Solver {
 	 * @return sheet containing the list of played words
 	 * @since 0.0.0
 	 */
-	public SimpleSheet sheet() {
+	public SolverSheet sheet() {
 		return sheet;
 	}
 }

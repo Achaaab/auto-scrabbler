@@ -1,4 +1,4 @@
-package com.github.achaaab.scrabble.view;
+package com.github.achaaab.scrabble.view.core;
 
 import com.github.achaaab.scrabble.model.core.Tile;
 import com.github.achaaab.scrabble.tools.FontUtilities;

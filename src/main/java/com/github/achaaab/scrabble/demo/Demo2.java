@@ -7,7 +7,7 @@ import com.github.achaaab.scrabble.model.duplicate.DuplicateSheetEntry;
 import com.github.achaaab.scrabble.model.core.Rack;
 import com.github.achaaab.scrabble.model.core.Tile;
 import com.github.achaaab.scrabble.model.move.Evaluator;
-import com.github.achaaab.scrabble.view.BoardView;
+import com.github.achaaab.scrabble.view.core.BoardView;
 
 import javax.swing.JFrame;
 import java.awt.FlowLayout;

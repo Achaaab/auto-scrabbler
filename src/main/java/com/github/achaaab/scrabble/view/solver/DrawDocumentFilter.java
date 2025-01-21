@@ -1,6 +1,7 @@
-package com.github.achaaab.scrabble.view;
+package com.github.achaaab.scrabble.view.solver;
 
 import com.github.achaaab.scrabble.model.core.Rack;
+import com.github.achaaab.scrabble.view.SimpleDocumentFilter;
 
 /**
  * Document filter for drawn letters.

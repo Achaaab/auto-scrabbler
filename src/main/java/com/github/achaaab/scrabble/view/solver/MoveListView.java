@@ -1,7 +1,7 @@
-package com.github.achaaab.scrabble.view;
+package com.github.achaaab.scrabble.view.solver;
 
-import com.github.achaaab.scrabble.model.solver.SimpleSheet;
-import com.github.achaaab.scrabble.model.solver.SimpleSheetEntry;
+import com.github.achaaab.scrabble.model.solver.SolverSheet;
+import com.github.achaaab.scrabble.model.solver.SolverSheetEntry;
 
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
@@ -16,10 +16,10 @@ import java.awt.event.WindowEvent;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import static com.github.achaaab.scrabble.model.solver.SimpleSheet.INDEX_COLUMN;
-import static com.github.achaaab.scrabble.model.solver.SimpleSheet.KEY_COLUMN;
-import static com.github.achaaab.scrabble.model.solver.SimpleSheet.SCORE_COLUMN;
-import static com.github.achaaab.scrabble.model.solver.SimpleSheet.WORD_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SolverSheet.INDEX_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SolverSheet.KEY_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SolverSheet.SCORE_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SolverSheet.WORD_COLUMN;
 import static com.github.achaaab.scrabble.tools.MessageBundle.getMessage;
 import static java.awt.Dialog.ModalityType.APPLICATION_MODAL;
 import static java.awt.event.KeyEvent.VK_ENTER;
@@ -42,7 +42,7 @@ public class MoveListView extends JDialog {
 	private static final String PLAY_SELECTED_MOVE_ACTION = "play-selected-move";
 	private static final String CLOSE_MOVES_DIALOG_ACTION = "close-moves-dialog";
 
-	private final SimpleSheet moves;
+	private final SolverSheet moves;
 	private final JTable table;
 
 	/**
@@ -57,9 +57,9 @@ public class MoveListView extends JDialog {
 	 */
 	public MoveListView(
 			Component parent,
-			SimpleSheet moves,
-			Consumer<SimpleSheetEntry> selectedMoveConsumer,
-			Consumer<SimpleSheetEntry> playedMoveConsumer,
+			SolverSheet moves,
+			Consumer<SolverSheetEntry> selectedMoveConsumer,
+			Consumer<SolverSheetEntry> playedMoveConsumer,
 			Runnable onClosed) {
 
 		super(
@@ -69,7 +69,7 @@ public class MoveListView extends JDialog {
 
 		this.moves = moves;
 
-		var movesView = new SimpleSheetView(moves);
+		var movesView = new SolverSheetView(moves);
 		table = movesView.table();
 		var selectionModel = table.getSelectionModel();
 		var tableModel = table.getModel();
@@ -150,7 +150,7 @@ public class MoveListView extends JDialog {
 	 * @return entry corresponding to the selected row in the table
 	 * @since 0.0.6
 	 */
-	private Optional<SimpleSheetEntry> getSelectedEntry() {
+	private Optional<SolverSheetEntry> getSelectedEntry() {
 		return getEntry(table.getSelectedRow());
 	}
 
@@ -161,9 +161,9 @@ public class MoveListView extends JDialog {
 	 * @return entry corresponding to the specified row index
 	 * @since 0.0.6
 	 */
-	private Optional<SimpleSheetEntry> getEntry(int rowIndex) {
+	private Optional<SolverSheetEntry> getEntry(int rowIndex) {
 
-		Optional<SimpleSheetEntry> selectedEntry;
+		Optional<SolverSheetEntry> selectedEntry;
 
 		if (rowIndex == -1) {
 

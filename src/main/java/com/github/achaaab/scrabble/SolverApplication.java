@@ -1,10 +1,10 @@
 package com.github.achaaab.scrabble;
 
-import com.github.achaaab.scrabble.model.solver.SimpleSheetEntry;
+import com.github.achaaab.scrabble.model.solver.SolverSheetEntry;
 import com.github.achaaab.scrabble.model.solver.Solver;
 import com.github.achaaab.scrabble.view.MainMenu;
 import com.github.achaaab.scrabble.view.MessagePanel;
-import com.github.achaaab.scrabble.view.SolverView;
+import com.github.achaaab.scrabble.view.solver.SolverView;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -38,7 +38,7 @@ public class SolverApplication {
 		}
 
 		var solver = new Solver(getFrenchTiles(), FRENCH_ODS9);
-		solver.sheet().add(new SimpleSheetEntry());
+		solver.sheet().add(new SolverSheetEntry());
 
 		var window = new JFrame("Scrabble solver");
 		window.setIconImage(loadImage("icons/icon_256.png"));

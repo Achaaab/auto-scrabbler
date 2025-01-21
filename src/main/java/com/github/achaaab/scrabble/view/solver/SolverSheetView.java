@@ -1,6 +1,7 @@
-package com.github.achaaab.scrabble.view;
+package com.github.achaaab.scrabble.view.solver;
 
-import com.github.achaaab.scrabble.model.solver.SimpleSheet;
+import com.github.achaaab.scrabble.model.solver.SolverSheet;
+import com.github.achaaab.scrabble.view.WordDocumentFilter;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JScrollPane;
@@ -11,11 +12,11 @@ import javax.swing.text.AbstractDocument;
 import java.awt.Dimension;
 import java.util.Collections;
 
-import static com.github.achaaab.scrabble.model.solver.SimpleSheet.INDEX_COLUMN;
-import static com.github.achaaab.scrabble.model.solver.SimpleSheet.KEY_COLUMN;
-import static com.github.achaaab.scrabble.model.solver.SimpleSheet.SCORE_COLUMN;
-import static com.github.achaaab.scrabble.model.solver.SimpleSheet.TOTAL_COLUMN;
-import static com.github.achaaab.scrabble.model.solver.SimpleSheet.WORD_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SolverSheet.INDEX_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SolverSheet.KEY_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SolverSheet.SCORE_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SolverSheet.TOTAL_COLUMN;
+import static com.github.achaaab.scrabble.model.solver.SolverSheet.WORD_COLUMN;
 import static com.github.achaaab.scrabble.view.ViewUtilities.pixels;
 import static com.github.achaaab.scrabble.view.ViewUtilities.resizeScrollBars;
 import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
@@ -26,7 +27,7 @@ import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
  * @author Jonathan Guéhenneux
  * @since 0.0.0
  */
-public class SimpleSheetView extends JScrollPane {
+public class SolverSheetView extends JScrollPane {
 
 	private static final double INDEX_COLUMN_WIDTH = 1.50;
 	private static final double WORD_COLUMN_WIDTH = 4.00;
@@ -36,7 +37,7 @@ public class SimpleSheetView extends JScrollPane {
 
 	private static final double HEIGHT = 15.00;
 
-	private final SimpleSheet model;
+	private final SolverSheet model;
 	private final JTable table;
 
 	/**
@@ -45,16 +46,20 @@ public class SimpleSheetView extends JScrollPane {
 	 * @param model simple sheet
 	 * @since 0.0.2
 	 */
-	public SimpleSheetView(SimpleSheet model) {
+	public SolverSheetView(SolverSheet model) {
 
 		this.model = model;
 
 		table = new JTable(model);
 		table.setRowHeight(pixels(0.50));
 		table.setSelectionMode(SINGLE_SELECTION);
+		table.putClientProperty("terminateEditOnFocusLost", true);
 
+		var contextMenu = new SolverSheetMenu(model, table);
+		table.addMouseListener(contextMenu);
+
+		setBorder(null);
 		resizeScrollBars(this, pixels(0.28), pixels(0.28));
-
 		setViewportView(table);
 
 		var columnModel = table.getColumnModel();
@@ -96,10 +101,12 @@ public class SimpleSheetView extends JScrollPane {
 	}
 
 	/**
+	 * Returns the model of this view.
+	 *
 	 * @return model of this view
 	 * @since 0.0.0
 	 */
-	public SimpleSheet model() {
+	public SolverSheet model() {
 		return model;
 	}
 
