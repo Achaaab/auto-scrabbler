@@ -19,6 +19,7 @@ import static com.github.achaaab.scrabble.model.solver.SolverSheet.TOTAL_COLUMN;
 import static com.github.achaaab.scrabble.model.solver.SolverSheet.WORD_COLUMN;
 import static com.github.achaaab.scrabble.view.ViewUtilities.pixels;
 import static com.github.achaaab.scrabble.view.ViewUtilities.resizeScrollBars;
+import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
 
 /**
@@ -58,7 +59,7 @@ public class SolverSheetView extends JScrollPane {
 		var contextMenu = new SolverSheetMenu(model, table);
 		table.addMouseListener(contextMenu);
 
-		setBorder(null);
+		setBorder(createEmptyBorder());
 		resizeScrollBars(this, pixels(0.28), pixels(0.28));
 		setViewportView(table);
 

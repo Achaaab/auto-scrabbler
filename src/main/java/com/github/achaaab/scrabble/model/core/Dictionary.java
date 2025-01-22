@@ -48,7 +48,7 @@ public class Dictionary {
 	 * @return word tree
 	 * @since 0.0.0
 	 */
-	public Trie getTrie() {
+	public Trie trie() {
 		return trie;
 	}
 }

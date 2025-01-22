@@ -12,6 +12,7 @@ import static java.awt.Toolkit.getDefaultToolkit;
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
 import static java.lang.Math.toIntExact;
+import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -138,7 +139,7 @@ public class ViewUtilities {
 
 		var scrollPane = new JScrollPane(component);
 
-		scrollPane.setBorder(null);
+		scrollPane.setBorder(createEmptyBorder());
 		scrollPane.setOpaque(opaque);
 		scrollPane.getViewport().setOpaque(opaque);
 		resizeScrollBars(scrollPane, pixels(0.28), pixels(0.28));

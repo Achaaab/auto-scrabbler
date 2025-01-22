@@ -13,6 +13,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -98,6 +99,10 @@ public class MessagePanel extends JPanel {
 			public void componentResized(ComponentEvent event) {
 				resize();
 			}
+		});
+
+		addMouseListener(new MouseAdapter() {
+
 		});
 	}
 

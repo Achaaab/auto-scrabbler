@@ -182,7 +182,7 @@ public class Evaluator {
 	 */
 	public List<Move> listMoves(Rack rack) {
 
-		var trie = dictionary.getTrie();
+		var trie = dictionary.trie();
 		letterCounts = rack.getLetterCounts();
 		tileSamples = rack.getTileSamples();
 		tiles = new ArrayList<>();
@@ -460,7 +460,7 @@ public class Evaluator {
 
 			var previousTiles = board.getPreviousTiles(square, acrossDirection);
 
-			var acrossTrie = dictionary.getTrie();
+			var acrossTrie = dictionary.trie();
 
 			acrossTrie = acrossTrie.getChild(previousTiles);
 			acrossTrie = acrossTrie.getChild(currentTile);
