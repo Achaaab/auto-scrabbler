@@ -4,20 +4,27 @@ import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.SwingConstants;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FocusTraversalPolicy;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 import static com.github.achaaab.scrabble.tools.GeometryUtilities.getPolygon;
+import static com.github.achaaab.scrabble.view.ViewUtilities.giveExclusiveFocus;
 import static com.github.achaaab.scrabble.view.ViewUtilities.pixels;
 import static com.github.achaaab.scrabble.view.ViewUtilities.pixelsFloat;
 import static com.github.achaaab.scrabble.view.ViewUtilities.scrollPane;
@@ -52,7 +59,15 @@ public class MessagePanel extends JPanel {
 
 	private static final float FONT_SIZE = pixelsFloat(0.40);
 
+	private final JFrame window;
+	private final JRootPane rootPane;
 	private final JEditorPane textArea;
+	private final JButton ok;
+
+	private final ComponentListener rootPaneListener;
+	private final WindowFocusListener windowFocusListener;
+
+	private FocusTraversalPolicy savedFocusPolicy;
 
 	/**
 	 * Creates a message panel.
@@ -62,11 +77,13 @@ public class MessagePanel extends JPanel {
 	 */
 	public MessagePanel(JFrame window) {
 
-		var rootPane = window.getRootPane();
+		this.window = window;
+		rootPane = window.getRootPane();
+
 		setLocation(0, 0);
 		rootPane.add(this, 0);
 
-		setOpaque(false);
+		setOpaque(true);
 
 		textArea = new JEditorPane();
 		textArea.setEditable(false);
@@ -75,7 +92,7 @@ public class MessagePanel extends JPanel {
 		textArea.setOpaque(false);
 		textArea.addHyperlinkListener(this::hyperlinkUpdate);
 
-		var ok = new JButton("OK");
+		ok = new JButton("OK");
 		ok.setHorizontalAlignment(SwingConstants.CENTER);
 		ok.setFont(ok.getFont().deriveFont(FONT_SIZE));
 		ok.setOpaque(false);
@@ -91,15 +108,28 @@ public class MessagePanel extends JPanel {
 
 		setVisible(false);
 
-		ok.addActionListener(event -> setVisible(false));
+		ok.addActionListener(this::hide);
 
-		rootPane.addComponentListener(new ComponentAdapter() {
+		rootPaneListener = new ComponentAdapter() {
 
 			@Override
 			public void componentResized(ComponentEvent event) {
 				resize();
 			}
-		});
+		};
+
+		windowFocusListener = new WindowFocusListener() {
+
+			@Override
+			public void windowGainedFocus(WindowEvent e) {
+				rootPane.repaint();
+			}
+
+			@Override
+			public void windowLostFocus(WindowEvent e) {
+				rootPane.repaint();
+			}
+		};
 
 		addMouseListener(new MouseAdapter() {
 
@@ -150,6 +180,8 @@ public class MessagePanel extends JPanel {
 				(width - messageWidth) / 2 + MARGIN,
 				(height - messageHeight) / 2 + MARGIN,
 				(width - messageWidth) / 2 + MARGIN));
+
+		window.repaint();
 	}
 
 	/**
@@ -162,11 +194,31 @@ public class MessagePanel extends JPanel {
 
 		invokeLater(() -> {
 
+			window.addWindowFocusListener(windowFocusListener);
+			rootPane.addComponentListener(rootPaneListener);
+
 			resize();
 			textArea.setContentType("text/html");
 			textArea.setText(htmlDocument);
 			setVisible(true);
+
+			savedFocusPolicy = giveExclusiveFocus(window, ok);
 		});
+	}
+
+	/**
+	 * Hides this message panel.
+	 *
+	 * @param event action event
+	 * @since 1.0.3
+	 */
+	private void hide(ActionEvent event) {
+
+		setVisible(false);
+
+		window.setFocusTraversalPolicy(savedFocusPolicy);
+		rootPane.removeComponentListener(rootPaneListener);
+		window.removeWindowFocusListener(windowFocusListener);
 	}
 
 	@Override

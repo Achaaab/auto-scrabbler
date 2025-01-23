@@ -4,10 +4,15 @@ import javax.swing.AbstractButton;
 import javax.swing.JScrollPane;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
+import java.awt.DefaultFocusTraversalPolicy;
 import java.awt.Dimension;
+import java.awt.FocusTraversalPolicy;
 import java.awt.Toolkit;
+import java.awt.Window;
 
 import static com.github.achaaab.scrabble.tools.Toolbox.getRootCause;
+import static java.awt.KeyboardFocusManager.getCurrentKeyboardFocusManager;
 import static java.awt.Toolkit.getDefaultToolkit;
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
@@ -15,6 +20,7 @@ import static java.lang.Math.toIntExact;
 import static javax.swing.BorderFactory.createEmptyBorder;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
+import static javax.swing.SwingUtilities.invokeLater;
 
 /**
  * View utility methods
@@ -122,7 +128,34 @@ public class ViewUtilities {
 	 * @since 0.0.0
 	 */
 	public static void showException(Exception exception) {
-		showMessageDialog(null, getRootCause(exception).getMessage(), "Erreur", ERROR_MESSAGE);
+		invokeLater(() -> showMessageDialog(null, getRootCause(exception).getMessage(), "Erreur", ERROR_MESSAGE));
+	}
+
+	/**
+	 * Gives the exclusive focus to the specified component in the specified window.
+	 * The specified component must be visible and focusable.
+	 *
+	 * @param window window containing the specified component
+	 * @param component component to gives exclusive focus to
+	 * @return previous focus traversal policy to restore
+	 * @since 1.0.3
+	 */
+	public static FocusTraversalPolicy giveExclusiveFocus(Window window, Component component) {
+
+		var savedFocusPolicy = window.getFocusTraversalPolicy();
+		getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
+
+		window.setFocusTraversalPolicy(new DefaultFocusTraversalPolicy(){
+
+			@Override
+			public Component getDefaultComponent (Container container) {
+				return component;
+			}
+		});
+
+		component.requestFocusInWindow();
+
+		return savedFocusPolicy;
 	}
 
 	/**
