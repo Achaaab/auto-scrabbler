@@ -3,6 +3,7 @@ package com.github.achaaab.scrabble.model.core;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -20,6 +21,7 @@ class DictionaryTest {
 
 		var trie = dictionary.trie();
 		assertFalse(trie.isWord());
+		assertNull(trie.getChild('a'));
 
 		trie = trie.getChild('f');
 		assertFalse(trie.isWord());

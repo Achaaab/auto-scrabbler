@@ -1,7 +1,7 @@
 package com.github.achaaab.scrabble.view.solver;
 
-import com.github.achaaab.scrabble.model.solver.SolverSheetEntry;
 import com.github.achaaab.scrabble.model.solver.Solver;
+import com.github.achaaab.scrabble.model.solver.SolverSheetEntry;
 import com.github.achaaab.scrabble.view.ViewUtilities;
 import com.github.achaaab.scrabble.view.core.BoardView;
 import com.github.achaaab.scrabble.view.core.RackView;
@@ -21,6 +21,7 @@ import static java.awt.BorderLayout.SOUTH;
 import static javax.swing.BorderFactory.createTitledBorder;
 import static javax.swing.BoxLayout.X_AXIS;
 import static javax.swing.BoxLayout.Y_AXIS;
+import static javax.swing.SwingUtilities.getWindowAncestor;
 
 /**
  * View for a scrabble solver.
@@ -71,7 +72,7 @@ public class SolverView extends Box {
 		board = new BoardView(model.board());
 		rack = new RackView(model.rack());
 		sheet = new SolverSheetView(model.sheet());
-		draw = new DrawView(this::updateLetters);
+		draw = new DrawView(this::updateDraw);
 
 		var solve = new JButton(getMessage("solve"));
 
@@ -101,8 +102,9 @@ public class SolverView extends Box {
 		sheet.model().addTableModelListener(event -> {
 
 			model.replay();
-			leftPanel.repaint();
 			draw.setText("");
+
+			getWindowAncestor(this).repaint();
 		});
 
 		sheet.model().addExceptionListener(ViewUtilities::showException);
@@ -139,10 +141,10 @@ public class SolverView extends Box {
 	private void preview(SolverSheetEntry move) {
 
 		model.replay();
-		updateLetters();
+		updateDraw();
 		model.preview(move);
+
 		board.repaint();
-		rack.repaint();
 	}
 
 	/**
@@ -166,15 +168,16 @@ public class SolverView extends Box {
 
 		model.replay();
 		board.repaint();
-		updateLetters();
+
+		updateDraw();
 	}
 
 	/**
-	 * Updates letters on the rack.
+	 * Updates drawn letters on the rack.
 	 *
 	 * @since 0.0.0
 	 */
-	private void updateLetters() {
+	private void updateDraw() {
 
 		try {
 			model.change(draw.getText());

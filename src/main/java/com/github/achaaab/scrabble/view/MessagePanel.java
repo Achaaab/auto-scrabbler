@@ -83,8 +83,6 @@ public class MessagePanel extends JPanel {
 		setLocation(0, 0);
 		rootPane.add(this, 0);
 
-		setOpaque(true);
-
 		textArea = new JEditorPane();
 		textArea.setEditable(false);
 		textArea.setFocusable(false);
@@ -197,10 +195,10 @@ public class MessagePanel extends JPanel {
 			window.addWindowFocusListener(windowFocusListener);
 			rootPane.addComponentListener(rootPaneListener);
 
-			resize();
 			textArea.setContentType("text/html");
 			textArea.setText(htmlDocument);
 			setVisible(true);
+			resize();
 
 			savedFocusPolicy = giveExclusiveFocus(window, ok);
 		});
